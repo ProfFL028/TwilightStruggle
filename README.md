@@ -5,4 +5,4 @@ Notes about what i have learned
 ### [The Datawarehouse Toolkit](Big%20Data/The%20Datawarehouse%20Toolkit.md)
 
 ## Network
-### How to set proxy
+### [How to Set Proxy](Network/How%20to%20Set%20Proxy.md)
