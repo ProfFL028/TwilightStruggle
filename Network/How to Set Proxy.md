@@ -16,3 +16,8 @@ curl www.google.com
 2.Searching for `proxy`  
 3.In the popup window,  check `Manual proxy configuration`  
 4.Modify `Host name` and `port number` to your proxy url.
+
+## How to Set Proxy in Github CMD
+```
+git config --global http.proxy http://127.0.0.1:58591
+```
