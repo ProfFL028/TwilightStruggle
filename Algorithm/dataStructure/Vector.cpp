@@ -27,8 +27,15 @@ template<typename T>
 void Vector<T>::print() {
     VectorNode<T>* cur = this->head;
     while (cur != NULL) {
-        std::cout << cur->element << std::endl;
+        std::cout << cur->element;
         cur = cur->next;
     }
+    std::cout << std::endl;
+}
 
+template<typename T>
+void Vector<T>::remove() {
+    VectorNode<T>* cur = this->head;
+    this->head = cur->next;
+    delete cur;
 }
