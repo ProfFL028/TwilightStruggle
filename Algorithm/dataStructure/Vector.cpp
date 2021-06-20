@@ -39,3 +39,16 @@ void Vector<T>::remove() {
     this->head = cur->next;
     delete cur;
 }
+
+template<typename T>
+void Vector<T>::reserve() {
+    VectorNode<T>* cur = this->head;
+    VectorNode<T>* prev = NULL;
+    while (cur != NULL) {
+        VectorNode<T>* next = cur->next;
+        cur->next = prev;
+        prev = cur;
+        cur = next;
+    }
+    this->head = prev;
+}

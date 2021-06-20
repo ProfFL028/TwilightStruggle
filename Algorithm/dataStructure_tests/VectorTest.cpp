@@ -15,6 +15,9 @@ int main() {
     // it will print 876543210
     v.print();
 
+    // it will print 012345678
+    v.reserve();
+    v.print();
 
     return 0;
 }

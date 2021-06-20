@@ -34,6 +34,8 @@ public:
     void add(const T &t);
     void remove();
 
+    void reserve();
+
     void print();
 };
 
