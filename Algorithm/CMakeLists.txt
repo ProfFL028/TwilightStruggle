@@ -3,7 +3,7 @@ project(Algorithm)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(main main.cpp dataStructure/Vector.h dataStructure/Vector.cpp)
+add_executable(main main.cpp)
 
 file(GLOB files dataStructure_tests/*.cpp)
 foreach (file ${files})

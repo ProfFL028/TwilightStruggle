@@ -8,10 +8,15 @@
 #include <iostream>
 
 template<typename T>
+class Vector;
+
+template<typename T>
 class VectorNode {
-public:
+private:
     T element;
     VectorNode<T> *next;
+
+    friend class Vector<T>;
 };
 
 template<typename T>

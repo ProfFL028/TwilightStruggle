@@ -14,4 +14,7 @@ int main() {
     v.remove();
     // it will print 876543210
     v.print();
+
+
+    return 0;
 }
