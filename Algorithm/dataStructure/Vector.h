@@ -19,6 +19,7 @@ private:
     friend class Vector<T>;
 };
 
+
 template<typename T>
 class Vector {
 private:
@@ -29,9 +30,17 @@ public:
     ~Vector();
 
 public:
+    class Iterator {
+
+    };
+
+public:
     bool isEmpty() const;
+
     const T &front() const;
+
     void add(const T &t);
+
     void remove();
 
     void reserve();
