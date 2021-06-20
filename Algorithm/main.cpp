@@ -1,36 +1,40 @@
 #include <iostream>
-
-#include "BigInteger.h"
-
+#include "dataStructure/Vector.cpp"
 
 int main() {
-    char *a = "16549843132165467985641313216549879451613123131123134567891316549";
+    char *a = "9999999932165467985641313216549879451613123131123134567891316549";
     char *b = "165498431321654679856413132165498794516131231313564983169";
 
     int lengthA = strlen(a);
     int lengthB = strlen(b);
 
-    for (int i = 0; i < lengthA; i++) {
+    Vector<char> result;
 
-    }
-
-
-    char result[200];
-    memset(result, 0, sizeof(result));
     int extra = 0;
-    for (int i = 0; i < strlen(a); i++) {
-        result[i] = a[i];
+    for (int i = 0; i < lengthB; i++) {
+        int value = a[lengthA - i - 1] - '0' + b[lengthB - i - 1] - '0' + extra;
+        result.add((value % 10) + '0');
+        extra = value / 10;
     }
-    for (int j = 0; j < strlen(b); j++) {
-        int t = j < strlen(a)? result[j] - '0' : 0;
-        int intValue = t + b[j] - '0' + extra;
-        extra = intValue / 10;
-        result[j] = intValue % 10 + '0';
+    int lengthDiff = lengthA - lengthB;
+    for (int i = 0; i < lengthDiff; i++) {
+        int value = a[lengthDiff - i - 1] - '0' + extra;
+        result.add((value % 10) + '0');
+        extra = value / 10;
     }
-    if (extra > 0) {
-        std::cout <<"I'm here" << std::endl;
-        result[strlen(a)] = extra + '0';
+    if (extra > 0)
+        result.add(extra + '0');
+
+    std::cout << ' ' << a << std::endl;
+    std::cout << '+';
+    for (int i =0; i < lengthA - lengthB; i++) {
+        std::cout<< ' ';
     }
-    std::cout << result << std::endl;
+    std::cout<< b << std::endl;
+    if (extra == 0) {
+        std::cout<< ' ';
+    }
+    result.print();
+
     return 0;
 }
