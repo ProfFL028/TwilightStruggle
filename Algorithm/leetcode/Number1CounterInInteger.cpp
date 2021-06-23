@@ -1,5 +1,12 @@
 class Number1CounterInInteger {
 public:
+    /**
+     * -n在32位中取n的反码再加1，n&-n将32位字节全变成0除了n的32位表示的最后那个1。
+     * n - (n&-n)=n-0除了n的32位表示的最后那个1所代表的数值。
+     * 直到N全变成0，则运算结束。
+     * @param n
+     * @return
+     */
     static int hammingWeight(uint32_t n) {
         int result = 0;
         while (n) {
@@ -9,6 +16,17 @@ public:
         return result;
     }
 
+    /**
+     * 分治法的思想：每两位1组，分别计算1的个数，替代原来存储的位置。然后把所有的结果加起来，加法的过程同样也是两两相加，减少计算流程。
+     * 1 0 1 1 1 0 1 1
+     * 1   10  1   10
+     *   11      11
+     *      1010
+     * (b0>>1)&01+b1&01即１出现的次数。
+     * 两两相加的方法同理。
+     * @param n
+     * @return
+     */
     static int hammingWeight2(uint32_t n) {
         n = ((n >> 1) & 0b01010101010101010101010101010101)
             + (n & 0b01010101010101010101010101010101);
