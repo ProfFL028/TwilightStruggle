@@ -1,0 +1,15 @@
+FROM ubuntu:bionic-20190204
+LABEL MAINCONTAINER="Proffl"
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+RUN mkdir /root/tmp
+
+WORKDIR /root/tmp
+RUN apt-get update
+RUN apt-get install -y python3
+RUN apt-get install -y python3-pip
+RUN pip3 install pipenv
+RUN pip3 install jupyter
+RUN pipenv install --three --system && \
+    jupyter_contrib_nbextensions install && \
+    rm -rf ~/.cache
