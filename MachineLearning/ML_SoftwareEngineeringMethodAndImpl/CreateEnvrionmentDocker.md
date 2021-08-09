@@ -5,4 +5,3 @@ using cookiecutter for short.
 ```shell
 cookiecutter ./docker-cookiecutter-data-science-master
 ```
-
