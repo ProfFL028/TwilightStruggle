@@ -3,11 +3,11 @@ project(Algorithm)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(main main.cpp)
+add_executable(main tests/BigIntTEst.cpp)
 
-file(GLOB files tests/*.cpp)
+file(GLOB_RECURSE files *.cpp)
 foreach (file ${files})
     string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    add_executable(${exe} ${file})
+    add_executable(${exe} ${file} dataStructure/entity/GameEntry.cpp dataStructure/entity/Scores.cpp dataStructure/entity/Scores.h dataStructure/entity/IndexOutOfBounds.cpp dataStructure/entity/IndexOutOfBounds.h)
     message(\ \ \ \ --\ src/${exe}.cpp\ will\ be\ compiled\ to\ bin/${exe})
 endforeach ()

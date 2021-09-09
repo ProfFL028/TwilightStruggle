@@ -53,7 +53,3 @@ void Vector<T>::reserve() {
     this->head = prev;
 }
 
-template<typename T>
-Iterator<T> Vector<T>::next() {
-    
-}
