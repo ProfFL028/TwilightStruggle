@@ -1,5 +1,5 @@
 #include <iostream>
-#include "dataStructure/Vector.cpp"
+#include "../dataStructure/Vector.cpp"
 
 int main() {
     char *a = "9999999932165467985641313216549879451613123131123134567891316549";
