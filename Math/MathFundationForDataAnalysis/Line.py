@@ -1,6 +1,10 @@
 import math
 from sys import maxsize
 
+from Point import Point
+
+
+PERCISION = 0.0000000001
 """
 Line represented by slope and intercept.
 """
@@ -9,8 +13,19 @@ class Line:
         self.slope = slope
         self.intercept = intercept
 
-    
-    
+    """
+    compute two line's intersection.
+    """
+    def intersection(self, line):
+        # Same slope of two lines refers to parrallel, and they don't have intersection.
+        if (abs(self.slope - line.slope)<=PERCISION):
+            return None
+        
+        x = (line.intercept - self.intercept) / (self.slope - line.slope)
+        y = self.slope * x + self.intercept
+        
+        return Point(x, y)
+        
         
 
 """
@@ -24,12 +39,12 @@ class LineSegment:
     """
     calculate middle perpendiduclar
     If linesegment is parrallel to x-axis, set the slope to the maxsize(sys.maxsize) to avoid divide by 0 problem.
-    When two line are perpendicular, than 
+    When two line are perpendicular, mutliple of these slope equals to -1, which can be used to simplify the computation.
+    The midperpendicular must come through centerpoint of two points, and we can use it to calculate the intercept.
     """
     def midperpendicular(self) -> Line:
-        
         # set slope to maxsize when the line is parrallel to x-axis.
-        if (abs(self.p2.y - self.p1.y) <= 0.0000000001) :
+        if (abs(self.p2.y - self.p1.y) <= PERCISION) :
             return Line(slope = maxsize, intercept = (self.p1.x + self.p2.x)/2)
         
         centerPoint = (self.p1.x / 2 + self.p2.x /2, self.p1.y + self.p2.y / 2)
