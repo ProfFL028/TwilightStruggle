@@ -13,6 +13,12 @@ class Dog(name: String) : Pet(name = name) {
 
 }
 
+/**
+ * @Content 猫和狗队列
+ *
+ * @level 1星
+ *
+ */
 class PetAndCatQueue {
     class CatWithIndex(var cat: Cat, var index: Int) {}
     class DogWithIndex(var dog: Dog, var index: Int) {}
