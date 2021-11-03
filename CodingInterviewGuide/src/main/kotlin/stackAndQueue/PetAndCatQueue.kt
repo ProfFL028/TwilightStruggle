@@ -68,8 +68,8 @@ class PetAndCatQueue {
             return this.cats.removeFirst().cat
         }
 
-        var catIndex = this.cats.first().index
-        var dogIndex = this.dogs.first().index
+        val catIndex = this.cats.first().index
+        val dogIndex = this.dogs.first().index
 
         return if (catIndex < dogIndex) {
             this.cats.removeFirst().cat
@@ -79,17 +79,17 @@ class PetAndCatQueue {
     }
 }
 
-fun main(args: Array<String>) {
-    var queue = PetAndCatQueue()
-    var cat1 = Cat("cat1")
-    var cat2 = Cat("cat2")
-    var dog3 = Dog("dog3")
-    var cat4 = Cat("cat4")
-    var dog5 = Dog("dog5")
+fun main() {
+    val queue = PetAndCatQueue()
+    val cat1 = Cat("cat1")
+    val cat2 = Cat("cat2")
+    val dog3 = Dog("dog3")
+    val cat4 = Cat("cat4")
+    val dog5 = Dog("dog5")
 
     queue.addCat(cat1)
     queue.addPet(cat2)
-    queue.addPet(dog3)
+    queue.addDog(dog3)
     queue.addPet(cat4)
     queue.addPet(dog5)
 
