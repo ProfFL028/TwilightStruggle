@@ -37,6 +37,10 @@ class ArrayToMaxTree {
         while (!stack.isEmpty())
             popStackAndSetMap(stack, lBigMap)
 
+        for (i in lBigMap) {
+            println("${i.key.value} -> ${i.value?.value}")
+        }
+
         // 找到节点右侧比它大的数值
         rBigMap[nodes[nodes.size - 1]] = null
         stack.add(nodes[nodes.size - 1])
@@ -50,6 +54,10 @@ class ArrayToMaxTree {
         while (!stack.isEmpty())
             popStackAndSetMap(stack, rBigMap)
 
+        for (i in rBigMap) {
+            println("${i.key.value} -> ${i.value?.value}")
+        }
+
         var head = Node(0)
         for (i in 0 until arr.size) {
             var curNode = nodes[i]
@@ -58,6 +66,15 @@ class ArrayToMaxTree {
 
             if (left == null && right == null) {
                 head = curNode
+            } else if (left != null && right != null) {
+                var parent = right
+                if (left?.value!! < right?.value!!)
+                    parent = left
+                if (parent?.left == null) {
+                    parent?.left = curNode
+                } else {
+                    parent?.right = curNode
+                }
             } else if (left != null) {
                 if (left.left != null) {
                     left.right = curNode
@@ -69,15 +86,6 @@ class ArrayToMaxTree {
                     right.right = curNode
                 } else {
                     right.left = curNode
-                }
-            } else {
-                var parent = right
-                if (left?.value!! < right?.value!!)
-                    parent = left
-                if (parent?.left == null) {
-                    parent?.left = curNode
-                } else {
-                    parent?.right = curNode
                 }
             }
         }
@@ -99,17 +107,19 @@ class Node(var value: Int, var left: Node?=null, var right: Node?=null) {
     fun print() {
         var queue = ArrayDeque<Node>()
         queue.add(this)
-
         while (queue.isNotEmpty()) {
-            var curNode = queue.removeFirst()
-            print("${curNode.value} ")
-            if (curNode.left != null) {
-                queue.add(curNode.left!!)
-            }
-            if (curNode.right != null) {
-                queue.add(curNode.right!!)
+            var curNodes = ArrayDeque<Node>()
+            for (node in queue) {
+                if (node.left != null)
+                    curNodes.add(node.left!!)
+                if (node.right != null)
+                    curNodes.add(node.right!!)
+
+                print("${node.value}, ")
             }
             println()
+            queue.clear()
+            queue.addAll(curNodes)
         }
 
     }
