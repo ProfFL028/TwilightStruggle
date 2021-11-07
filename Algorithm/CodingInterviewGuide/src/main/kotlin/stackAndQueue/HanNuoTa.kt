@@ -5,6 +5,7 @@ import java.lang.RuntimeException
 /**
  * 汉诺塔， https://en.wikipedia.org/wiki/Tower_of_Hanoi
  *
+ * @level 3星
  */
 
 class HanNuoTa {
