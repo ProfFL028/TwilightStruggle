@@ -47,7 +47,7 @@ class MaxMatrixLength {
                 stack.add(i)
             }
             while (!stack.isEmpty()) {
-                var j = stack.removeLast()
+                var j = stack.removeLast() 
                 var k = if (stack.isEmpty()) -1 else stack.last()
                 var curArea = (height.size - k - 1) * height[j]
                 maxArea = max(maxArea, curArea)
