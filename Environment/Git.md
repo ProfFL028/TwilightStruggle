@@ -19,3 +19,8 @@ git pull origin main --allow-unrelated-histories
 ```
 git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch path_to_file" HEAD
 ```
+
+## push by token
+```cmd 
+git push https://YOUR_TOKEN@github.com/ProfFL028/TwilightStruggle
+```
