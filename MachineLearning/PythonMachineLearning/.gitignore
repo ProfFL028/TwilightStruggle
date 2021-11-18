@@ -2,3 +2,5 @@ aclImdb/
 __pycache__/
 movie_data.csv
 movieclassifier/
+*-ubyte
+minist_scaled.npz
