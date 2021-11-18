@@ -1,3 +1,4 @@
 aclImdb/
 __pycache__/
 movie_data.csv
+movieclassifier/
