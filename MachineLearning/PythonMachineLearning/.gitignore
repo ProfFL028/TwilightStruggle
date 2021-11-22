@@ -4,3 +4,4 @@ movie_data.csv
 movieclassifier/
 *-ubyte
 minist_scaled.npz
+model/
