@@ -2,3 +2,6 @@
 *.csv
 *.zip
 youku/
+.ipynb_checkpoints/
+*.exe
+srcnn.h5

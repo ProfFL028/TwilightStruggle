@@ -2,6 +2,13 @@ package stackAndQueue
 
 import java.lang.RuntimeException
 
+/**
+ * @content 给定一个数组和整数，求满足最大值减最小值小于或等于给定整数的子数组个数
+ *
+ * @require 时间复杂度要求为O(N)
+ *
+ * @level 3星
+ */
 class MaxMinSubArrayCount {
     companion object {
         fun getSubArrayCount(arr: ArrayList<Int>, threshold: Int): Int {
