@@ -1,4 +1,4 @@
-package Link
+package link
 
 import java.util.*
 

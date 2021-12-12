@@ -1,19 +1,7 @@
-package Link
+package link
 
+import struct.Node
 import java.lang.RuntimeException
-
-class Node(var value: Int, var next: Node?=null) {
-    override fun toString(): String {
-        var str = "$value->"
-        var cur = this
-        while (cur.next != null) {
-            cur = cur.next!!
-            str += "${cur.value}->"
-        }
-
-        return str.substring(0, str.length - 2)
-    }
-}
 
 /**
  * @content delete last Kth element
