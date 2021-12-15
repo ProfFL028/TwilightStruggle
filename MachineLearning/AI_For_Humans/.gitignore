@@ -1,4 +1,6 @@
-mnist.npz
+../AI_FromBeginnerToAdvanced/mnist.npz
 代码和数据/
 model/
 train/
+data/
+lines.csv
