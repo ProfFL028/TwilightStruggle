@@ -193,8 +193,7 @@ class FunctionBase:
 
     @staticmethod
     def variable(raw, history):
-        # Implement by children class.
-        raise NotImplementedError()
+        pass
 
     @classmethod
     def apply(cls, *vals):
@@ -253,8 +252,7 @@ class FunctionBase:
         """
         # Tip: Note when implementing this function that
         # cls.backward may return either a value or a tuple.
-        # TODO: Implement for Task 1.3.
-        raise NotImplementedError('Need to implement for Task 1.3')
+        arr = []
 
 
 # Algorithms for backpropagation
