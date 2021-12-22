@@ -4,3 +4,5 @@ model/
 train/
 data/
 lines.csv
+
+cmake-build-debug/

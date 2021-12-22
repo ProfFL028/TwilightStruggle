@@ -7,3 +7,4 @@ lib/
 .vs/
 
 **/__pycache__/
+nltk_packages/
