@@ -47,16 +47,11 @@ class Module:
         """
 
         res = {}
-
-        def helper(name, node):
-            prefix = name + "." if name else ""
-            for k, v in node._parameters.items():
-                res[prefix + k] = v
-            for k, v in node._modules.items():
-                helper(prefix + k, v)
-
-        helper("", self)
-        print(res)
+        for k, v in self._parameters.items():
+            res[k] = v
+        for n, m in self._modules.items():
+            for k, v in m.named_parameters().items():
+                res[f"{n}.{k}"] = v
         return res
 
     def parameters(self):
@@ -90,7 +85,7 @@ class Module:
         if key in self.__dict__["_modules"]:
             return self.__dict__["_modules"][key]
 
-        # return self.__getattribute__(key)
+        return self.__getattribute__(key)
 
     def __call__(self, *args, **kwargs):
         return self.forward(*args, **kwargs)

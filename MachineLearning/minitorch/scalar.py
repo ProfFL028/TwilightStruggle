@@ -2,6 +2,7 @@ import numpy as np
 from autodiff import Variable, History, FunctionBase
 import operators
 
+
 def central_difference(f, *vals, arg=0, epsilon=1e-6):
     r"""
     Computes an approximation to the derivative of `f` with respect to one arg.

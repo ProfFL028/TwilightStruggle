@@ -1,29 +1,31 @@
-"""
-Collection of the core mathematical operators used throughout the code base.
-"""
-
-import math
+import numpy as np
+# Task 0.1
+# Mathematical operators
 
 
 def mul(x, y):
+    ":math:`f(x, y) = x * y`"
     return x * y
 
 
 def id(x):
+    ":math:`f(x) = x`"
     return x
 
 
 def add(x, y):
+    ":math:`f(x, y) = x + y`"
     return x + y
 
 
 def neg(x):
+    ":math:`f(x) = -x`"
     return -x
 
 
 def lt(x, y):
     ":math:`f(x) =` 1.0 if x is less than y else 0.0"
-    return 1.0 if x <= y else 0.0
+    return 1.0 if x < y else 0.0
 
 
 def eq(x, y):
@@ -36,36 +38,33 @@ def max(x, y):
     return x if x > y else y
 
 
-def is_close(x, y):
-    ":math:`f(x) = |x - y| < 1e-2` "
-    return abs(x - y) <= 1e-2
-
-
 def sigmoid(x):
     r"""
     :math:`f(x) =  \frac{1.0}{(1.0 + e^{-x})}`
     (See `<https://en.wikipedia.org/wiki/Sigmoid_function>`_ .)
     Calculate as
-    :math:`f(x) =  \frac{1.0}{(1.0 + e^{-x})}` if x >=0 else :math:`\frac{e^x}{(1.0 + e^{x})}`
+    :math:`f(x) =  \frac{1.0}{(1.0 + e^{-x})}` if x >=0
+    else :math:`\frac{e^x}{(1.0 + e^{x})}`
     for stability.
-    Args:
-        x (float): input
-    Returns:
-        float : sigmoid value
     """
-    return 1.0 / (1.0 + exp(-x)) if x >= 0 else (exp(x)) / (1.0 + exp(x))
+    return 1. / (1 + np.exp(-x)) if x >= 0 else np.exp(x) / (1. + np.exp(x))
+
+
+def sigmoid_back(x):
+    return x * (1 - x)
 
 
 def relu(x):
     """
     :math:`f(x) =` x if x is greater than 0, else 0
     (See `<https://en.wikipedia.org/wiki/Rectifier_(neural_networks)>`_ .)
-    Args:
-        x (float): input
-    Returns:
-        float : relu value
     """
-    return x if x > 0 else 0
+    return x if x > 0 else 0.
+
+
+def relu_back(x, y):
+    ":math:`f(x) =` y if x is greater than 0 else 0"
+    return y if x > 0 else 0.
 
 
 EPS = 1e-6
@@ -73,17 +72,16 @@ EPS = 1e-6
 
 def log(x):
     ":math:`f(x) = log(x)`"
-    return math.log(x + EPS)
+    return np.log(x + EPS)
 
 
 def exp(x):
     ":math:`f(x) = e^{x}`"
-    return math.exp(x)
+    return np.exp(x)
 
 
-def log_back(x, d):
-    r"If :math:`f = log` as above, compute d :math:`d \times f'(x)`"
-    return d * inv(x + EPS)
+def log_back(a, b):
+    return b / (a + EPS)
 
 
 def inv(x):
@@ -91,19 +89,12 @@ def inv(x):
     return 1.0 / x
 
 
-def inv_back(x, d):
-    r"If :math:`f(x) = 1/x` compute d :math:`d \times f'(x)`"
-    return -d * inv(x) * inv(x)
+def inv_back(a, b):
+    return -(float(b) / a ** 2)
 
 
-def relu_back(x, d):
-    r"If :math:`f = relu` compute d :math:`d \times f'(x)`"
-    return d if x > 0 else 0
-
-
-# ## Task 0.3
-
-# Small library of elementary higher-order functions for practice.
+# Task 0.3
+# Higher-order functions.
 
 
 def map(fn):
@@ -112,22 +103,24 @@ def map(fn):
     .. image:: figs/Ops/maplist.png
     See `<https://en.wikipedia.org/wiki/Map_(higher-order_function)>`_
     Args:
-        fn (one-arg function): Function from one value to one value.
+        fn (one-arg function): process one value
     Returns:
-        function : A function that takes a list, applies `fn` to each element, and returns a
-        new list
+        function : a function that takes a list and applies `fn`
+        to each element
     """
 
-    def my_map(arr):
-        return [fn(x) for x in arr]
+    def process(ls):
+        arr = []
+        for item in ls:
+            arr.append(fn(item))
+        return arr
 
-    return my_map
+    return process
 
 
 def negList(ls):
     "Use :func:`map` and :func:`neg` to negate each element in `ls`"
-    fn = map(neg)
-    return fn(ls)
+    return map(neg)(ls)
 
 
 def zipWith(fn):
@@ -138,14 +131,18 @@ def zipWith(fn):
     Args:
         fn (two-arg function): combine two values
     Returns:
-        function : takes two equally sized lists `ls1` and `ls2`, produce a new list by
-        applying fn(x, y) on each pair of elements.
+        function : takes two equally sized lists `ls1` and `ls2`,
+        produce a new list by
+        applying fn(x, y) one each pair of elements.
     """
 
-    def my_zip(ls1, ls2):
-        return [fn(x1, x2) for x1, x2 in zip(ls1, ls2)]
+    def process(ls1, ls2):
+        arr = []
+        for i in range(len(ls1)):
+            arr.append(fn(ls1[i], ls2[i]))
+        return arr
 
-    return my_zip
+    return process
 
 
 def addLists(ls1, ls2):
@@ -162,23 +159,29 @@ def reduce(fn, start):
         start (float): start value :math:`x_0`
     Returns:
         function : function that takes a list `ls` of elements
-        :math:`x_1 \ldots x_n` and computes the reduction :math:`fn(x_3, fn(x_2,
+        :math:`x_1 \ldots x_n` and computes the reduction :
+        math:`fn(x_3, fn(x_2,
         fn(x_1, x_0)))`
     """
-    def calc(ls):
-        res = start
-        for x in ls:
-            res = fn(res, x)
-        return res
 
-    return calc
+    def process(ls):
+        ans = start
+        for item in ls:
+            ans = fn(ans, item)
+        return ans
+
+    return process
 
 
 def sum(ls):
-    "Sum up a list using :func:`reduce` and :func:`add`."
+    """
+    Sum up a list using :func:`reduce` and :func:`add`.
+    """
     return reduce(add, 0)(ls)
 
 
 def prod(ls):
-    "Product of a list using :func:`reduce` and :func:`mul`."
+    """
+    Product of a list using :func:`reduce` and :func:`mul`.
+    """
     return reduce(mul, 1)(ls)
