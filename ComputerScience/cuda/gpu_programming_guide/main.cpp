@@ -10,6 +10,12 @@ int main() {
 
     cout << *file << endl;
 
+    cout << file->getColorAt(63, 50) <<endl;
+    cout << file->getColorAt(0, 0) <<endl;
+    cout << file->getColorAt(374, 0) <<endl;
+    cout << file->getColorAt(0, 499) <<endl;
+    cout << file->getColorAt(374, 499) <<endl;
+
 
     return 0;
 }

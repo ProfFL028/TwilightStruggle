@@ -19,7 +19,7 @@ namespace img {
         unsigned offsetData{0};
 
         friend ostream &operator<<(ostream &ostream, const BMPFileHeader &header) {
-            ostream << "bmp file short file type:       [ " << header.fileType<< " ]" << endl;
+            ostream << "bmp file short file type:       [ " << header.fileType << " ]" << endl;
             ostream << "bmp file size:                  [ " << header.fileSize << " ]" << endl;
             ostream << "bmp offset from header to data: [ " << header.offsetData << " ]" << endl;
             return ostream;
@@ -28,10 +28,10 @@ namespace img {
 
     struct BMPFileInfo {
         unsigned headerSize{0};
-        unsigned width{0};
-        unsigned height{0};
-        short unsigned planes{0}; // image color planes
-        short unsigned bitCount{0}; // bit/pixel
+        int width{0};
+        int height{0};
+        unsigned short planes{0}; // image color planes
+        unsigned short bitCount{0}; // bit/pixel
         unsigned compression{0}; // 0-5
         unsigned imageSize{0};
         unsigned xPelsPerMeter{0};
@@ -55,15 +55,35 @@ namespace img {
         }
     };
 
+    struct Color {
+        unsigned char blue{0};
+        unsigned char green{0};
+        unsigned char red{0};
+        unsigned char alpha{0};
+
+        friend ostream &operator<<(ostream &ostream, const Color &color) {
+            ostream << "rgba(" << int(color.red) << ", "
+                    << int(color.green) << ", "
+                    << int(color.blue) << ", "
+                    << int(color.alpha) << ")" << endl;
+            return ostream;
+        }
+    };
+
     class BMPFile {
     public:
         BMPFileHeader *header;
         BMPFileInfo *info;
+        unsigned char *platte;
+        unsigned char *imgData;
+        int rowBytes = 0;
 
         friend ostream &operator<<(ostream &ostream, const BMPFile &file) {
             ostream << *file.header << *file.info << endl;
             return ostream;
         }
+
+        Color getColorAt(int x, int y);
     };
 
     class BMPFileReader {

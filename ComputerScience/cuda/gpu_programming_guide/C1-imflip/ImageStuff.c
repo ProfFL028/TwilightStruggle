@@ -44,7 +44,6 @@ unsigned char** ReadBMP(char* filename)
 		fread(TheImage[i], sizeof(unsigned char), RowBytes, f);
 	}
 
-
 	fclose(f);
 	return TheImage;  // remember to free() it in caller!
 }
