@@ -12,16 +12,56 @@ using namespace std;
 
 namespace img {
     struct BMPFileHeader {
-        unsigned char fileType[2];
-        unsigned fileSize;
+        unsigned char fileType[3]{0};
+        unsigned fileSize{0};
         unsigned short reserved1{0};
         unsigned short reserved2{0};
         unsigned offsetData{0};
 
         friend ostream &operator<<(ostream &ostream, const BMPFileHeader &header) {
-            ostream << "bmp file short file type: [ " << header.fileType[0] << header.fileType[1] << " ]" << endl;
-            ostream << "bmp file size: [ " << header.fileSize << " ]" << endl;
+            ostream << "bmp file short file type:       [ " << header.fileType<< " ]" << endl;
+            ostream << "bmp file size:                  [ " << header.fileSize << " ]" << endl;
             ostream << "bmp offset from header to data: [ " << header.offsetData << " ]" << endl;
+            return ostream;
+        }
+    };
+
+    struct BMPFileInfo {
+        unsigned headerSize{0};
+        unsigned width{0};
+        unsigned height{0};
+        short unsigned planes{0}; // image color planes
+        short unsigned bitCount{0}; // bit/pixel
+        unsigned compression{0}; // 0-5
+        unsigned imageSize{0};
+        unsigned xPelsPerMeter{0};
+        unsigned yPelsPerMeter{0};
+        unsigned clrUsed{0};
+        unsigned clrImportant{0};
+
+        friend ostream &operator<<(ostream &ostream, const BMPFileInfo &info) {
+            ostream << "bmp header size:                [ " << info.headerSize << " ]" << endl;
+            ostream << "bmp width:                      [ " << info.width << " ]" << endl;
+            ostream << "bmp height:                     [ " << info.height << " ]" << endl;
+            ostream << "bmp color planes:               [ " << info.planes << " ]" << endl;
+            ostream << "bmp bit count:                  [ " << info.bitCount << " ]" << endl;
+            ostream << "bmp compression:                [ " << info.compression << " ]" << endl;
+            ostream << "bmp image size:                 [ " << info.imageSize << " ]" << endl;
+            ostream << "bmp xPelsPerMeter:              [ " << info.xPelsPerMeter << " ]" << endl;
+            ostream << "bmp yPelsPerMeter:              [ " << info.yPelsPerMeter << " ]" << endl;
+            ostream << "bmp clrUsed:                    [ " << info.clrUsed << " ]" << endl;
+            ostream << "bmp clrImportant:               [ " << info.clrImportant << " ]" << endl;
+            return ostream;
+        }
+    };
+
+    class BMPFile {
+    public:
+        BMPFileHeader *header;
+        BMPFileInfo *info;
+
+        friend ostream &operator<<(ostream &ostream, const BMPFile &file) {
+            ostream << *file.header << *file.info << endl;
             return ostream;
         }
     };
@@ -32,7 +72,7 @@ namespace img {
 
         virtual ~BMPFileReader();
 
-        BMPFileHeader *read(const char *fileName);
+        BMPFile *read(const char *fileName);
 
     private:
         ifstream inputStream;
