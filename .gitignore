@@ -1,6 +1,6 @@
 
-.vscode/
-.idea/
+**/.vscode/
+**/.idea/
 venv/
 lib/
 /Algorithm/.idea/
@@ -8,3 +8,5 @@ lib/
 
 **/__pycache__/
 nltk_packages/
+
+**/cmake-build-debug/
