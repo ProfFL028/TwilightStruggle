@@ -3,4 +3,4 @@ project(gpu_programming_guide)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(gpu_programming_guide main.cpp)
+add_executable(gpu_programming_guide main.cpp BMPFileReader.cpp BMPFileReader.h)

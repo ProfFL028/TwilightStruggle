@@ -1,6 +1,16 @@
 #include <iostream>
+#include <fstream>
+#include <bitset>
+#include "BMPFileReader.h"
+
+using namespace std;
+using namespace img;
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    BMPFileReader reader;
+    BMPFileHeader *header = reader.read("tree.bmp");
+
+    cout << *header;
+
     return 0;
 }
