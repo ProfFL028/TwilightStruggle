@@ -82,3 +82,71 @@ Color BMPFile::getColorAt(int x, int y) {
     return color;
 }
 
+void BMPFile::flipH() {
+    int centerV = info->width / 2;
+    for (int j = 0; j < info->height; j++) {
+        int posH = j * rowBytes;
+        for (int i = 0; i < centerV; i++) {
+            int posOriginal = posH + i;
+            int posDest = posH + info->width - 1 - i;
+            unsigned char tmp = imgData[posOriginal];
+            imgData[posOriginal] = imgData[posDest];
+            imgData[posDest] = tmp;
+        }
+    }
+}
+
+void BMPFile::flipV() {
+    int centerH = info->height / 2;
+    for (int j = 0; j < centerH; j++) {
+        int originalH = j * rowBytes;
+        int destH = (info->height - 1 - j) * rowBytes;
+        for (int i = 0; i < info->width; i++) {
+            unsigned char tmp = imgData[originalH + i];
+            imgData[originalH + i] = imgData[destH + i];
+            imgData[destH + i] = tmp;
+        }
+    }
+}
+
+void BMPFileHeader::save(fstream *outputStream) {
+    outputStream->write((char *) &fileType, sizeof(unsigned char) * 2);
+    outputStream->write((char *) &fileSize, sizeof(fileSize));
+    outputStream->write((char *) &reserved1, sizeof(reserved1));
+    outputStream->write((char *) &reserved2, sizeof(reserved2));
+    outputStream->write((char *) &offsetData, sizeof(offsetData));
+}
+
+void BMPFileInfo::save(fstream *outputStream) {
+    outputStream->write((char *) &headerSize, sizeof(headerSize));
+    outputStream->write((char *) &width, sizeof(width));
+    outputStream->write((char *) &height, sizeof(height));
+    outputStream->write((char *) &planes, sizeof(planes));
+    outputStream->write((char *) &bitCount, sizeof(bitCount));
+    outputStream->write((char *) &compression, sizeof(compression));
+    outputStream->write((char *) &imageSize, sizeof(imageSize));
+    outputStream->write((char *) &xPelsPerMeter, sizeof(xPelsPerMeter));
+    outputStream->write((char *) &yPelsPerMeter, sizeof(yPelsPerMeter));
+    outputStream->write((char *) &clrUsed, sizeof(clrUsed));
+    outputStream->write((char *) &clrImportant, sizeof(clrImportant));
+}
+
+bool BMPFile::save(const char *filename) {
+    fstream outputStream(filename, ios::out | ios::trunc | ios::binary);
+    if (outputStream.is_open()) {
+        header->save(&outputStream);
+        info->save(&outputStream);
+        int platteSize = header->offsetData - 14 - info->headerSize;
+        outputStream.write((char *) platte, sizeof(unsigned char) * platteSize);
+        outputStream.write((char *) imgData, sizeof(unsigned char) * info->imageSize);
+
+        //outputStream.write((char*) '\0', sizeof(unsigned char));
+        outputStream.close();
+        return true;
+    } else {
+        cerr << "create file: " << filename << " error!" << endl;
+        return false;
+    }
+}
+
+

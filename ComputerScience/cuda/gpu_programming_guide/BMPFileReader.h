@@ -24,6 +24,7 @@ namespace img {
             ostream << "bmp offset from header to data: [ " << header.offsetData << " ]" << endl;
             return ostream;
         }
+        void save(fstream* outputStream);
     };
 
     struct BMPFileInfo {
@@ -53,6 +54,8 @@ namespace img {
             ostream << "bmp clrImportant:               [ " << info.clrImportant << " ]" << endl;
             return ostream;
         }
+
+        void save(fstream* outputStream);
     };
 
     struct Color {
@@ -77,6 +80,10 @@ namespace img {
         unsigned char *platte;
         unsigned char *imgData;
         int rowBytes = 0;
+
+        void flipH();
+        void flipV();
+        bool save(const char* filename);
 
         friend ostream &operator<<(ostream &ostream, const BMPFile &file) {
             ostream << *file.header << *file.info << endl;
