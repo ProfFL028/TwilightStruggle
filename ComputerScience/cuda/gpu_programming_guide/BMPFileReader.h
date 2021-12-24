@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <fstream>
-
 using namespace std;
 
 namespace img {
@@ -83,6 +82,9 @@ namespace img {
 
         void flipH();
         void flipV();
+
+        int numThreads = 2;
+
         bool save(const char* filename);
 
         friend ostream &operator<<(ostream &ostream, const BMPFile &file) {
@@ -104,7 +106,8 @@ namespace img {
     private:
         ifstream inputStream;
     };
-}
+};
+
 
 
 #endif //GPU_PROGRAMMING_GUIDE_BMPFILEREADER_H

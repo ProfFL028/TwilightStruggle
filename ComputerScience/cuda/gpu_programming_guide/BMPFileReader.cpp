@@ -4,6 +4,8 @@
 
 #include "BMPFileReader.h"
 
+#include <pthread.h>
+
 using namespace std;
 using namespace img;
 
@@ -140,7 +142,6 @@ bool BMPFile::save(const char *filename) {
         outputStream.write((char *) platte, sizeof(unsigned char) * platteSize);
         outputStream.write((char *) imgData, sizeof(unsigned char) * info->imageSize);
 
-        //outputStream.write((char*) '\0', sizeof(unsigned char));
         outputStream.close();
         return true;
     } else {
