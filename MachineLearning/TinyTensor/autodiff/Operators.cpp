@@ -9,7 +9,7 @@ double Add::forward(double a, double b) {
     return a + b;
 }
 
-double Sub::forward(double a, double b) {
+double Minus::forward(double a, double b) {
     return a - b;
 }
 

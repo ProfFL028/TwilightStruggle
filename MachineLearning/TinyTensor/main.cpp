@@ -1,30 +1,24 @@
 #include <iostream>
 #include "autodiff/Operators.h"
 #include "autodiff/ExpressionTree.h"
+#include "reg/Regression.h"
 
 using namespace autodiff;
+using namespace reg;
 using namespace std;
 
 int main() {
-    ExpressionTreeNode x(5);
-    ExpressionTreeNode y(6);
-    ExpressionTreeNode z(7);
+    string expr = "53.5 * 621. + 09 * sigmoid(07.3)";
+    int exprLen = expr.size();
 
-    Func add = &Add::forward;
-    ExpressionTreeNode k(add);
-    k.left = &x;
-    k.right = &y;
+    string s = "136.56E34";
 
-    ExpressionTreeNode node2(&Sigmoid::forward);
-    node2.left = &z;
-
-    ExpressionTreeNode node3(add);
-    node3.left = &k;
-    node3.right = &node2;
-
-    cout << (5 + 6) + Sigmoid::forward(7, 0) << endl;
-    cout << node3.forward() << endl;
-
+    TokenMachine tokenMachine(s);
+    Token* token = tokenMachine.next();
+    if (token->name == TokenName::Number) {
+        NumberToken* nt = static_cast<NumberToken*>(token);
+        cout << nt->value << endl;
+    }
 
     return 0;
 }

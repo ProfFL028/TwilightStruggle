@@ -3,4 +3,4 @@ project(TinyTensor)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(TinyTensor main.cpp autodiff/Operators.h autodiff/Operators.cpp autodiff/ExpressionTree.h autodiff/ExpressionTree.cpp)
+add_executable(TinyTensor main.cpp autodiff/Operators.h autodiff/Operators.cpp autodiff/ExpressionTree.h autodiff/ExpressionTree.cpp reg/Regression.cpp reg/Regression.h util/StringUtil.cpp util/StringUtil.h)

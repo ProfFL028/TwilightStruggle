@@ -20,7 +20,7 @@ public:
     static double forward(double a, double b);
 };
 
-class Sub: public OperatorBase {
+class Minus: public OperatorBase {
 public:
     static double forward(double a, double b);
 };
