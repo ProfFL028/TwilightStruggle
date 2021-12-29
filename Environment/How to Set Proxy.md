@@ -21,3 +21,9 @@ curl www.google.com
 ```
 git config --global http.proxy http://127.0.0.1:58591
 ```
+
+## How to Set Proxy in Mac cmd
+```
+export HTTPS_PROXY=
+export HTTP_PROXY=
+```
