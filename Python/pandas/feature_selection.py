@@ -32,7 +32,8 @@ def age_to_int(age, step=5, young_age=20, old_age=60, default=0, old_age_value=9
 def column_mapping_str(str_list, begin_idx=0):
     """
     giving a string list, return a mapping string.
-    usage: str_list=['a', 'b', 'c'] returns {'a': 0, 'b': 1, 'c': 2}
+    usage1: str_list=['a', 'b', 'c'] returns {'a': 0, 'b': 1, 'c': 2}
+    usage2: column_mapping_str(data['column_name'].unique())
     """
     label_str = "{"
     for idx, key in enumerate(str_list):
@@ -59,7 +60,7 @@ def one_hot_encoder_column(input_df, column_name, label_mapping, fill_na=0, colu
     return ohe_df, ohe_encoder
 
 
-def object_feature_helper(data, by='y', label_mapping_count=10, threshold=0.1):
+def object_feature_helper(data, by='y', label_mapping_count=10, threshold=0.1, plot=False):
     """
     given a dataframe, print some advices for object columns feature selection.
     for column classification counts are less(eq) than `label_mapping_count`, it will output label_mapping string.
@@ -67,8 +68,16 @@ def object_feature_helper(data, by='y', label_mapping_count=10, threshold=0.1):
     values(threshold * total_count / classification_count) to some other values
     """
     row_counts = data.shape[0]
+    print("---------------------------------------------")
+    print("data contains [ %d ] records " % row_counts)
 
     for column in data.columns:
+        null_counts = row_counts - data[column].count()
+        if null_counts > 0:
+            print("%s have %d null values:\n" % (column, null_counts))
+        else:
+            print("%s do not have any null values." % column)
+
         if data[column].dtype == object:
             col_value_counts = data[column].value_counts()
             if len(col_value_counts) <= label_mapping_count:
@@ -78,7 +87,8 @@ def object_feature_helper(data, by='y', label_mapping_count=10, threshold=0.1):
                 print("#TODO: add your logic to handle None")
                 print("data_%s, %s_ohe = one_hot_encoder_column(data, '%s', %s_mapping, fill_na=99)" % (
                     column, column, column, column))
-                data.groupby(column)[by].value_counts().unstack().plot.bar(width=1, stacked=True)
+                if plot:
+                    data.groupby(column)[by].value_counts().unstack().plot.bar(width=1, stacked=True)
                 print("\n\n")
             else:
                 print(column, " has [", len(col_value_counts), "] different values, please create features yourself!")
@@ -90,6 +100,7 @@ def object_feature_helper(data, by='y', label_mapping_count=10, threshold=0.1):
             print(column, " is numeric column:")
             print(data[column].describe())
             print("\n\n")
+        print("---------------------------------------------")
 
 
 def fill_na(data, non_list=[], na_value=0):
