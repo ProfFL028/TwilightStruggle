@@ -3,6 +3,6 @@
 model/
 train/
 data/
-lines.csv
+data/lines.csv
 
 cmake-build-debug/

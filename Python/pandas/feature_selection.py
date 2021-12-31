@@ -84,9 +84,14 @@ def object_feature_helper(data, by='y', label_mapping_count=10, threshold=0.1, p
                 print(col_value_counts)
                 print("use following code to generate features from label mapping:")
                 print("%s_mapping = %s" % (column, column_mapping_str(col_value_counts.keys().values)))
-                print("#TODO: add your logic to handle None")
-                print("data_%s, %s_ohe = one_hot_encoder_column(data, '%s', %s_mapping, fill_na=99)" % (
-                    column, column, column, column))
+
+                if len(col_value_counts) == 2:
+                    print("binary value can use simple binary classification only:")
+                    print("data_%s = data['%s'].map(%s_mapping)" % (column, column, column))
+                else:
+                    print("#TODO: add your logic to handle None")
+                    print("data_%s, %s_ohe = one_hot_encoder_column(data, '%s', %s_mapping, fill_na=99)" % (
+                        column, column, column, column))
                 if plot:
                     data.groupby(column)[by].value_counts().unstack().plot.bar(width=1, stacked=True)
                 print("\n\n")
