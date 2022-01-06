@@ -53,7 +53,7 @@ def tfidf(data, min_df=5, output_dimension=50):
 
     tfidf_vec = TfidfVectorizer(min_df=min_df)
     x = tfidf_vec.fit_transform(data)
-    df = pd.DataFrame(x.toarray(), columns=tfidf_vec.get_feature_names())
+    df = pd.DataFrame(x.toarray(), columns=tfidf_vec.get_feature_names_out())
 
     pca = PCA(n_components=output_dimension)
     x_pca = pca.fit_transform(df)

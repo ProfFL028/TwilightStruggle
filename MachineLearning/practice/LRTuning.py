@@ -38,4 +38,7 @@ class LRTuning(object):
         draw_confusion_matrix(self.y_test, y_pred)
         return y_pred
 
+    def predict(self, X):
+        return self.gs.predict(X)
+
 
