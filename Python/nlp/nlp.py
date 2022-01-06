@@ -57,7 +57,7 @@ def tfidf(data, min_df=5, output_dimension=50):
 
     pca = PCA(n_components=output_dimension)
     x_pca = pca.fit_transform(df)
-    return pd.DataFrame(x_pca)
+    return pd.DataFrame(x_pca), tfidf_vec, pca
 
 
 def read_corpus(fname, tokens_only=False, encoding='utf-8'):
