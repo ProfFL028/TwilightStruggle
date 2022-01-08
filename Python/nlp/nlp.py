@@ -37,7 +37,6 @@ def split_word(document, stop_words, words=[]):
     return " ".join(vocabulary)
 
 
-
 def remove_strip(str):
     """
     @param str

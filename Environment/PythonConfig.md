@@ -13,3 +13,8 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn
 conda config --set show_channel_urls yes
 conda config --remove-key channels
 ```
+
+## install python packages:
+```python cmd
+pip install transformers -i https://pypi.python.org/simple
+```
