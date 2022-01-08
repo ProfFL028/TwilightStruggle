@@ -60,6 +60,21 @@ def one_hot_encoder_column(input_df, column_name, label_mapping, fill_na=0, colu
     return ohe_df, ohe_encoder
 
 
+def column_to_dummies(data, column_name, ohe=None):
+    from sklearn.preprocessing import OneHotEncoder
+    if ohe is None:
+        ohe = OneHotEncoder(drop='first')
+    dummies = ohe.fit_transform(data[[column_name]])
+    dummies = pd.DataFrame(dummies.toarray())
+    dummies.columns = [column_name + '-' + str(i) for i in range(len(dummies.columns))]
+    for c_name in dummies.columns:
+        if c_name in data.columns:
+            data.drop(columns=c_name, inplace=True)
+    data = data.join(dummies)
+    data.drop(columns=[column_name], inplace=True)
+    return data, ohe
+
+
 def object_feature_helper(data, by='y', label_mapping_count=10, threshold=0.1, plot=False):
     """
     given a dataframe, print some advices for object columns feature selection.
@@ -84,9 +99,14 @@ def object_feature_helper(data, by='y', label_mapping_count=10, threshold=0.1, p
                 print(col_value_counts)
                 print("use following code to generate features from label mapping:")
                 print("%s_mapping = %s" % (column, column_mapping_str(col_value_counts.keys().values)))
-                print("#TODO: add your logic to handle None")
-                print("data_%s, %s_ohe = one_hot_encoder_column(data, '%s', %s_mapping, fill_na=99)" % (
-                    column, column, column, column))
+
+                if len(col_value_counts) == 2:
+                    print("binary value can use simple binary classification only:")
+                    print("data_%s = data['%s'].map(%s_mapping)" % (column, column, column))
+                else:
+                    print("#TODO: add your logic to handle None")
+                    print("data_%s, %s_ohe = one_hot_encoder_column(data, '%s', %s_mapping, fill_na=99)" % (
+                        column, column, column, column))
                 if plot:
                     data.groupby(column)[by].value_counts().unstack().plot.bar(width=1, stacked=True)
                 print("\n\n")
