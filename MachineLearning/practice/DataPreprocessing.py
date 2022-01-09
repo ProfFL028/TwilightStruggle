@@ -76,7 +76,8 @@ class DataPreprocessing(object):
         @param row_null_threshold 如果某行的空值数大于row_null_threshold, 则认为此行为无效数据，删除。
         """
         print("----------------行空值检查：-------------------")
-        row_nulls = self.data.isnull().sum(axis=1)
+        row_nulls = self.data
+
         if len(row_nulls[row_nulls > row_null_threshold]) > 0:
             print("将删除第 ", row_nulls[row_nulls > row_null_threshold].index, " 的数据")
             self.data.drop(labels=row_nulls[row_nulls > row_null_threshold].index, axis=0, inplace=True)
