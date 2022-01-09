@@ -51,7 +51,7 @@ def tfidf(data, min_df=5, output_dimension=50):
     from sklearn.decomposition import PCA
 
     tfidf_vec = TfidfVectorizer(min_df=min_df)
-    x = tfidf_vec.fit_transform(data)
+    x = tfidf_vec.fit_transform(data.values.astype('U'))
     df = pd.DataFrame(x.toarray(), columns=tfidf_vec.get_feature_names())
 
     pca = PCA(n_components=output_dimension)
