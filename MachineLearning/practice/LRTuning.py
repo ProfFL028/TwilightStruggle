@@ -13,7 +13,7 @@ np.set_printoptions(suppress=True)
 
 
 class LRTuning(object):
-    def __init__(self, X_train, X_test, y_train, y_test, scoring='f1_weighted', cv=10, random_seed=42):
+    def __init__(self, X_train, X_test, y_train, y_test, scoring='f1', cv=10, random_seed=42):
         self.X_train = X_train
         self.X_test = X_test
         self.y_train = y_train
