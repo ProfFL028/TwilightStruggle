@@ -18,3 +18,9 @@ conda config --remove-key channels
 ```python cmd
 pip install transformers -i https://pypi.python.org/simple
 ```
+
+## pip / conda clean
+```
+conda clean -a
+pip cache purge
+```
