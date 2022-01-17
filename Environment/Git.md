@@ -15,6 +15,12 @@ After running the above code, we can now push code to github.
 git pull origin main --allow-unrelated-histories
 ```
 
+## git 删除提交，但不删除文件：
+```
+git remove --cached filename
+```
+
+
 ## git 删除文件夹，包括历史记录
 ```
 git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch path_to_file" HEAD
