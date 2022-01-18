@@ -10,4 +10,4 @@ lib/
 nltk_packages/
 
 **/cmake-build-debug/
-**build/**
+**/build/**

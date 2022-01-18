@@ -13,16 +13,30 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+list(APPEND EXTRA_LIBS "${PROJECT_SOURCE_DIR}/header")
+list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/header")
+
+list(APPEND EXTRA_LIBS "${PROJECT_SOURCE_DIR}/src")
+list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/src")
+
+list(APPEND EXTRA_LIBS "${PROJECT_SOURCE_DIR}/test")
+list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/test")
+
 enable_testing()
 
 add_executable(
   hello_test
-  hello_test.cc
+  test/hello_test.cc
+  ${EXTRA_LIBS}
 )
 target_link_libraries(
   hello_test
   gtest_main
+  ${EXTRA_LIBS}
 )
 
 include(GoogleTest)
 gtest_discover_tests(hello_test)
+
+target_include_directories(hello_test PUBLIC "${PROJECT_BINARY_DIR}" ${EXTRA_INCLUDES})
+target_include_directories(hello_test PUBLIC "${PROJECT_BINARY_DIR}")
