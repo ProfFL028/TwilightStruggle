@@ -3,7 +3,17 @@ cmake_minimum_required(VERSION 3.10)
 project(LinearAlgebra )
 
 include_directories(include)
-add_library(LA_LIB src/Linear.cpp)
+
+set (LA_SRC_FILES "")
+
+file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/src/*.cpp")
+foreach (file ${files})
+    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
+    list(APPEND LA_SRC_FILES "src/${exe}.cpp")
+    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
+endforeach ()
+
+add_library(LA_LIB ${LA_SRC_FILES})
 
 set(CMAKE_CXX_STANDARD 11)
 
