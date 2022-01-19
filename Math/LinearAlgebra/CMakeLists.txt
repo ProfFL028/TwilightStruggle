@@ -28,16 +28,21 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(
-  hello_test
-  test/hello_test.cc
-)
+file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/test/*.cc")
+foreach (file ${files})
+    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
+    add_executable(
+      ${exe}
+      "test/${exe}.cc"
+    )
 
-target_link_libraries(
-  hello_test
-  gtest_main
-  LA_LIB
-)
+    target_link_libraries(
+      ${exe}
+      gtest_main
+      LA_LIB
+    )
+    message(\ \ \ \ --\ ${exe}\ will\ be\ compiled)
+endforeach ()
 
 
 include(GoogleTest)
