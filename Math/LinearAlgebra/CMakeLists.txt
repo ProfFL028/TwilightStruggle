@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(LinearAlgebra )
 
 include_directories(include)
-add_subdirectory(src)  
+add_library(LA_LIB src/Linear.cpp)
 
 set(CMAKE_CXX_STANDARD 11)
 
