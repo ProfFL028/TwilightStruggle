@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "Linear.h"
+#include "Matrix.h"
 
 // Demonstrate some basic assertions.
 TEST(HelloTest, BasicAssertions) {
@@ -11,5 +12,7 @@ TEST(HelloTest, BasicAssertions) {
   
   Linear linear;
   linear.a = 100;
+  
+  Matrix matrix;
   
 }
