@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "header/Linear.h"
+#include "Linear.h"
 
 // Demonstrate some basic assertions.
 TEST(HelloTest, BasicAssertions) {
