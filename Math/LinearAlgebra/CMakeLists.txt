@@ -46,4 +46,4 @@ endforeach ()
 
 
 include(GoogleTest)
-gtest_discover_tests(hello_test)
+gtest_discover_tests(LArray_test)
