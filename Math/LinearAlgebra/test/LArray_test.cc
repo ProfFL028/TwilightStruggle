@@ -20,9 +20,35 @@ TEST(LArray_test, BasicAssertions) {
 TEST(LArray_test, FactoryTest) {
   const int ARRAY_SIZE = 10;
   
-  int cst = 1;
+  int cst = 5;
   LArray* nums = LArray::constant(cst, ARRAY_SIZE, "Twos");
   for (int i = 0; i < ARRAY_SIZE; i++) {
     EXPECT_EQ(cst, nums->getDatas()[i]);
   }
+}
+
+TEST(LArray_test, OperatorTest) {
+    const int ARRAY_SIZE = 10;
+    LArray* ones =  LArray::ones(ARRAY_SIZE);
+
+    int cst = 3;
+    ones->add(cst);
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(cst + 1, ones->getDatas()[i]);
+    }
+
+    ones->minus(cst);
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(1, ones->getDatas()[i]);
+    }
+
+    ones->multi(cst);
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(cst, ones->getDatas()[i]);
+    }
+
+    ones->div(cst);
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(1, ones->getDatas()[i]);
+    }
 }

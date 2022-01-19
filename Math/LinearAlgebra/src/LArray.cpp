@@ -1,5 +1,6 @@
 #include "LArray.h"
 #include <iostream>
+#include <cstring>
 using namespace std;
 using namespace la;
 
@@ -15,7 +16,7 @@ LArray::LArray(double* datas, int size, const char* columnName) {
     else 
         this->columnName = (char*) "unnamed";
     this->datas = new double[size];
-    memcpy(this->datas, datas, size);
+    memcpy(this->datas, datas, size * sizeof(double));
     this->length = size;
 }
 
