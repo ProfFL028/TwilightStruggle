@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
+set(CMAKE_CXX_STANDARD 11)
+
 project(LinearAlgebra )
 
 include_directories(include)
@@ -15,7 +17,6 @@ endforeach ()
 
 add_library(LA_LIB ${LA_SRC_FILES})
 
-set(CMAKE_CXX_STANDARD 11)
 
 include(FetchContent)
 FetchContent_Declare(
