@@ -13,7 +13,7 @@ LArray::LArray() {
 LArray::LArray(double* datas, const int& size, const char* columnName) {
     this->setDatas(datas, size);
     this->setColumnName(columnName);
-    this->dataOwner = false;
+    this->dataOwner = true;
 }
 
 LArray::LArray(const LArray& v) {
@@ -101,7 +101,6 @@ LArray* LArray::constant(int v, int size, const char* columnName) {
         datas[i] = v;
     }
     LArray* arr = new LArray(datas, size, columnName);
-    delete [] datas;
     return arr;
 }
 

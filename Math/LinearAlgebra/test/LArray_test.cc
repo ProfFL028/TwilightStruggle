@@ -27,8 +27,6 @@ TEST(LArray_test, PropertyTest) {
     
     arr2.getDatas()[2] = 5;
     EXPECT_EQ(5, testData[2]);
-
-    delete [] testData;
 }
 
 TEST(LArray_test, FactoryTest) {
