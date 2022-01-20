@@ -10,20 +10,23 @@ const char* LArray::UNAMED = "unamed";
 LArray::LArray() {
 }
 
-LArray::LArray(const double* datas, const int& size, const char* columnName) {
-    this->copyDatas(datas, size);
+LArray::LArray(double* datas, const int& size, const char* columnName) {
+    this->setDatas(datas, size);
     this->setColumnName(columnName);
+    this->dataOwner = false;
 }
 
 LArray::LArray(const LArray& v) {
-    this->copyDatas(v.datas, v.length);
+    this->setDatas(v.datas, v.length);
     this->setColumnName(v.columnName);
+    this->dataOwner = false;
 }
 
 void LArray::setDatas(double* datas, const int& length) {
     this->cleanData();
     this->datas = datas;
     this->length = length;
+    this->dataOwner = false;
 }
 
 void LArray::setColumnName(const char* columnName) {
@@ -42,15 +45,19 @@ void LArray::copyDatas(const double* datas, const int& length) {
     this->datas = new double[length];
     memcpy(this->datas, datas, sizeof(double) * length);
     this->length = length;
+
+    this->dataOwner = true;
 }
 
 void LArray::clean() {
     this->cleanColumnName();
-    this->cleanData();
+    if (dataOwner) {
+        this->cleanData();
+    }
 }
 
 void LArray::cleanData() {
-    if (this->datas) {
+    if (this->datas != nullptr) {
         delete [] this->datas;
     }
     this->length = 0;
@@ -96,6 +103,27 @@ LArray* LArray::constant(int v, int size, const char* columnName) {
     LArray* arr = new LArray(datas, size, columnName);
     delete [] datas;
     return arr;
+}
+
+LArray& LArray::operator= (const LArray& v) {
+    if (this == &v) {
+        return *this;
+    }
+    this->clean();
+    this->copyDatas(v.datas, v.length); // notice using copy instead of set!!!.
+    this->setColumnName(v.columnName);
+
+    return *this;
+}
+
+double& LArray::operator[] (int idx) {
+    if (this->length <= idx || idx < 0) {
+        char msg[256];
+        sprintf(msg, "idx should between 0 and %d", this->length);
+        throw invalid_argument(msg);
+    }
+
+    return this->datas[idx];
 }
 
 LArray* LArray::add(double v) {
@@ -206,15 +234,6 @@ LArray& LArray::operator/= (const double& v) {
     return *this;
 }
 
-double& LArray::operator[] (int idx) {
-    if (this->length <= idx || idx < 0) {
-        char msg[256];
-        sprintf(msg, "idx should between 0 and %d", this->length);
-        throw invalid_argument(msg);
-    }
-
-    return this->datas[idx];
-}
 
 LArray LArray::operator+ (const LArray& l1) const {
     if (this->length == 0 || l1.length == 0) {
@@ -282,29 +301,6 @@ LArray LArray::operator/ (const LArray& l1) const {
         result->datas[i] = this->datas[(i % this->length)] / l1.datas[(i % l1.length)];
     }
     return *result;
-}
-
-LArray& LArray::operator= (const LArray& v) {
-    if (this == &v) {
-        return *this;
-    }
-    this->length = v.length;
-    if (this->columnName != 0) {
-        delete [] this->columnName;
-    }
-    this->columnName = new char[COLUMN_BUF];
-    if (v.columnName != 0 && (strlen(v.columnName) != 0)) 
-        strcpy(this->columnName, v.columnName);
-    else 
-        this->columnName = (char*) "unnamed";
-
-    if (this->datas != 0) {
-        delete [] this->datas;
-    }
-    this->datas = new double[v.length];
-    memcpy(this->datas, v.datas, v.length * sizeof(double));
-
-    return *this;
 }
 
 LArray& LArray::add(const LArray& v) {

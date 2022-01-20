@@ -19,7 +19,7 @@ TEST(LArray_test, PropertyTest) {
 
     LArray arr(testData, ARRAY_SIZE, columnName);
     EXPECT_STREQ("test_column", arr.getColumnName());
-    EXPECT_NE(arr.getDatas(), testData);
+    EXPECT_EQ(arr.getDatas(), testData);
     
     LArray arr2;
     arr2.setDatas(testData, ARRAY_SIZE);
@@ -27,12 +27,15 @@ TEST(LArray_test, PropertyTest) {
     
     arr2.getDatas()[2] = 5;
     EXPECT_EQ(5, testData[2]);
+
+    delete [] testData;
 }
 
 TEST(LArray_test, FactoryTest) {
   const int ARRAY_SIZE = 10;
   
   int cst = 5;
+
   LArray* nums = LArray::constant(cst, ARRAY_SIZE, "Twos");
   for (int i = 0; i < ARRAY_SIZE; i++) {
     EXPECT_EQ(cst, nums->getDatas()[i]);

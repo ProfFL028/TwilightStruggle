@@ -15,7 +15,7 @@ public:
      * create an LArray with given datas and columnName. If columnName is null or empty set to UNAMED.
      * 
      * */
-    LArray(const double* datas, const int& size, const char* columnName="");
+    LArray(double* datas, const int& size, const char* columnName="");
     /**
      * deep copy LArray.
      * https://en.cppreference.com/w/cpp/language/rule_of_three
@@ -79,12 +79,12 @@ public:
     void setDatas(double* datas, const int& length);
     void copyDatas(const double* datas, const int& length);
 
-
     void clean();
     void cleanData();
     void cleanColumnName();
 
     double& operator[] (int);
+    // as operator + has been overloaded, it needs deepcopy instead of reference.
     LArray& operator=(const LArray& v);
 
 public:
@@ -96,6 +96,8 @@ private:
     char* columnName = nullptr;
     double* datas = nullptr;
     int length = 0;
+
+    bool dataOwner = true;
 };
 
 }
