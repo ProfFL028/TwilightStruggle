@@ -7,14 +7,20 @@ using namespace la;
 
 // Demonstrate some basic assertions.
 TEST(LArray_test, BasicAssertions) {
-  const int ARRAY_SIZE = 100;
-  double* testData = new double[ARRAY_SIZE];
-  memset(testData, 0, ARRAY_SIZE);
-  const char* columnName = "test_column";
+    LArray a;
+    EXPECT_EQ(a.getDatas(), nullptr);
+    EXPECT_EQ(a.getColumnName(), nullptr);
+    EXPECT_EQ(a.getLength(), 0);
 
-  LArray arr(testData, ARRAY_SIZE, columnName);
 
-  EXPECT_STREQ("test_column", arr.getColumnName());
+    const int ARRAY_SIZE = 100;
+    double* testData = new double[ARRAY_SIZE];
+    memset(testData, 0, ARRAY_SIZE);
+    const char* columnName = "test_column";
+
+    LArray arr(testData, ARRAY_SIZE, columnName);
+
+    EXPECT_STREQ("test_column", arr.getColumnName());
 }
 
 TEST(LArray_test, FactoryTest) {

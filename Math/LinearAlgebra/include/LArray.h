@@ -7,9 +7,23 @@ namespace la {
 class LArray final {
 public:
 // constructor and destructor
+    /**
+     * create an empty array.
+     * */
     LArray();
+    /**
+     * create an LArray with given datas and columnName. If columnName is null or empty set to UNAMED.
+     * 
+     * */
     LArray(double* datas, int size, const char* columnName="");
-    LArray(const LArray& );  // https://en.cppreference.com/w/cpp/language/rule_of_three
+    /**
+     * deep copy LArray.
+     * https://en.cppreference.com/w/cpp/language/rule_of_three
+     * */
+    LArray(const LArray& );
+    /**
+     * destruct LArray. delete datas and columnName string. set data length to 0.
+     * */
     virtual ~LArray();
 
 public:
@@ -59,12 +73,12 @@ public:
     int getLength();
 
     double& operator[] (int);
-    LArray& operator=(const LArray& v); // https://en.cppreference.com/w/cpp/language/rule_of_three
+    LArray& operator=(const LArray& v);
 
 public:
 // static values
-    static int COLUMN_BUF;
-
+    static const int COLUMN_BUF;
+    static const char* UNAMED;
 private:
 // attributes
     char* columnName;

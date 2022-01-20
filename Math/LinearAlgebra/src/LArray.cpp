@@ -4,9 +4,13 @@
 using namespace std;
 using namespace la;
 
-int LArray::COLUMN_BUF = 256;
+const int LArray::COLUMN_BUF = 256;
+const char* LArray::UNAMED = "unamed";
 
 LArray::LArray() {
+    this->columnName = nullptr;
+    this->datas = nullptr;
+    this->length = 0;
 }
 
 LArray::LArray(double* datas, int size, const char* columnName) {
@@ -14,7 +18,7 @@ LArray::LArray(double* datas, int size, const char* columnName) {
     if (columnName != 0 && (strlen(columnName) != 0)) 
         strcpy(this->columnName, columnName);
     else 
-        this->columnName = (char*) "unnamed";
+        strcpy(this->columnName, UNAMED);
     this->datas = new double[size];
     memcpy(this->datas, datas, size * sizeof(double));
     this->length = size;
@@ -26,7 +30,7 @@ LArray::LArray(const LArray& v) {
     if (v.columnName != 0 && (strlen(v.columnName) != 0)) 
         strcpy(this->columnName, v.columnName);
     else 
-        this->columnName = (char*) "unnamed";
+        strcpy(this->columnName, UNAMED);
     this->datas = new double[v.length];
     memcpy(this->datas, v.datas, v.length * sizeof(double));
 }
