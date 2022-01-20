@@ -5,13 +5,12 @@
 using namespace std;
 using namespace la;
 
-// Demonstrate some basic assertions.
-TEST(LArray_test, BasicAssertions) {
-    LArray a;
-    EXPECT_EQ(a.getDatas(), nullptr);
-    EXPECT_EQ(a.getColumnName(), nullptr);
-    EXPECT_EQ(a.getLength(), 0);
-
+TEST(LArray_test, PropertyTest) {
+    // test empty array.
+    LArray empty;
+    EXPECT_EQ(empty.getDatas(), nullptr);
+    EXPECT_EQ(empty.getColumnName(), nullptr);
+    EXPECT_EQ(empty.getLength(), 0);
 
     const int ARRAY_SIZE = 100;
     double* testData = new double[ARRAY_SIZE];
@@ -19,8 +18,15 @@ TEST(LArray_test, BasicAssertions) {
     const char* columnName = "test_column";
 
     LArray arr(testData, ARRAY_SIZE, columnName);
-
     EXPECT_STREQ("test_column", arr.getColumnName());
+    EXPECT_NE(arr.getDatas(), testData);
+    
+    LArray arr2;
+    arr2.setDatas(testData, ARRAY_SIZE);
+    EXPECT_EQ(arr2.getDatas(), testData);
+    
+    arr2.getDatas()[2] = 5;
+    EXPECT_EQ(5, testData[2]);
 }
 
 TEST(LArray_test, FactoryTest) {

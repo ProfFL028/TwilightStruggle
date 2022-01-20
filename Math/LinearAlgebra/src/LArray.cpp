@@ -8,31 +8,76 @@ const int LArray::COLUMN_BUF = 256;
 const char* LArray::UNAMED = "unamed";
 
 LArray::LArray() {
-    this->columnName = nullptr;
-    this->datas = nullptr;
-    this->length = 0;
 }
 
-LArray::LArray(double* datas, int size, const char* columnName) {
-    this->columnName = new char[COLUMN_BUF];
-    if (columnName != 0 && (strlen(columnName) != 0)) 
-        strcpy(this->columnName, columnName);
-    else 
-        strcpy(this->columnName, UNAMED);
-    this->datas = new double[size];
-    memcpy(this->datas, datas, size * sizeof(double));
-    this->length = size;
+LArray::LArray(const double* datas, const int& size, const char* columnName) {
+    this->copyDatas(datas, size);
+    this->setColumnName(columnName);
 }
 
 LArray::LArray(const LArray& v) {
-    this->length = v.length;
+    this->copyDatas(v.datas, v.length);
+    this->setColumnName(v.columnName);
+}
+
+void LArray::setDatas(double* datas, const int& length) {
+    this->cleanData();
+    this->datas = datas;
+    this->length = length;
+}
+
+void LArray::setColumnName(const char* columnName) {
+    this->cleanColumnName();
+    
     this->columnName = new char[COLUMN_BUF];
-    if (v.columnName != 0 && (strlen(v.columnName) != 0)) 
-        strcpy(this->columnName, v.columnName);
-    else 
+    if (columnName != nullptr && strlen(columnName) != 0) {
+        strcpy(this->columnName, columnName);
+    } else {
         strcpy(this->columnName, UNAMED);
-    this->datas = new double[v.length];
-    memcpy(this->datas, v.datas, v.length * sizeof(double));
+    }
+}
+
+void LArray::copyDatas(const double* datas, const int& length) {
+    this->cleanData();
+    this->datas = new double[length];
+    memcpy(this->datas, datas, sizeof(double) * length);
+    this->length = length;
+}
+
+void LArray::clean() {
+    this->cleanColumnName();
+    this->cleanData();
+}
+
+void LArray::cleanData() {
+    if (this->datas) {
+        delete [] this->datas;
+    }
+    this->length = 0;
+    this->datas = nullptr;
+}
+
+void LArray::cleanColumnName() {
+    if (this->columnName != nullptr) {
+        delete [] this->columnName;
+    }
+    this->columnName = nullptr;
+}
+
+LArray::~LArray() {
+    this->clean();
+}
+
+char* LArray::getColumnName() {
+    return this->columnName;
+}
+
+double* LArray::getDatas() {
+    return this->datas;
+}
+
+int LArray::getLength() {
+    return this->length;
 }
 
 LArray* LArray::ones(int size, const char* columnName) {
@@ -338,23 +383,3 @@ LArray& LArray::operator/=(const LArray& v) {
     return this->div(v);
 }
 
-
-LArray::~LArray() {
-    if (this->datas != 0)
-        delete [] this->datas;
-    if (this->columnName != 0)
-        delete [] this->columnName;
-    this->length = 0;
-}
-
-char* LArray::getColumnName() {
-    return this->columnName;
-}
-
-double* LArray::getDatas() {
-    return this->datas;
-}
-
-int LArray::getLength() {
-    return this->length;
-}
