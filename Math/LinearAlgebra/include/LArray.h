@@ -28,17 +28,18 @@ public:
 
 public:
 // useful factories for building LArray.
-    static LArray* zeros(int size, const char* columnName="");
-    static LArray* ones(int size, const char* columnName="");
-    static LArray* constant(int v, int size, const char* columnName="");
+    static LArray* zeros(const int& size, const char* columnName="");
+    static LArray* ones(const int& size, const char* columnName="");
+    static LArray* constant(const int& v, const int& size, const char* columnName="");
 
 public:
 // operators.
-    LArray* add(double v);
-    LArray* minus(double v);
-    LArray* multi(double v);
-    LArray* div(double v);
+    LArray* add(const double& v);
+    LArray* minus(const double& v);
+    LArray* multi(const double& v);
+    LArray* div(const double& v);
 
+// overload +-*/ operators, avoid use these method for a lot of data copy operators.
     LArray operator+(const double& v) const;
     LArray operator-(const double& v) const;
     LArray operator*(const double& v) const;
@@ -49,16 +50,17 @@ public:
     LArray& operator*=(const double& v);
     LArray& operator/=(const double& v);
 
-    LArray& add(const LArray& b);
-    LArray& minus(const LArray& b);
-    LArray& multi(const LArray& b);
-    LArray& div(const LArray& b);
+    LArray* add(const LArray& b);
+    LArray* minus(const LArray& b);
+    LArray* multi(const LArray& b);
+    LArray* div(const LArray& b);
 
     LArray& operator+=(const LArray& v);
     LArray& operator-=(const LArray& v);
     LArray& operator*=(const LArray& v);
     LArray& operator/=(const LArray& v);
 
+// overload +-*/ operators, avoid use these method for a lot of data copy operators.
     LArray operator+(const LArray& b) const;
     LArray operator-(const LArray& b) const;
     LArray operator*(const LArray& b) const;
