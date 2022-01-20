@@ -32,6 +32,8 @@ public:
     static LArray* ones(const int& size, const char* columnName="");
     static LArray* constant(const int& v, const int& size, const char* columnName="");
 
+    void copy(const LArray& v);
+
 public:
 // operators.
     LArray* add(const double& v);

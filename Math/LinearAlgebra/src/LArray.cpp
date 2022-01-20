@@ -17,9 +17,13 @@ LArray::LArray(double* datas, const int& size, const char* columnName) {
 }
 
 LArray::LArray(const LArray& v) {
-    this->setDatas(v.datas, v.length);
+    this->copyDatas(v.datas, v.length);
     this->setColumnName(v.columnName);
-    this->dataOwner = false;
+}
+
+void LArray::copy(const LArray& v) {
+    this->copyDatas(v.datas, v.length);
+    this->setColumnName(v.columnName);
 }
 
 void LArray::setDatas(double* datas, const int& length) {
@@ -211,6 +215,7 @@ LArray LArray::operator+ (const LArray& l1) const {
     for (int i = 0; i < arrLength; i++) {
         result.datas[i] = this->datas[(i % this->length)] + l1.datas[(i % l1.length)];
     }
+    result.length = arrLength;
     return result;
 }
 
@@ -228,6 +233,7 @@ LArray LArray::operator- (const LArray& l1) const {
     for (int i = 0; i < arrLength; i++) {
         result.datas[i] = this->datas[(i % this->length)] - l1.datas[(i % l1.length)];
     }
+    result.length = arrLength;
     return result;
 }
 
@@ -245,6 +251,7 @@ LArray LArray::operator* (const LArray& l1) const {
     for (int i = 0; i < arrLength; i++) {
         result.datas[i] = this->datas[(i % this->length)] * l1.datas[(i % l1.length)];
     }
+    result.length = arrLength;
     return result;
 }
 
@@ -262,6 +269,7 @@ LArray LArray::operator/ (const LArray& l1) const {
     for (int i = 0; i < arrLength; i++) {
         result.datas[i] = this->datas[(i % this->length)] / l1.datas[(i % l1.length)];
     }
+    result.length = arrLength;
     return result;
 }
 
