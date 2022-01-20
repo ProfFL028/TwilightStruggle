@@ -25,6 +25,33 @@ public:
     LArray* multi(double v);
     LArray* div(double v);
 
+    LArray operator+(const double& v) const;
+    LArray operator-(const double& v) const;
+    LArray operator*(const double& v) const;
+    LArray operator/(const double& v) const;
+
+    LArray& operator+=(const double& v);
+    LArray& operator-=(const double& v);
+    LArray& operator*=(const double& v);
+    LArray& operator/=(const double& v);
+
+    LArray& add(const LArray& b);
+    LArray& minus(const LArray& b);
+    LArray& multi(const LArray& b);
+    LArray& div(const LArray& b);
+
+    LArray& operator+=(const LArray& v);
+    LArray& operator-=(const LArray& v);
+    LArray& operator*=(const LArray& v);
+    LArray& operator/=(const LArray& v);
+
+    LArray operator+(const LArray& b) const;
+    LArray operator-(const LArray& b) const;
+    LArray operator*(const LArray& b) const;
+    LArray operator/(const LArray& b) const;
+
+
+
 public: 
 // get and set methods for attributes.
     char* getColumnName();
@@ -33,10 +60,6 @@ public:
 
     double& operator[] (int);
     LArray& operator=(const LArray& v); // https://en.cppreference.com/w/cpp/language/rule_of_three
-    LArray operator+(const LArray& b) const;
-    LArray operator-(const LArray& b) const;
-    LArray operator*(const LArray& b) const;
-    LArray operator/(const LArray& b) const;
 
 public:
 // static values

@@ -51,6 +51,47 @@ TEST(LArray_test, OperatorTest) {
     for (int i = 0; i < ARRAY_SIZE; i++) {
         EXPECT_EQ(1, ones->getDatas()[i]);
     }
+
+    LArray tmp = *ones + 3;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(1, ones->getDatas()[i]);
+    }
+    EXPECT_NE(ones->getDatas(), tmp.getDatas());
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(4, tmp[i]);
+    }
+
+    tmp = tmp - 3;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(1, tmp[i]);
+    }
+
+    tmp = tmp * 3;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(3, tmp[i]);
+    }
+
+    tmp = tmp / 3;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(1, tmp[i]);
+    }
+
+    *ones += 3;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(4, ones->getDatas()[i]);
+    }
+    *ones -= 3;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(1, ones->getDatas()[i]);
+    }
+    *ones *= 3;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(3, ones->getDatas()[i]);
+    }
+    *ones /= 3;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(1, ones->getDatas()[i]);
+    }
 }
 
 TEST(LArray_test, OperatorOverrideTest) {
@@ -77,6 +118,26 @@ TEST(LArray_test, OperatorOverrideTest) {
     EXPECT_NE(newOnes.getDatas(), twos.getDatas());
     for (int i = 0; i < ARRAY_SIZE; i++) {
         EXPECT_EQ(1, newOnes[i]);
+    }
+
+    ones += twos;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(3, ones[i]);
+    }
+
+    ones -= twos;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(1, ones[i]);
+    }
+
+    ones *= twos;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(2, ones[i]);
+    }
+
+    ones /= twos;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(1, ones[i]);
     }
 }
 
