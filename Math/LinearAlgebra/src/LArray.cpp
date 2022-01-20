@@ -49,7 +49,6 @@ LArray* LArray::constant(int v, int size, const char* columnName) {
     return arr;
 }
 
-
 LArray* LArray::add(double v) {
     for (int i = 0; i < this->length; i++) {
         this->datas[i] += v;
@@ -96,10 +95,62 @@ LArray LArray::operator+ (const LArray& l1) const {
     LArray* result = new LArray();
     result->datas = new double[arrLength];
     result->length = arrLength;
-    result->columnName = this->columnName;
+    result->columnName = new char[COLUMN_BUF];
+    strcpy(result->columnName, this->columnName);
 
     for (int i = 0; i < arrLength; i++) {
         result->datas[i] = this->datas[(i % this->length)] + l1.datas[(i % l1.length)];
+    }
+    return *result;
+}
+
+LArray LArray::operator- (const LArray& l1) const {
+    if (this->length == 0 || l1.length == 0) {
+        throw invalid_argument("array should be initialized!");
+    }
+    int arrLength = max(this->length, l1.length);
+    LArray* result = new LArray();
+    result->datas = new double[arrLength];
+    result->length = arrLength;
+    result->columnName = new char[COLUMN_BUF];
+    strcpy(result->columnName, this->columnName);
+
+    for (int i = 0; i < arrLength; i++) {
+        result->datas[i] = this->datas[(i % this->length)] - l1.datas[(i % l1.length)];
+    }
+    return *result;
+}
+
+LArray LArray::operator* (const LArray& l1) const {
+    if (this->length == 0 || l1.length == 0) {
+        throw invalid_argument("array should be initialized!");
+    }
+    int arrLength = max(this->length, l1.length);
+    LArray* result = new LArray();
+    result->datas = new double[arrLength];
+    result->length = arrLength;
+    result->columnName = new char[COLUMN_BUF];
+    strcpy(result->columnName, this->columnName);
+
+    for (int i = 0; i < arrLength; i++) {
+        result->datas[i] = this->datas[(i % this->length)] * l1.datas[(i % l1.length)];
+    }
+    return *result;
+}
+
+LArray LArray::operator/ (const LArray& l1) const {
+    if (this->length == 0 || l1.length == 0) {
+        throw invalid_argument("array should be initialized!");
+    }
+    int arrLength = max(this->length, l1.length);
+    LArray* result = new LArray();
+    result->datas = new double[arrLength];
+    result->length = arrLength;
+    result->columnName = new char[COLUMN_BUF];
+    strcpy(result->columnName, this->columnName);
+
+    for (int i = 0; i < arrLength; i++) {
+        result->datas[i] = this->datas[(i % this->length)] / l1.datas[(i % l1.length)];
     }
     return *result;
 }
@@ -117,7 +168,7 @@ LArray& LArray::operator= (const LArray& v) {
         strcpy(this->columnName, v.columnName);
     else 
         this->columnName = (char*) "unnamed";
-        
+
     if (this->datas != 0) {
         delete [] this->datas;
     }

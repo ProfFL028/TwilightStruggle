@@ -9,7 +9,7 @@ public:
 // constructor and destructor
     LArray();
     LArray(double* datas, int size, const char* columnName="");
-    LArray(const LArray& );  // this is important!!!! for you need to copy all datas instead of just copy pointer.
+    LArray(const LArray& );  // https://en.cppreference.com/w/cpp/language/rule_of_three
     virtual ~LArray();
 
 public:
@@ -32,8 +32,11 @@ public:
     int getLength();
 
     double& operator[] (int);
-    LArray& operator=(const LArray& v); // this is important!!!! for you need to copy all datas instead of just copy pointer.
-    LArray operator+(const LArray& b) const; 
+    LArray& operator=(const LArray& v); // https://en.cppreference.com/w/cpp/language/rule_of_three
+    LArray operator+(const LArray& b) const;
+    LArray operator-(const LArray& b) const;
+    LArray operator*(const LArray& b) const;
+    LArray operator/(const LArray& b) const;
 
 public:
 // static values

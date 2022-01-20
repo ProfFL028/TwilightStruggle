@@ -55,19 +55,28 @@ TEST(LArray_test, OperatorTest) {
 
 TEST(LArray_test, OperatorOverrideTest) {
     const int ARRAY_SIZE = 10;
-    LArray* ones =  LArray::ones(ARRAY_SIZE);
+    LArray ones =  *LArray::ones(ARRAY_SIZE);
     for (int i = 0; i < ARRAY_SIZE; i++) {
-        EXPECT_EQ(1, (*ones)[i]);
+        EXPECT_EQ(1, ones[i]);
     }
 
-    LArray cpOnes(*ones);
-    EXPECT_NE(ones->getDatas(), cpOnes.getDatas());
+    LArray cpOnes(ones);
+    EXPECT_NE(ones.getDatas(), cpOnes.getDatas());
 
     const int ARRAY_SIZE_HALF = ARRAY_SIZE / 2;
-    LArray* twos = LArray::constant(2, ARRAY_SIZE_HALF);
-    LArray three = (*ones) + (*twos);
+    LArray twos = *LArray::constant(2, ARRAY_SIZE_HALF);
+    LArray three = ones + twos;
+    EXPECT_NE(ones.getDatas(), three.getDatas());
+    EXPECT_NE(twos.getDatas(), three.getDatas());
     for (int i = 0; i < ARRAY_SIZE; i++) {
         EXPECT_EQ(3, three[i]);
+    }
+    LArray newOnes = three - twos;
+    EXPECT_NE(newOnes.getDatas(), three.getDatas());
+    EXPECT_NE(newOnes.getDatas(), ones.getDatas());
+    EXPECT_NE(newOnes.getDatas(), twos.getDatas());
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        EXPECT_EQ(1, newOnes[i]);
     }
 }
 
