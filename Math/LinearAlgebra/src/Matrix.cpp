@@ -23,7 +23,7 @@ Matrix::Matrix(const Matrix &m) {
 
 Matrix::~Matrix() {
     cout << "info: Matrix destruct" << endl;
-
+    this->clean();
 }
 
 void Matrix::setData(double *data, const short *shape) {

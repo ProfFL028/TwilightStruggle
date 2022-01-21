@@ -27,4 +27,18 @@ TEST(Matrix_test, ConstructTest) {
 
     data[33] = 100;
     EXPECT_EQ(data[33], m2.getData()[33]);
+
+    Matrix cp(m2);
+    EXPECT_NE(data, cp.getData());
+    EXPECT_NE(shape1, cp.getShape());
+
+    EXPECT_EQ(3, cp.getShape()[0]);
+    EXPECT_EQ(4, cp.getShape()[1]);
+    EXPECT_EQ(5, cp.getShape()[2]);
+    EXPECT_EQ(0, cp.getShape()[3]);
+    EXPECT_EQ(0, cp.getShape()[4]);
+    EXPECT_EQ(60, cp.getDataSize());
+
+    delete[] data;
+    delete[] shape1;
 }
