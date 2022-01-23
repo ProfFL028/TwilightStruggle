@@ -42,3 +42,25 @@ TEST(Matrix_test, ConstructTest) {
     delete[] data;
     delete[] shape1;
 }
+
+TEST(Matrix_test, CopyTest) {
+    short* shape = new short [5] {3, 4, 5, 0, 0};
+    double* data = new double[60];
+    for (int i = 0; i < 60; i++) {
+        data[i] = i;
+    }
+    Matrix m(data, shape);
+
+    for (int i = 0; i <m.getDataSize(); i++) {
+        EXPECT_EQ(i, m[i]);
+    }
+
+    Matrix m2 = m;
+    EXPECT_NE(&m, &m2);
+    for (int i = 0; i <m.getDataSize(); i++) {
+        EXPECT_EQ(m2[i], m[i]);
+    }
+
+    delete [] data;
+    delete [] shape;
+}

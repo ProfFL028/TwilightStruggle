@@ -11,6 +11,11 @@ namespace la {
         Matrix(const Matrix &m);
 
         virtual ~Matrix();
+
+    public:
+        Matrix& operator=(const Matrix& v);
+        double& operator[](const int& i);
+
     public:
         void setData(double *data, const short *shape);
         void copyData(const double *data, const short *shape);

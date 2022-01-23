@@ -83,3 +83,17 @@ double *Matrix::getData() {
 short *Matrix::getShape() {
     return this->shape;
 }
+
+double& Matrix::operator[](const int &i) {
+    return this->data[i];
+}
+
+Matrix& Matrix::operator=(const Matrix& v) {
+    if (this == &v) {
+        return *this;
+    }
+    this->clean();
+    this->copyData(v.data, v.shape);
+
+    return *this;
+}
