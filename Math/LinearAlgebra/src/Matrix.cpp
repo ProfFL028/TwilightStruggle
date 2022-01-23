@@ -26,15 +26,41 @@ Matrix::~Matrix() {
     this->clean();
 }
 
+Matrix* Matrix::constant(const double &v, const short *shape) {
+    Matrix* result = new Matrix();
+    result->copyShape(shape);
+
+    int dataSize = result->getDataSize();
+    double* data = new double[dataSize];
+    for (int i = 0; i < dataSize; i++) {
+        data[i] = v;
+    }
+    result->setData(data);
+
+    return result;
+}
+
+Matrix* Matrix::ones(const short *shape) {
+    return Matrix::constant(1, shape);
+}
+Matrix* Matrix::zeros(const short *shape) {
+    return Matrix::constant(0, shape);
+}
+
 void Matrix::setData(double *data, const short *shape) {
     this->clean();
 
-    this->copyShape(shape);
+    if (shape != nullptr) {
+        this->copyShape(shape);
+    }
     this->data = data;
     this->dataOwner = false;
 }
 
 int Matrix::getDataSize() {
+    if (this->shape == nullptr) {
+        return 0;
+    }
     int dataSize = 1;
     for (int i = 0; i < MAX_SHAPE_SIZE; i++) {
         if (shape[i] > 0) {
@@ -49,7 +75,9 @@ int Matrix::getDataSize() {
 void Matrix::copyData(const double *data, const short *shape) {
     this->clean();
 
-    this->copyShape(shape);
+    if (shape != nullptr) {
+        this->copyShape(shape);
+    }
     int dataSize = this->getDataSize();
     this->data = new double[dataSize];
     memcpy(this->data, data, dataSize * sizeof(double));
@@ -97,3 +125,56 @@ Matrix& Matrix::operator=(const Matrix& v) {
 
     return *this;
 }
+
+Matrix& Matrix::add(const double &v) {
+    for (int i = 0; i<=this->getDataSize(); i++) {
+        this->data[i] += v;
+    }
+    return *this;
+}
+Matrix& Matrix::minus(const double &v) {
+    for (int i = 0; i<=this->getDataSize(); i++) {
+        this->data[i] -= v;
+    }
+    return *this;
+}
+Matrix& Matrix::multi(const double &v) {
+    for (int i = 0; i<=this->getDataSize(); i++) {
+        this->data[i] *= v;
+    }
+    return *this;
+}
+Matrix& Matrix::div(const double &v) {
+    for (int i = 0; i<=this->getDataSize(); i++) {
+        this->data[i] /= v;
+    }
+    return *this;
+}
+
+Matrix& Matrix::operator+=(const double& v) {
+    return this->add(v);
+}
+Matrix& Matrix::operator-=(const double& v) {
+    return this->minus(v);
+}
+Matrix& Matrix::operator*=(const double& v) {
+    return this->multi(v);
+}
+Matrix& Matrix::operator/=(const double& v) {
+    return this->div(v);
+}
+
+Matrix Matrix::operator+(const double &v) {
+    return (*this) + v;
+}
+Matrix Matrix::operator-(const double &v) {
+    return (*this) - v;
+}
+Matrix Matrix::operator*(const double &v) {
+    return (*this) * v;
+}
+Matrix Matrix::operator/(const double &v) {
+    return (*this) / v;
+}
+
+

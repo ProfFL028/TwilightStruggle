@@ -64,3 +64,29 @@ TEST(Matrix_test, CopyTest) {
     delete [] data;
     delete [] shape;
 }
+
+TEST(Matrix_test, DoubleOperatorTest) {
+    short* shape = new short [5] {10, 5, 0, 0, 0};
+    Matrix m1 = *Matrix::ones(shape);
+    const int cst = 5;
+    m1.add(cst);
+    for (int i = 0; i <m1.getDataSize(); i++) {
+        EXPECT_EQ(1 + cst, m1[i]);
+    }
+    m1.minus(cst);
+    for (int i = 0; i <m1.getDataSize(); i++) {
+        EXPECT_EQ(1, m1[i]);
+    }
+    m1.multi(cst);
+    for (int i = 0; i <m1.getDataSize(); i++) {
+        EXPECT_EQ(cst, m1[i]);
+    }
+    m1.div(cst);
+    for (int i = 0; i <m1.getDataSize(); i++) {
+        EXPECT_EQ(1, m1[i]);
+    }
+    m1.add(cst).minus(cst).multi(cst).div(cst);
+    for (int i = 0; i <m1.getDataSize(); i++) {
+        EXPECT_EQ(1, m1[i]);
+    }
+}

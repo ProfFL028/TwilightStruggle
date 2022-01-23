@@ -5,20 +5,38 @@ namespace la {
     class Matrix final {
     public:
         Matrix();
-
         Matrix(double *data, const short *shape);
-
         Matrix(const Matrix &m);
-
         virtual ~Matrix();
+
+    public:
+        static Matrix* zeros(const short* shape);
+        static Matrix* ones(const short* shape);
+        static Matrix* constant(const double& v, const short* shape);
 
     public:
         Matrix& operator=(const Matrix& v);
         double& operator[](const int& i);
 
     public:
-        void setData(double *data, const short *shape);
-        void copyData(const double *data, const short *shape);
+        Matrix& add(const double& v);
+        Matrix& minus(const double& v);
+        Matrix& multi(const double& v);
+        Matrix& div(const double& v);
+
+        Matrix& operator+=(const double& v);
+        Matrix& operator-=(const double& v);
+        Matrix& operator*=(const double& v);
+        Matrix& operator/=(const double& v);
+
+        Matrix operator+(const double& v);
+        Matrix operator-(const double& v);
+        Matrix operator*(const double& v);
+        Matrix operator/(const double& v);
+
+    public:
+        void setData(double *data, const short *shape=nullptr);
+        void copyData(const double *data, const short *shape=nullptr);
 
         double* getData();
         short* getShape();
