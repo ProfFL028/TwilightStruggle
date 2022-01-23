@@ -186,3 +186,50 @@ Matrix Matrix::operator/(const double &v) {
 }
 
 
+Matrix& Matrix::add(const Matrix& v) {
+    //TODO: implement this method.
+}
+Matrix& Matrix::minus(const Matrix& v) {
+    //TODO: implement this method.
+}
+Matrix& Matrix::multi(const Matrix& v) {
+    //TODO: implement this method.
+}
+Matrix& Matrix::div(const Matrix& v) {
+    //TODO: implement this method.
+}
+
+Matrix& Matrix::operator+=(const Matrix& v) {
+    return this->add(v);
+}
+Matrix& Matrix::operator-=(const Matrix& v) {
+    return this->minus(v);
+}
+Matrix& Matrix::operator*=(const Matrix& v) {
+    return this->multi(v);
+}
+Matrix& Matrix::operator/=(const Matrix& v) {
+    return this->div(v);
+}
+
+Matrix Matrix::operator+(const Matrix& v) {
+    Matrix result(*this);
+    result.add(v);
+    return result;
+}
+Matrix Matrix::operator-(const Matrix& v) {
+    Matrix result(*this);
+    result.minus(v);
+    return result;
+}
+Matrix Matrix::operator*(const Matrix& v) {
+    Matrix result(*this);
+    result.multi(v);
+    return result;
+}
+Matrix Matrix::operator/(const Matrix& v) {
+    Matrix result(*this);
+    result.div(v);
+    return result;
+}
+
