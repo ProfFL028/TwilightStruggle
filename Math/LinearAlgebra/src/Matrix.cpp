@@ -28,7 +28,7 @@ Matrix::~Matrix() {
 
 Matrix* Matrix::constant(const double &v, const short *shape) {
     Matrix* result = new Matrix();
-    result->copyShape(shape);
+    result->reshape(shape);
 
     int dataSize = result->getDataSize();
     double* data = new double[dataSize];
@@ -51,7 +51,7 @@ void Matrix::setData(double *data, const short *shape) {
     this->clean();
 
     if (shape != nullptr) {
-        this->copyShape(shape);
+        this->reshape(shape);
     }
     this->data = data;
     this->dataOwner = false;
@@ -76,7 +76,7 @@ void Matrix::copyData(const double *data, const short *shape) {
     this->clean();
 
     if (shape != nullptr) {
-        this->copyShape(shape);
+        this->reshape(shape);
     }
     int dataSize = this->getDataSize();
     this->data = new double[dataSize];
@@ -84,7 +84,7 @@ void Matrix::copyData(const double *data, const short *shape) {
     this->dataOwner = true;
 }
 
-void Matrix::copyShape(const short *shape) {
+void Matrix::reshape(const short *shape) {
     this->shape = new short[MAX_SHAPE_SIZE];
     memcpy(this->shape, shape, MAX_SHAPE_SIZE * sizeof(short));
 }

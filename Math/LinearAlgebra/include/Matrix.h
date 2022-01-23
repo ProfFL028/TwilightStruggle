@@ -35,6 +35,22 @@ namespace la {
         Matrix operator/(const double& v);
 
     public:
+        Matrix& add(const Matrix& v);
+        Matrix& minus(const Matrix& v);
+        Matrix& multi(const Matrix& v);
+        Matrix& div(const Matrix& v);
+
+        Matrix& operator+=(const Matrix& v);
+        Matrix& operator-=(const Matrix& v);
+        Matrix& operator*=(const Matrix& v);
+        Matrix& operator/=(const Matrix& v);
+
+        Matrix operator+(const Matrix& v);
+        Matrix operator-(const Matrix& v);
+        Matrix operator*(const Matrix& v);
+        Matrix operator/(const Matrix& v);
+
+    public:
         void setData(double *data, const short *shape=nullptr);
         void copyData(const double *data, const short *shape=nullptr);
 
@@ -48,7 +64,7 @@ namespace la {
         short *shape = nullptr;
         bool dataOwner = false;
 
-        void copyShape(const short* shape);
+        void reshape(const short* shape);
     public:
         static const short MAX_SHAPE_SIZE;
 
