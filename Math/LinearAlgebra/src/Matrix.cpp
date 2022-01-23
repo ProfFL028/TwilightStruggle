@@ -165,16 +165,24 @@ Matrix& Matrix::operator/=(const double& v) {
 }
 
 Matrix Matrix::operator+(const double &v) {
-    return (*this) + v;
+    Matrix result(*this);
+    result.add(v);
+    return result;
 }
 Matrix Matrix::operator-(const double &v) {
-    return (*this) - v;
+    Matrix result(*this);
+    result.minus(v);
+    return result;
 }
 Matrix Matrix::operator*(const double &v) {
-    return (*this) * v;
+    Matrix result(*this);
+    result.multi(v);
+    return result;
 }
 Matrix Matrix::operator/(const double &v) {
-    return (*this) / v;
+    Matrix result(*this);
+    result.div(v);
+    return result;
 }
 
 

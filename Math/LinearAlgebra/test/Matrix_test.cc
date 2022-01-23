@@ -89,4 +89,23 @@ TEST(Matrix_test, DoubleOperatorTest) {
     for (int i = 0; i <m1.getDataSize(); i++) {
         EXPECT_EQ(1, m1[i]);
     }
+
+    cout << "following code will call constructor a lot." << endl << endl;
+    m1 = m1 + cst;
+
+    for (int i = 0; i <m1.getDataSize(); i++) {
+        EXPECT_EQ(1 + cst, m1[i]);
+    }
+    m1 = m1 - cst;
+    for (int i = 0; i <m1.getDataSize(); i++) {
+        EXPECT_EQ(1, m1[i]);
+    }
+    m1 = m1 * cst;
+    for (int i = 0; i <m1.getDataSize(); i++) {
+        EXPECT_EQ(cst, m1[i]);
+    }
+    m1 = m1 / cst;
+    for (int i = 0; i <m1.getDataSize(); i++) {
+        EXPECT_EQ(1, m1[i]);
+    }
 }
