@@ -101,11 +101,11 @@ void Matrix::clean() {
     this->shape = nullptr;
 }
 
-double *Matrix::getData() {
+double *Matrix::getData() const {
     return this->data;
 }
 
-short *Matrix::getShape() {
+short *Matrix::getShape() const {
     return this->shape;
 }
 
@@ -281,3 +281,15 @@ Matrix Matrix::operator/(const Matrix &v) {
     return result;
 }
 
+ostream& operator<< (ostream& out, const Matrix& m) {
+    if (m.getShape() == 0) {
+        out << "Empty Matrix" << endl;
+    }
+    out << "Matrix at Shape(";
+    for (int i = 0; i < Matrix::MAX_SHAPE_SIZE; i++) {
+        out << m.getShape()[i] << ", ";
+    }
+    out << ")" << endl;
+
+    return out;
+}
