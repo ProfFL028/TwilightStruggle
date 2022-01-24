@@ -58,7 +58,7 @@ void Matrix::setData(double *data, const short *shape) {
     this->dataOwner = false;
 }
 
-int Matrix::getDataSize() {
+int Matrix::getDataSize() const {
     if (this->shape == nullptr) {
         return 0;
     }
@@ -127,6 +127,7 @@ Matrix &Matrix::add(const double &v) {
     for (int i = 0; i <= this->getDataSize(); i++) {
         this->data[i] += v;
     }
+
     return *this;
 }
 
@@ -193,22 +194,50 @@ Matrix Matrix::operator/(const double &v) {
 
 
 Matrix &Matrix::add(const Matrix &v) {
-    //TODO: implement this method.
+    int myDataSize = this->getDataSize();
+    int vDataSize = v.getDataSize();
+    if (myDataSize != vDataSize) {
+        throw invalid_argument("array shape should be same!!");
+    }
+    for (int i = 0; i < myDataSize;  i++) {
+        this->data[i] += v.data[i];
+    }
     return *this;
 }
 
 Matrix &Matrix::minus(const Matrix &v) {
-    //TODO: implement this method.
+    int myDataSize = this->getDataSize();
+    int vDataSize = v.getDataSize();
+    if (myDataSize != vDataSize) {
+        throw invalid_argument("array shape should be same!!");
+    }
+    for (int i = 0; i < myDataSize;  i++) {
+        this->data[i] -= v.data[i];
+    }
     return *this;
 }
 
 Matrix &Matrix::multi(const Matrix &v) {
-    //TODO: implement this method.
+    int myDataSize = this->getDataSize();
+    int vDataSize = v.getDataSize();
+    if (myDataSize != vDataSize) {
+        throw invalid_argument("array shape should be same!!");
+    }
+    for (int i = 0; i < myDataSize;  i++) {
+        this->data[i] *= v.data[i];
+    }
     return *this;
 }
 
 Matrix &Matrix::div(const Matrix &v) {
-    //TODO: implement this method.
+    int myDataSize = this->getDataSize();
+    int vDataSize = v.getDataSize();
+    if (myDataSize != vDataSize) {
+        throw invalid_argument("array shape should be same!!");
+    }
+    for (int i = 0; i < myDataSize;  i++) {
+        this->data[i] /= v.data[i];
+    }
     return *this;
 }
 

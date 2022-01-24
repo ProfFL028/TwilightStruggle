@@ -56,7 +56,7 @@ namespace la {
 
         double* getData();
         short* getShape();
-        int getDataSize();
+        int getDataSize() const;
 
         void clean();
     private:
