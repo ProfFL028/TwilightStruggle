@@ -10,7 +10,7 @@ TEST(Matrix_test, ConstructTest) {
     EXPECT_EQ(nullptr, m.getData());
     EXPECT_EQ(nullptr, m.getShape());
 
-    short* shape1 = new short [5] {3, 4, 5, 0, 0};
+    short* shape1 = new short [5] {3, 4, 5, 1, 1};
     double* data = new double[60];
     for (int i = 0; i < 60; i++) {
         data[i] = i;
@@ -21,8 +21,8 @@ TEST(Matrix_test, ConstructTest) {
     EXPECT_EQ(3, m2.getShape()[0]);
     EXPECT_EQ(4, m2.getShape()[1]);
     EXPECT_EQ(5, m2.getShape()[2]);
-    EXPECT_EQ(0, m2.getShape()[3]);
-    EXPECT_EQ(0, m2.getShape()[4]);
+    EXPECT_EQ(1, m2.getShape()[3]);
+    EXPECT_EQ(1, m2.getShape()[4]);
     EXPECT_EQ(60, m2.getDataSize());
 
     data[33] = 100;
@@ -35,8 +35,8 @@ TEST(Matrix_test, ConstructTest) {
     EXPECT_EQ(3, cp.getShape()[0]);
     EXPECT_EQ(4, cp.getShape()[1]);
     EXPECT_EQ(5, cp.getShape()[2]);
-    EXPECT_EQ(0, cp.getShape()[3]);
-    EXPECT_EQ(0, cp.getShape()[4]);
+    EXPECT_EQ(1, cp.getShape()[3]);
+    EXPECT_EQ(1, cp.getShape()[4]);
     EXPECT_EQ(60, cp.getDataSize());
 
     delete[] data;
@@ -44,7 +44,7 @@ TEST(Matrix_test, ConstructTest) {
 }
 
 TEST(Matrix_test, CopyTest) {
-    short* shape = new short [5] {3, 4, 5, 0, 0};
+    short* shape = new short [5] {3, 4, 5, 1, 1};
     double* data = new double[60];
     for (int i = 0; i < 60; i++) {
         data[i] = i;
@@ -66,7 +66,7 @@ TEST(Matrix_test, CopyTest) {
 }
 
 TEST(Matrix_test, DoubleOperatorTest) {
-    short* shape = new short [5] {10, 5, 0, 0, 0};
+    short* shape = new short [5] {10, 5, 1, 1, 1};
     Matrix m1 = *Matrix::ones(shape);
     const int cst = 5;
     m1.add(cst);

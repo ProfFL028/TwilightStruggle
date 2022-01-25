@@ -1,6 +1,8 @@
 #ifndef LINEAR_ALGEBRA_MATRIX
 #define LINEAR_ALGEBRA_MATRIX
 
+#include <iostream>
+
 namespace la {
     class Matrix final {
     public:
@@ -51,12 +53,15 @@ namespace la {
         Matrix operator/(const Matrix& v);
 
     public:
+        friend std::ostream& operator<< (std::ostream& out, const Matrix& m);
+
+    public:
         void setData(double *data, const short *shape=nullptr);
         void copyData(const double *data, const short *shape=nullptr);
 
-        double* getData();
-        short* getShape();
-        int getDataSize();
+        double* getData() const;
+        short* getShape() const;
+        int getDataSize() const;
 
         void clean();
     private:
