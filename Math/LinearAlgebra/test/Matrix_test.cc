@@ -108,4 +108,6 @@ TEST(Matrix_test, DoubleOperatorTest) {
     for (int i = 0; i <m1.getDataSize(); i++) {
         EXPECT_EQ(1, m1[i]);
     }
+
 }
+
