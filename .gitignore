@@ -4,6 +4,7 @@
 venv/
 lib/
 /Algorithm/.idea/
+**/.ipynb_checkpoints/
 .vs/
 
 **/__pycache__/
