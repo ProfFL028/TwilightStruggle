@@ -20,6 +20,7 @@ curl www.google.com
 ## How to Set Proxy in Github CMD
 ```
 git config --global http.proxy http://127.0.0.1:58591
+git config --global https.proxy https://127.0.0.1:58591
 ```
 
 ## How to Set Proxy in Mac cmd
