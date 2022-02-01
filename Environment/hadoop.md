@@ -20,6 +20,10 @@ set JAVA_HOME=C:\ProGRA~1\Java\jdk-12.0.1
 hadoop version
 ```
 
+working with hive.
+```
+hdfs dfs -chmod -R 777 /
+```
 
 //http://192.168.6.144:50070/
 //http://192.168.6.144:8088/
