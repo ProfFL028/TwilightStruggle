@@ -1,5 +1,7 @@
 package dp
 
+import struct.Matrix
+
 /**
  * @content Calculate the Nth element in Fibonacci.
  * @requires O(log(n)) time speed.
@@ -22,7 +24,9 @@ class Fibonacci {
             if (n <= 2) {
                 return 1
             }
-            return 0
+            var matrix =  Matrix(2, 2, "1,1,1,0")
+            var matrixN = matrix.pow(n)
+            return matrixN.datas[0][0] + matrixN.datas[0][1]
         }
 
     }
@@ -30,5 +34,5 @@ class Fibonacci {
 
 
 fun main() {
-    println(Fibonacci.getNSimple(100))
+    println(Fibonacci.get(100))
 }
