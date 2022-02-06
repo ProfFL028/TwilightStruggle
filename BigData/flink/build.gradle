@@ -1,0 +1,41 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+    id 'java'
+}
+
+group 'com.proffl'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-core
+    compileOnly group: 'org.apache.flink', name: 'flink-core', version: '1.13.5'
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-streaming-java
+    compileOnly group: 'org.apache.flink', name: 'flink-streaming-java_2.12', version: '1.13.5'
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-connector-kafka
+    implementation group: 'org.apache.flink', name: 'flink-connector-kafka_2.12', version: '1.13.5'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.1'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.1'
+
+    // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
+    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '2.7.2'
+    // https://mvnrepository.com/artifact/org.apache.kafka/kafka-streams
+    implementation group: 'org.apache.kafka', name: 'kafka-streams', version: '2.7.2'
+
+
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
