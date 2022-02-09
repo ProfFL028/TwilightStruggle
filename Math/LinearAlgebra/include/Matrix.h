@@ -11,6 +11,8 @@ namespace la {
         Matrix(const Matrix &m);
         virtual ~Matrix();
 
+
+
     public:
         static Matrix* zeros(const short* shape);
         static Matrix* ones(const short* shape);

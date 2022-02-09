@@ -1,30 +1,34 @@
 package com.proffl.flink
 
-import com.proffl.flink.connector.Consumer.createInputMessageConsumer
-import com.proffl.flink.connector.Producer.Companion.createBackupProducer
-import com.proffl.flink.operator.BackupAggregator
-import com.proffl.flink.operator.InputMessageTimestampAssigner
+import com.proffl.flink.connector.Consumer.createStringConsumerForTopic
+import com.proffl.flink.connector.Producer.Companion.createStringProducer
+import org.apache.flink.api.common.functions.MapFunction
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
-import org.apache.flink.streaming.api.windowing.time.Time
+import java.util.*
 
+class StringCapitalizer : MapFunction<String, String> {
+    @Throws(Exception::class)
+    override fun map(data: String): String {
+        return data.uppercase(Locale.getDefault())
+    }
+}
 class FlinkDataPipeline {
     companion object {
         fun createBackup() {
             var inputTopic = "flink-input"
             var outputTopic = "flink-output"
             var consumerGroup = "proffl"
-            var kafkaAddress = "192.168.6.203:9092"
+            var kafkaAddress = "localhost:9092"
 
             var environment = StreamExecutionEnvironment.getExecutionEnvironment()
             // environment.streamTimeCharacteristic(TimeCharacteristic.EventTime) //default EventTime since 1.12
-            var flinkKafkaConsumer = createInputMessageConsumer(inputTopic, kafkaAddress, consumerGroup)
+            var flinkKafkaConsumer = createStringConsumerForTopic(inputTopic, kafkaAddress, consumerGroup)
             flinkKafkaConsumer.setStartFromEarliest()
 
-            flinkKafkaConsumer.assignTimestampsAndWatermarks(InputMessageTimestampAssigner())
-            var flinkKafkaProducer = createBackupProducer(outputTopic, kafkaAddress)
+            var flinkKafkaProducer = createStringProducer(outputTopic, kafkaAddress)
 
             var inputMessageStream = environment.addSource(flinkKafkaConsumer)
-            inputMessageStream.timeWindowAll(Time.hours(24)).aggregate(BackupAggregator()).addSink(flinkKafkaProducer)
+            inputMessageStream.map(StringCapitalizer()).addSink(flinkKafkaProducer)
             environment.execute()
         }
 

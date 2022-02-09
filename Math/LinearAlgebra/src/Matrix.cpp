@@ -199,7 +199,7 @@ Matrix &Matrix::add(const Matrix &v) {
     if (myDataSize != vDataSize) {
         throw invalid_argument("array shape should be same!!");
     }
-    for (int i = 0; i < myDataSize;  i++) {
+    for (int i = 0; i < myDataSize; i++) {
         this->data[i] += v.data[i];
     }
     return *this;
@@ -211,7 +211,7 @@ Matrix &Matrix::minus(const Matrix &v) {
     if (myDataSize != vDataSize) {
         throw invalid_argument("array shape should be same!!");
     }
-    for (int i = 0; i < myDataSize;  i++) {
+    for (int i = 0; i < myDataSize; i++) {
         this->data[i] -= v.data[i];
     }
     return *this;
@@ -223,7 +223,7 @@ Matrix &Matrix::multi(const Matrix &v) {
     if (myDataSize != vDataSize) {
         throw invalid_argument("array shape should be same!!");
     }
-    for (int i = 0; i < myDataSize;  i++) {
+    for (int i = 0; i < myDataSize; i++) {
         this->data[i] *= v.data[i];
     }
     return *this;
@@ -235,7 +235,7 @@ Matrix &Matrix::div(const Matrix &v) {
     if (myDataSize != vDataSize) {
         throw invalid_argument("array shape should be same!!");
     }
-    for (int i = 0; i < myDataSize;  i++) {
+    for (int i = 0; i < myDataSize; i++) {
         this->data[i] /= v.data[i];
     }
     return *this;
@@ -281,7 +281,7 @@ Matrix Matrix::operator/(const Matrix &v) {
     return result;
 }
 
-ostream& operator<< (ostream& out, const Matrix& m) {
+ostream &operator<<(ostream &out, const Matrix &m) {
     if (m.getShape() == 0) {
         out << "Empty Matrix" << endl;
     }

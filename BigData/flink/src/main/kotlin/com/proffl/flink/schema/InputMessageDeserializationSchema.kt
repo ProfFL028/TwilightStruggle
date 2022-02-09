@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.proffl.flink.model.InputMessage
 import org.apache.flink.api.common.serialization.DeserializationSchema
 import org.apache.flink.api.common.typeinfo.TypeInformation
+import java.time.LocalDateTime
 
 class InputMessageDeserializationSchema : DeserializationSchema<InputMessage> {
     companion object {
@@ -13,7 +14,11 @@ class InputMessageDeserializationSchema : DeserializationSchema<InputMessage> {
     }
 
     override fun deserialize(message: ByteArray?): InputMessage {
-        return objMapper.readValue(message, InputMessage::class.java)
+        try {
+            return objMapper.readValue(message, InputMessage::class.java)
+        } catch(e:Exception) {
+            return InputMessage("system", "output", LocalDateTime.now(), "Parse Error!!");
+        }
     }
 
     override fun isEndOfStream(nextElement: InputMessage?): Boolean {
