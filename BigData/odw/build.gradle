@@ -3,15 +3,28 @@ plugins {
     id 'java'
 }
 
+
 group 'com.proffl'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-    mavenCentral()
 }
 
 dependencies {
+
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-java
+    implementation group: 'org.apache.flink', name: 'flink-java', version: flinkVersion
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-core
+    compileOnly group: 'org.apache.flink', name: 'flink-core', version: flinkVersion
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-streaming-java
+    compileOnly group: 'org.apache.flink', name: 'flink-streaming-java_2.12', version: flinkVersion
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-connector-kafka
+    implementation group: 'org.apache.flink', name: 'flink-connector-kafka_2.12', version: flinkVersion
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-clients
+    implementation group: 'org.apache.flink', name: 'flink-clients_2.12', version: flinkVersion
+
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
