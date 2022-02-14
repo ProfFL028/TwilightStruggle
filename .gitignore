@@ -14,6 +14,7 @@ nltk_packages/
 **/build/**
 
 
+**/.gradle/
 **/.idea/
 **/gradle/
 **/gradlew
