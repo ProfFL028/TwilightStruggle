@@ -12,3 +12,10 @@ nltk_packages/
 
 **/cmake-build-debug/
 **/build/**
+
+
+**/.idea/
+**/gradle/
+**/gradlew
+**/gradlew.bat
+**/bin/
