@@ -1,4 +1,4 @@
-package com.proffl
+package com.proffl.app
 
 import com.proffl.job.RarExtractJob
 

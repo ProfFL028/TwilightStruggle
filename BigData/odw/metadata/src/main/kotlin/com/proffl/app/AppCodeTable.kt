@@ -1,3 +1,5 @@
+package com.proffl.app
+
 import com.proffl.job.CodeTableJob
 
 fun main(args: Array<String>) {

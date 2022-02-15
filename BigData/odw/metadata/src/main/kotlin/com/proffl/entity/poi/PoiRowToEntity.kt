@@ -22,7 +22,6 @@ class PoiRowToEntity {
                     val fieldClz = field.type
                     val subObj = rowToEntity(row, fieldClz, newRelIdx)
                     field.set(obj, subObj)
-
                 }
             }
 
