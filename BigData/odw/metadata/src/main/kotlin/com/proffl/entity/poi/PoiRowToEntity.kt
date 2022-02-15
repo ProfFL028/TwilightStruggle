@@ -1,19 +1,26 @@
 package com.proffl.entity.poi
 
-import org.apache.logging.log4j.Logger
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.Row
 import java.lang.reflect.Field
+import java.util.*
 
 class PoiRowToEntity {
     companion object {
         fun <T> rowToEntity(row: Row, clz: Class<T>):T {
-            var obj = clz.newInstance()
+            val obj = clz.newInstance()
             for (field in clz.declaredFields) {
-                var fieldAnnotation = field.getDeclaredAnnotation(XlsxField::class.java) as XlsxField
                 field.isAccessible = true
-                setField(obj, field, row.getCell(fieldAnnotation.columnIndex))
+
+                if (field.getDeclaredAnnotation(XlsxField::class.java) != null) {
+                    val fieldAnnotation = field.getDeclaredAnnotation(XlsxField::class.java) as XlsxField
+                    setField(obj, field, row.getCell(fieldAnnotation.columnIndex))
+                } else if (field.getDeclaredAnnotation(XlsxCompositeField::class.java) != null) {
+                    val fieldClz = field.type
+                    val subObj = rowToEntity(row, fieldClz)
+                    field.set(obj, subObj)
+                }
             }
 
             return obj
@@ -22,10 +29,22 @@ class PoiRowToEntity {
         private fun <T> setField(obj: T, field: Field, cell: Cell) {
             when (cell.cellType) {
                 CellType.STRING -> {
-                    field.set(obj, cell.stringCellValue)
+                    if (field.type != String::class.java)
+                        field.set(obj, excelCellToBean(cell.stringCellValue, field.type))
+                    else {
+                        field.set(obj, cell.stringCellValue)
+                    }
                 }
                 CellType.NUMERIC -> {
-                    field.set(obj, cell.numericCellValue)
+                    if (field.type == String::class.java) {
+                        field.set(obj, cell.numericCellValue.toString())
+                    } else if (field.type == Int::class.java) {
+                        field.set(obj, cell.numericCellValue.toInt())
+                    } else if (field.type == Boolean::class.java) {
+                        field.set(obj, cell.numericCellValue.toInt() == 1)
+                    } else {
+                        field.set(obj, cell.numericCellValue)
+                    }
                 }
                 CellType.BOOLEAN -> {
                     field.set(obj, cell.booleanCellValue)
@@ -47,6 +66,21 @@ class PoiRowToEntity {
                     println("cell type error in cell: $cell")
                 }
             }
+        }
+
+        private fun excelCellToBean(serial: String, type: Class<*>?): Any? {
+            if (type == Int::class.java) {
+                var res = 0
+                try {
+                    res = Integer.parseInt(serial)
+                } catch (e: Exception) {
+                    println(e.message)
+                }
+                return res
+            } else if (type == Boolean::class.java) {
+                return serial.lowercase(Locale.getDefault()) == "true" || serial.trim() == "1"
+            }
+            return null
         }
     }
 }

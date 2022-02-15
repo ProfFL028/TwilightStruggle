@@ -14,6 +14,6 @@ annotation class XlsxSheet(val value: String)
 annotation class XlsxField(val columnIndex: Int)
 
 @Documented
-@Target(AnnotationTarget.FIELD)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class XlsxCompositeField(val from: Int, val to: Int)
+annotation class XlsxCompositeField(val from: Int, val to: Int, val rel:Boolean=false)
