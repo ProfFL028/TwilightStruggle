@@ -16,6 +16,12 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: poiVersion
 
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-core
+    implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.6.5.Final'
+
+    implementation "com.github.junrar:junrar:7.4.1"
+
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
