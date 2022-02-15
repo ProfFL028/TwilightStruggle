@@ -25,6 +25,13 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.flink/flink-clients
     implementation group: 'org.apache.flink', name: 'flink-clients_2.12', version: '1.14.3'
 
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-table-api-java-bridge
+    implementation group: 'org.apache.flink', name: 'flink-table-api-java-bridge_2.12', version: '1.14.3'
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-table-common
+    implementation group: 'org.apache.flink', name: 'flink-table-common', version: '1.14.3'
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-table-planner
+    implementation group: 'org.apache.flink', name: 'flink-table-planner_2.12', version: '1.14.3'
+
 
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.1'
