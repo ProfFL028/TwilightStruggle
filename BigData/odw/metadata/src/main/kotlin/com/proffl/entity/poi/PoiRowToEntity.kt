@@ -8,18 +8,21 @@ import java.util.*
 
 class PoiRowToEntity {
     companion object {
-        fun <T> rowToEntity(row: Row, clz: Class<T>):T {
+        fun <T> rowToEntity(row: Row, clz: Class<T>, relIdx: Int=0):T {
             val obj = clz.newInstance()
             for (field in clz.declaredFields) {
                 field.isAccessible = true
 
                 if (field.getDeclaredAnnotation(XlsxField::class.java) != null) {
                     val fieldAnnotation = field.getDeclaredAnnotation(XlsxField::class.java) as XlsxField
-                    setField(obj, field, row.getCell(fieldAnnotation.columnIndex))
+                    setField(obj, field, row.getCell(fieldAnnotation.columnIndex + relIdx))
                 } else if (field.getDeclaredAnnotation(XlsxCompositeField::class.java) != null) {
+                    var compositeField =  field.getDeclaredAnnotation(XlsxCompositeField::class.java)
+                    val newRelIdx = if (compositeField.rel) relIdx + compositeField.from else 0
                     val fieldClz = field.type
-                    val subObj = rowToEntity(row, fieldClz)
+                    val subObj = rowToEntity(row, fieldClz, newRelIdx)
                     field.set(obj, subObj)
+
                 }
             }
 
