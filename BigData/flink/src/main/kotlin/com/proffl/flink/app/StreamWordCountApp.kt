@@ -6,8 +6,7 @@ import org.apache.flink.api.java.utils.ParameterTool
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
 import org.apache.flink.util.OutputTag
 
-class StreamWordCountApp {
-}
+class StreamWordCountApp
 
 class WordCountKeySelector: KeySelector<Tuple2<String, Int>, String> {
     override fun getKey(value: Tuple2<String, Int>): String {

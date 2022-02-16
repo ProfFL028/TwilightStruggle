@@ -17,7 +17,7 @@ class InputMessageDeserializationSchema : DeserializationSchema<InputMessage> {
         try {
             return objMapper.readValue(message, InputMessage::class.java)
         } catch(e:Exception) {
-            return InputMessage("system", "output", LocalDateTime.now(), "Parse Error!!");
+            return InputMessage("system", "output", LocalDateTime.now(), "Parse Error!!")
         }
     }
 

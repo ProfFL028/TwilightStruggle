@@ -7,8 +7,7 @@ import java.time.temporal.ChronoField
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalField
 
-class CollectionSourceApp {
-}
+class CollectionSourceApp
 
 fun main() {
     var env = StreamExecutionEnvironment.getExecutionEnvironment()
