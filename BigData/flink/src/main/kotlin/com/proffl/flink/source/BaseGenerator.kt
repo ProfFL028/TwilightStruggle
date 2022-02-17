@@ -21,8 +21,9 @@ abstract class BaseGenerator<T>(var maxRecordsPerSecond: Int=-1) : RichParallelS
 
         while (running) {
             id += tasks
+            var event = randomEvent(rnd, id)
             synchronized(obj) {
-                ctx.collect(randomEvent(rnd, id))
+                ctx.collect(event)
             }
             throttle.throttle()
         }
