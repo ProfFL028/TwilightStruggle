@@ -29,7 +29,7 @@ class Parameters(val tool: ParameterTool) {
 
         // Kafka:
         val KAFKA_HOST: Param<String> = Param.string("kafka-host", "localhost")
-        val KAFKA_PORT: Param<Int> = Param.integer("kafka-port", 9092)
+        val KAFKA_PORT: Param<Integer> = Param.integer("kafka-port", Integer(9092))
 
         val DATA_TOPIC: Param<String> = Param.string("data-topic", "livetransactions")
         val ALERTS_TOPIC: Param<String> = Param.string("alerts-topic", "alerts")
@@ -48,7 +48,7 @@ class Parameters(val tool: ParameterTool) {
             Param.string("pubsub-rules-export", "current-rules-demo")
 
         // Socket
-        val SOCKET_PORT: Param<Int> = Param.integer("pubsub-rules-export", 9999)
+        val SOCKET_PORT: Param<Integer> = Param.integer("pubsub-rules-export", Integer(9999))
 
         // General:
         //    source/sink types: kafka / pubsub / socket
@@ -58,17 +58,17 @@ class Parameters(val tool: ParameterTool) {
         val LATENCY_SINK: Param<String> = Param.string("latency-sink", "STDOUT")
         val RULES_EXPORT_SINK: Param<String> = Param.string("rules-export-sink", "STDOUT")
 
-        val RECORDS_PER_SECOND: Param<Int> = Param.integer("records-per-second", 2)
+        val RECORDS_PER_SECOND: Param<Integer> = Param.integer("records-per-second", Integer(2))
 
         val LOCAL_MODE_DISABLE_WEB_UI = "-1"
 
         val LOCAL_EXECUTION: Param<String> = Param.string("local", LOCAL_MODE_DISABLE_WEB_UI)
 
-        val SOURCE_PARALLELISM: Param<Int> = Param.integer("source-parallelism", 2)
-        val SINK_PARALLELISM: Param<Int> = Param.integer("sink-parallelism", 1)
-        val CHECKPOINT_INTERVAL: Param<Int> = Param.integer("checkpoint-interval", 600000)
-        val MIN_PAUSE_BETWEEN_CHECKPOINTS: Param<Int> = Param.integer("min-pause-btwn-checkpoints", 600000)
-        val OUT_OF_ORDERNESS: Param<Int> = Param.integer("out-of-orderdness", 500)
+        val SOURCE_PARALLELISM: Param<Integer> = Param.integer("source-parallelism", Integer(2))
+        val SINK_PARALLELISM: Param<Integer> = Param.integer("sink-parallelism", Integer(1))
+        val CHECKPOINT_INTERVAL: Param<Integer> = Param.integer("checkpoint-interval", Integer(600000))
+        val MIN_PAUSE_BETWEEN_CHECKPOINTS: Param<Integer> = Param.integer("min-pause-btwn-checkpoints", Integer(600000))
+        val OUT_OF_ORDERNESS: Param<Integer> = Param.integer("out-of-orderdness", Integer(500))
 
         //  List<Param> list = Arrays.asList(new String[]{"foo", "bar"});
 
@@ -94,7 +94,7 @@ class Parameters(val tool: ParameterTool) {
             RULES_EXPORT_SINK
         )
 
-        val INT_PARAMS: List<Param<Int>> = Arrays.asList<Param<Int>>(
+        val INT_PARAMS: List<Param<Integer>> = Arrays.asList<Param<Integer>>(
             KAFKA_PORT,
             SOCKET_PORT,
             RECORDS_PER_SECOND,

@@ -10,8 +10,8 @@ data class Param<T>(
             return Param(name, String::class.java, defaultValue)
         }
 
-        fun integer(name: String, defaultValue: Int): Param<Int> {
-            return Param(name, Int::class.java, defaultValue)
+        fun integer(name: String, defaultValue: Integer): Param<Integer> {
+            return Param(name, Integer::class.java, defaultValue)
         }
 
         fun bool(name: String, defaultValue: Boolean): Param<Boolean> {

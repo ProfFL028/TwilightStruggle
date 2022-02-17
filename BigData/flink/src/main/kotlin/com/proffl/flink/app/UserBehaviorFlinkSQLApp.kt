@@ -7,6 +7,7 @@ import org.apache.flink.api.common.eventtime.WatermarkStrategy
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
 import org.apache.flink.table.api.DataTypes
 import org.apache.flink.table.api.EnvironmentSettings
+import org.apache.flink.table.api.Expressions.`$`
 import org.apache.flink.table.api.Schema
 import org.apache.flink.table.api.Slide
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment

@@ -3,7 +3,7 @@ package com.proffl.flink.config
 class Config(
     inputParams: Parameters,
     stringParams: List<Param<String>>,
-    intParams: List<Param<Int>>,
+    intParams: List<Param<Integer>>,
     boolParams: List<Param<Boolean>>
 ) {
     private val values: MutableMap<Param<*>, Any> = HashMap()

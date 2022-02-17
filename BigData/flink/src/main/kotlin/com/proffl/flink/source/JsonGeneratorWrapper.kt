@@ -5,10 +5,11 @@ import java.util.*
 
 class JsonGeneratorWrapper<T>(
     var wrappedGenerator: BaseGenerator<T>
-): BaseGenerator<String>() {
+) : BaseGenerator<String>() {
     init {
         this.maxRecordsPerSecond = wrappedGenerator.maxRecordsPerSecond
     }
+
     companion object {
         private val objectMapper = ObjectMapper()
     }

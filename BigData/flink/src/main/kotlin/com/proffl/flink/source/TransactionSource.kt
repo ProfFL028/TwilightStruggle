@@ -17,11 +17,11 @@ import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumerBase
 
 class TransactionSource {
     companion object {
-        fun createTransactionSource(config: Config): SourceFunction<String> {
+        fun createTransactionSource(config: Config): SourceFunction<String>? {
             val sourceType = config.get(TRANSACTIONS_SOURCE)
             val transactionSourceType = Type.valueOf(sourceType.uppercase())
 
-            return if (transactionSourceType == Type.KAFKA) {
+             if (transactionSourceType == Type.KAFKA) {
                 val properties = KafkaUtils.initConsumerProperties(config)
                 val transactionTopic = config.get(DATA_TOPIC)
                 val kafkaConsumer =  FlinkKafkaConsumer(transactionTopic, SimpleStringSchema(), properties)
@@ -31,10 +31,10 @@ class TransactionSource {
         //                    .setProperties(properties)
         //                    .build()
                 kafkaConsumer.setStartFromLatest()
-                kafkaConsumer
+                return kafkaConsumer
             } else {
-                val transactionPerSecond = config.get(RECORDS_PER_SECOND)
-                JsonGeneratorWrapper(TransactionGenerator(transactionPerSecond))
+                val transactionPerSecond = config.get(RECORDS_PER_SECOND).toInt()
+                return JsonGeneratorWrapper(TransactionGenerator(transactionPerSecond))
             }
         }
     }

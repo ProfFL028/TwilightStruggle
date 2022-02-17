@@ -9,19 +9,29 @@ import org.apache.flink.runtime.state.FunctionSnapshotContext
 import org.apache.flink.streaming.api.checkpoint.CheckpointedFunction
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction
 import org.apache.flink.streaming.api.functions.source.SourceFunction
-import org.apache.flink.util.Preconditions
-import java.util.SplittableRandom
+import java.util.*
 
-abstract class BaseGenerator<T>(
-    var maxRecordsPerSecond: Int = -1
-): RichParallelSourceFunction<T>(), CheckpointedFunction {
-    companion object {
-        private const val serialVersionUID = 1L
+abstract class BaseGenerator<T>(var maxRecordsPerSecond: Int=-1) : RichParallelSourceFunction<T>(), CheckpointedFunction {
+    override fun run(ctx: SourceFunction.SourceContext<T>) {
+        val tasks = runtimeContext.numberOfParallelSubtasks
+        val throttle = Throttle(maxRecordsPerSecond, tasks)
+        val rnd = SplittableRandom()
+
+        var obj = ctx.checkpointLock
+
+        while (running) {
+            id += tasks
+            synchronized(obj) {
+                ctx.collect(randomEvent(rnd, id))
+            }
+            throttle.throttle()
+        }
     }
 
-    init {
-        Preconditions.checkArgument(maxRecordsPerSecond == -1 || maxRecordsPerSecond > 0,
-            "maxRecordsPerSecond should be -1(infinite) or > 0")
+    abstract fun randomEvent(rnd: SplittableRandom, id: Long): T
+
+    override fun cancel() {
+        running = false
     }
 
     override fun open(parameters: Configuration?) {
@@ -31,29 +41,8 @@ abstract class BaseGenerator<T>(
         }
     }
 
-    override fun run(ctx: SourceFunction.SourceContext<T>) {
-        val numberOfParallelSubtasks = runtimeContext.numberOfParallelSubtasks
-        val throttle = Throttle(maxRecordsPerSecond, numberOfParallelSubtasks)
-        val rnd = SplittableRandom()
-
-        val obj = ctx.checkpointLock
-
-        while (running) {
-            val event = randomEvent(rnd, id)
-
-            synchronized(obj) {
-                if (event != null) {
-                    ctx.collect(event)
-                }
-                id += numberOfParallelSubtasks
-            }
-
-            throttle.throttle()
-        }
-    }
-
-    override fun cancel() {
-        this.running = false
+    override fun initializeState(context: FunctionInitializationContext) {
+        idState = context.operatorStateStore.getUnionListState(ListStateDescriptor("idState", BasicTypeInfo.LONG_TYPE_INFO))
     }
 
     override fun snapshotState(context: FunctionSnapshotContext?) {
@@ -61,13 +50,7 @@ abstract class BaseGenerator<T>(
         idState.add(id)
     }
 
-    override fun initializeState(context: FunctionInitializationContext) {
-        idState = context.operatorStateStore.getUnionListState(ListStateDescriptor("ids", BasicTypeInfo.LONG_TYPE_INFO))
-    }
-
-    abstract fun randomEvent(rnd: SplittableRandom, id: Long): T
-
-    @Volatile private var running: Boolean = false
-    private var id: Long = -1
-    @Transient private lateinit var idState: ListState<Long>
+    private var id = -1L
+    private lateinit var idState: ListState<Long>
+    private var running = true
 }
