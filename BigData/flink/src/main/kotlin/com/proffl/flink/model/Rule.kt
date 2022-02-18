@@ -1,6 +1,8 @@
 package com.proffl.flink.model
 
+import org.apache.flink.api.common.state.MapStateDescriptor
 import org.apache.flink.api.common.time.Time
+import org.apache.flink.api.common.typeinfo.TypeInformation
 import java.math.BigDecimal
 
 data class Rule(
@@ -53,4 +55,7 @@ data class Rule(
         CLEAR_STATE_ALL, DELETE_RULES_ALL, EXPORT_RULES_CURRENT
     }
 
+    companion object {
+        var ruleDescriptor = MapStateDescriptor("rules", TypeInformation.of(Integer::class.java), TypeInformation.of(Rule::class.java))
+    }
 }

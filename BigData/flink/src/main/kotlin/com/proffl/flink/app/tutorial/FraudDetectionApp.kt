@@ -8,11 +8,13 @@ import com.proffl.flink.config.Parameters.Companion.MIN_PAUSE_BETWEEN_CHECKPOINT
 import com.proffl.flink.config.Parameters.Companion.OUT_OF_ORDERNESS
 import com.proffl.flink.config.Parameters.Companion.RECORDS_PER_SECOND
 import com.proffl.flink.model.Rule
+import com.proffl.flink.model.Rule.Companion.ruleDescriptor
 import com.proffl.flink.model.Transaction
 import com.proffl.flink.source.*
 import com.proffl.flink.source.RulesStaticJsonGenerator.Companion.RULES
 import com.proffl.flink.times.SimpleBoundedOutOfOrdernessTimestampExtractor
 import org.apache.flink.api.common.eventtime.*
+import org.apache.flink.streaming.api.datastream.BroadcastStream
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
 import java.time.Duration
 
@@ -27,6 +29,7 @@ fun main(args: Array<String>) {
 
     var ruleStringStream = env.addSource(RuleSource.createRolesSource(config)).setParallelism(1)
     var ruleStream = RuleSource.stringSourceToRules(ruleStringStream)
+    val rulesStream =  ruleStream.broadcast(ruleDescriptor)
 
     var transactionsStringStream = env.addSource(TransactionSource.createTransactionSource(config)).name("transaction source")
     var transactionStream = TransactionSource.stringsToTransaction(transactionsStringStream)
