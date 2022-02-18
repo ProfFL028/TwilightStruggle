@@ -52,7 +52,7 @@ class Parameters(val tool: ParameterTool) {
 
         // General:
         //    source/sink types: kafka / pubsub / socket
-        val RULES_SOURCE: Param<String> = Param.string("rules-source", "SOCKET")
+        val RULES_SOURCE: Param<String> = Param.string("rules-source", "STATIC") // SOCKET
         val TRANSACTIONS_SOURCE: Param<String> = Param.string("data-source", "GENERATOR")
         val ALERTS_SINK: Param<String> = Param.string("alerts-sink", "STDOUT")
         val LATENCY_SINK: Param<String> = Param.string("latency-sink", "STDOUT")

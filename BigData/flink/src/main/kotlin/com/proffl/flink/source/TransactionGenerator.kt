@@ -1,6 +1,7 @@
 package com.proffl.flink.source
 
 import com.proffl.flink.model.Transaction
+import org.slf4j.LoggerFactory
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.math.floor
@@ -9,13 +10,17 @@ class TransactionGenerator(maxRecordsPerSecond: Int=-1) : BaseGenerator<Transact
     override fun randomEvent(rnd: SplittableRandom, id: Long): Transaction {
         var transaction = Transaction()
         transaction.transactionId = id
-        transaction.payeeId = rnd.nextLong(MAX_PAYEE_ID)
-        transaction.beneficiaryId = rnd.nextLong(MAX_BENEFICIARY_ID)
-        var paymentAmountDouble = ThreadLocalRandom.current().nextDouble(MIN_PAYMENT_AMOUNT, MAX_PAYMENT_AMOUNT)
-        transaction.paymentAmount = (floor(paymentAmountDouble * 100) / 100).toBigDecimal()
-        transaction.paymentType = paymentType(transaction.transactionId)
-        transaction.eventTime = System.currentTimeMillis()
-        transaction.ingestionTimestamp = System.currentTimeMillis()
+        try {
+            transaction.payeeId = rnd.nextLong(MAX_PAYEE_ID)
+            transaction.beneficiaryId = rnd.nextLong(MAX_BENEFICIARY_ID)
+            var paymentAmountDouble = ThreadLocalRandom.current().nextDouble(MIN_PAYMENT_AMOUNT, MAX_PAYMENT_AMOUNT)
+            transaction.paymentAmount = (floor(paymentAmountDouble * 100) / 100).toBigDecimal()
+            transaction.paymentType = paymentType(transaction.transactionId)
+            transaction.eventTime = System.currentTimeMillis()
+            transaction.ingestionTimestamp = System.currentTimeMillis()
+        } catch (e: Exception) {
+
+        }
         return transaction
     }
 

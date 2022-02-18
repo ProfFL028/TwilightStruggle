@@ -1,20 +1,17 @@
 package com.proffl.flink.source
 
-import com.fasterxml.jackson.databind.JsonNode
 import com.proffl.flink.config.Config
 import com.proffl.flink.config.KafkaUtils
 import com.proffl.flink.config.Parameters.Companion.DATA_TOPIC
 import com.proffl.flink.config.Parameters.Companion.RECORDS_PER_SECOND
 import com.proffl.flink.config.Parameters.Companion.TRANSACTIONS_SOURCE
 import com.proffl.flink.model.Transaction
+import com.proffl.flink.times.TimeStamper
+import com.proffl.flink.stream.JsonDeserialize
 import org.apache.flink.api.common.serialization.SimpleStringSchema
-import org.apache.flink.connector.kafka.source.KafkaSource
-import org.apache.flink.connector.kafka.source.KafkaSourceBuilder
-import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer
 import org.apache.flink.streaming.api.datastream.DataStream
 import org.apache.flink.streaming.api.functions.source.SourceFunction
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumerBase
 
 class TransactionSource {
     companion object {
@@ -37,6 +34,13 @@ class TransactionSource {
                 val transactionPerSecond = config.get(RECORDS_PER_SECOND).toInt()
                 return JsonGeneratorWrapper(TransactionGenerator(transactionPerSecond))
             }
+        }
+
+        fun stringsToTransaction(transactionsStringStream: DataStream<String>): DataStream<Transaction> {
+            return transactionsStringStream.flatMap(JsonDeserialize(Transaction::class.java))
+                .returns(Transaction::class.java)
+                .returns(Transaction::class.java)
+                .name("Transaction Object")
         }
     }
 
