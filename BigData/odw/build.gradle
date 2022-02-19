@@ -23,6 +23,50 @@ allprojects {
             indentWithSpaces(4)
             endWithNewline()
         }
+
+        kotlinGradle {
+            target '*.gradle.kts' // default target for kotlinGradle
+            ktlint() // or ktfmt() or prettier()
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    repositories {
+        // maven { url 'https://maven.aliyun.com/repository/public/' }
+        mavenCentral()
+        maven {
+            url 'https://repository.apache.org/content/repositories/snapshots'
+            mavenContent {
+                snapshotsOnly()
+            }
+        }
+    }
+
+    dependencies {
+        // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+        implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.1'
+        // https://mvnrepository.com/artifact/org.apache.flink/flink-java
+        implementation group: 'org.apache.flink', name: 'flink-java', version: flinkVersion
+        // https://mvnrepository.com/artifact/org.apache.flink/flink-core
+        compileOnly group: 'org.apache.flink', name: 'flink-core', version: flinkVersion
+        // https://mvnrepository.com/artifact/org.apache.flink/flink-streaming-java
+        compileOnly group: 'org.apache.flink', name: 'flink-streaming-java_2.12', version: flinkVersion
+        // https://mvnrepository.com/artifact/org.apache.flink/flink-connector-kafka
+        implementation group: 'org.apache.flink', name: 'flink-connector-kafka_2.12', version: flinkVersion
+        // https://mvnrepository.com/artifact/org.apache.flink/flink-clients
+        implementation group: 'org.apache.flink', name: 'flink-clients_2.12', version: flinkVersion
+        implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    }
+
+    spotless {
         kotlin {
             // by default the target is every '.kt' and '.kts` file in the java sourcesets
             ktfmt()    // has its own section below
@@ -31,35 +75,19 @@ allprojects {
             prettier() // has its own section below
             licenseHeader '/* (C)$YEAR */' // or licenseHeaderFile
         }
-        kotlinGradle {
-            target '*.gradle.kts' // default target for kotlinGradle
-            ktlint() // or ktfmt() or prettier()
+    }
+
+    jar {
+        manifest {
+            attributes 'Built-By': System.getProperty('user.name'),
+                    'Build-Jdk': System.getProperty('java.version')
         }
     }
 }
 
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-
-    // https://mvnrepository.com/artifact/org.apache.flink/flink-java
-    implementation group: 'org.apache.flink', name: 'flink-java', version: flinkVersion
-    // https://mvnrepository.com/artifact/org.apache.flink/flink-core
-    compileOnly group: 'org.apache.flink', name: 'flink-core', version: flinkVersion
-    // https://mvnrepository.com/artifact/org.apache.flink/flink-streaming-java
-    compileOnly group: 'org.apache.flink', name: 'flink-streaming-java_2.12', version: flinkVersion
-    // https://mvnrepository.com/artifact/org.apache.flink/flink-connector-kafka
-    implementation group: 'org.apache.flink', name: 'flink-connector-kafka_2.12', version: flinkVersion
-    // https://mvnrepository.com/artifact/org.apache.flink/flink-clients
-    implementation group: 'org.apache.flink', name: 'flink-clients_2.12', version: flinkVersion
-
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:${junitVersion}'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:${junitVersion}'
 }
 
 test {
