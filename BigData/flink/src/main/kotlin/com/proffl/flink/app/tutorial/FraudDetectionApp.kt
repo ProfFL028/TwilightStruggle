@@ -58,6 +58,13 @@ fun main(args: Array<String>) {
         .name("Dynamic Rule Evaluation Function");
 
     alertStream.print()
+
+    val latency = alertStream.getSideOutput(Rule.latencySinkTag)
+    var currentRules = alertStream.getSideOutput(Rule.currentRulesSinkTag)
+
+    latency.print()
+    currentRules.print()
+
     env.execute()
 }
 
