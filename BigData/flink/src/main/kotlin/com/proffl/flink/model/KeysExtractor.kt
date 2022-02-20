@@ -30,7 +30,8 @@ class FieldsExtractor {
     companion object {
         fun getFieldAsString(obj: Any, fieldName: String): String {
             val clz = obj::class.java
-            val field = clz.getField(fieldName)
+            val field = clz.getDeclaredField(fieldName)
+            field.isAccessible = true
             return field.get(obj).toString()
         }
 
