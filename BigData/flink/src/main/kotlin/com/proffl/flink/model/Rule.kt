@@ -1,8 +1,15 @@
 package com.proffl.flink.model
 
+import com.proffl.flink.operator.agg.AverageAccumulator
+import com.proffl.flink.operator.agg.BigDecimalCounter
+import com.proffl.flink.operator.agg.BigDecimalMaximum
+import com.proffl.flink.operator.agg.BigDecimalMinimum
+import org.apache.flink.api.common.accumulators.SimpleAccumulator
 import org.apache.flink.api.common.state.MapStateDescriptor
 import org.apache.flink.api.common.time.Time
 import org.apache.flink.api.common.typeinfo.TypeInformation
+import org.apache.flink.api.common.typeinfo.Types
+import org.apache.flink.util.OutputTag
 import java.math.BigDecimal
 
 data class Rule(
@@ -17,7 +24,9 @@ data class Rule(
     var controlType: ControlType = ControlType.CLEAR_STATE_ALL
 ) {
     val windowMillis: Long
-        get() { return Time.minutes(windowMinutes).toMilliseconds() }
+        get() {
+            return Time.minutes(windowMinutes).toMilliseconds()
+        }
 
     fun apply(comparisonValue: BigDecimal): Boolean {
         return when (limitOperatorType) {
@@ -56,6 +65,23 @@ data class Rule(
     }
 
     companion object {
-        var ruleDescriptor = MapStateDescriptor("rules", TypeInformation.of(Integer::class.java), TypeInformation.of(Rule::class.java))
+        val ruleDescriptor =
+            MapStateDescriptor("rules", TypeInformation.of(Integer::class.java), TypeInformation.of(Rule::class.java))
+
+        val latencySinkTag = OutputTag<Long>("latency-sink", Types.LONG)
+        val currentRulesSinkTag = OutputTag<Rule>("current-rules-sink", TypeInformation.of(Rule::class.java))
+    }
+}
+
+class RuleHelper {
+    companion object {
+        fun getAggregator(rule: Rule): SimpleAccumulator<BigDecimal> {
+            return when (rule.aggregatorFunctionType) {
+                Rule.AggregatorFunctionType.SUM -> BigDecimalCounter()
+                Rule.AggregatorFunctionType.AVG -> AverageAccumulator()
+                Rule.AggregatorFunctionType.MAX -> BigDecimalMaximum()
+                Rule.AggregatorFunctionType.MIN -> BigDecimalMinimum()
+            }
+        }
     }
 }

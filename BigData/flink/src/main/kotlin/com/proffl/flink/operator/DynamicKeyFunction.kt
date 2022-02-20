@@ -18,6 +18,7 @@ class DynamicKeyFunction : BroadcastProcessFunction<Transaction, Rule, Keyed<Tra
         private val log = LoggerFactory.getLogger(DynamicKeyFunction::class.java)
     }
 
+    // https://nightlies.apache.org/flink/flink-docs-master/docs/ops/metrics/
     private lateinit var ruleCounterGauge: RuleCounterGauge
 
     override fun open(parameters: Configuration?) {

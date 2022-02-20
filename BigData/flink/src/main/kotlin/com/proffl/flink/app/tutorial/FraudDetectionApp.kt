@@ -12,6 +12,7 @@ import com.proffl.flink.model.KeyedKeySelector
 import com.proffl.flink.model.Rule
 import com.proffl.flink.model.Rule.Companion.ruleDescriptor
 import com.proffl.flink.model.Transaction
+import com.proffl.flink.operator.DynamicAlertFunction
 import com.proffl.flink.operator.DynamicKeyFunction
 import com.proffl.flink.source.*
 import com.proffl.flink.source.RulesStaticJsonGenerator.Companion.RULES
@@ -45,15 +46,18 @@ fun main(args: Array<String>) {
             Duration.ofMillis(config.get(OUT_OF_ORDERNESS).toLong()))
             .withTimestampAssigner { event, _ -> event.eventTime })
 
-    val key1 = transactionStream.connect(rulesStream).process(DynamicKeyFunction()).uid("DynamicKeyFunction")
+    val alertStream = transactionStream.connect(rulesStream).process(DynamicKeyFunction()).uid("DynamicKeyFunction")
         .name("Dynamic Partitioning Function")
         .returns(TypeInformation.of(
             KeyedTypeHint()
         ))
         .keyBy(KeyedKeySelector())
-        // .connect(rulesStream).process()
+        // .keyBy {event -> event.key} // currently not supported by kotlin
+        .connect(rulesStream).process(DynamicAlertFunction())
+        .uid("DynamicAlertFunction")
+        .name("Dynamic Rule Evaluation Function");
 
-    key1.print()
+    alertStream.print()
     env.execute()
 }
 

@@ -36,17 +36,20 @@ class FieldsExtractor {
         }
 
         fun getDoubleByName(obj: Any, fieldName: String): Double {
-            val field = obj::class.java.getField(fieldName)
+            val field = obj::class.java.getDeclaredField(fieldName)
+            field.isAccessible = true
             return field.getDouble(obj)
         }
 
         fun getBigDecimalByName(obj: Any, fieldName: String): BigDecimal {
-            val field = obj::class.java.getField(fieldName)
+            val field = obj::class.java.getDeclaredField(fieldName)
+            field.isAccessible = true
             return BigDecimal(field.get(obj).toString())
         }
 
         fun <T> getByKeyAs(obj: Any, keyName: String): T {
-            val field = obj::class.java.getField(keyName)
+            val field = obj::class.java.getDeclaredField(keyName)
+            field.isAccessible = true
             return field.get(obj) as T
         }
 
