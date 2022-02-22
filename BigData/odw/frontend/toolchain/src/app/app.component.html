@@ -1,0 +1,7 @@
+<input type="file"
+       appReadExcel
+       #readExcel="readExcel"/>
+
+<div [innerHtml]="readExcel.excelObservable | async" style="overflow:scroll; height:400px;" >
+
+</div>
