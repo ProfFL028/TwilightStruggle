@@ -3,13 +3,16 @@ import java.util.*
 
 fun main(args: Array<String>) {
     fun solve(input: Scanner) {
-        val MAX = 150000
+        val MAX = 10
         val numCounts = input.nextInt()
         val numArr = Array(MAX + 1) { 0 }
         val bakArr = Array(MAX + 1) { 0 }
         var maxCount = 0
         for (i in 0 until numCounts) {
             val num = input.nextInt() - 1
+            if (num > MAX || num < 0) {
+                continue
+            }
             bakArr[num] = 1
             if (numArr[num] == 0) {
                 numArr[num] = 1
