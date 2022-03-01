@@ -1,4 +1,4 @@
-package me.proffl
+package me.proffl.job
 
 import me.proffl.entity.Alert
 import me.proffl.entity.Transaction
