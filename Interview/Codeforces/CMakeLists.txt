@@ -3,6 +3,11 @@ project(Codeforces)
 
 set(CMAKE_CXX_STANDARD 14)
 
+add_executable(
+        InputGenerator
+        "inputGenerator.cpp"
+)
+
 file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/strings/*.cpp")
 foreach (file ${files})
     string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
