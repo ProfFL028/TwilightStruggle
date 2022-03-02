@@ -1,0 +1,60 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+    id 'java'
+}
+
+ext {
+    kafkaVersion = '2.7.0'
+}
+
+group 'me.proffl'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenCentral()
+    // maven repository for avro serdes
+    maven {
+        url "https://packages.confluent.io/maven/"
+    }
+}
+
+dependencies {
+
+    implementation "org.apache.kafka:kafka-streams:${kafkaVersion}"
+
+    // required for JSON serializer
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    // required for schema-registry-compatible Avro Serdes
+    implementation ('io.confluent:kafka-streams-avro-serde:6.0.1') {
+        // this was required for the 2.7 upgrade, since the kafka-streams-avro-serde
+        // pulls in an incompatible transitive dependency (org.apache.kafka:kafka-clients:6.0.1-ccs)
+        exclude group: 'org.apache.kafka', module: 'kafka-clients'
+    }
+
+    // required for registryless Avro
+    implementation 'org.apache.avro:avro:1.8.2'
+    implementation 'com.mitchseymour:kafka-registryless-avro-serdes:1.0.0'
+
+    // required for sentiment analysis
+    implementation 'com.google.cloud:google-cloud-language:1.67.0'
+
+    // required for language translation
+    implementation 'com.google.cloud:google-cloud-translate:1.94.5'
+    implementation 'com.google.cloud:libraries-bom:3.4.0@pom'
+
+    // logging
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+
+    // test dependencies
+    testImplementation "org.apache.kafka:kafka-streams-test-utils:${kafkaVersion}"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
