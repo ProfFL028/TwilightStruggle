@@ -1,13 +1,17 @@
 package me.proffl.app
 
+import me.proffl.entity.Tweet
+import me.proffl.json.CommonSerdes
 import me.proffl.util.KafkaUtil
+import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.KafkaStreams
 import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.Topology
+import org.apache.kafka.streams.kstream.Consumed
 import org.apache.kafka.streams.kstream.Printed
 
 fun main() {
-    val topology = buildV1()
+    val topology = buildV2()
 
     val streams = KafkaStreams(topology, KafkaUtil.getDefaultConfig(id="dev"))
 
@@ -23,3 +27,12 @@ fun buildV1(): Topology {
     stream.print(Printed.toSysOut<Array<Byte>?, Array<Byte>?>().withLabel("tweets-stream"))
     return builder.build()
 }
+
+fun buildV2(): Topology {
+    val builder = StreamsBuilder()
+    val stream = builder.stream("tweets", Consumed.with(Serdes.ByteArray(), CommonSerdes(Tweet::class.java)))
+    stream.print(Printed.toSysOut<ByteArray, Tweet>().withLabel("tweets-stream"))
+
+    return builder.build()
+}
+
