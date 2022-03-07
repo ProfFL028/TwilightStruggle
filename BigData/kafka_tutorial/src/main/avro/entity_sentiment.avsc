@@ -1,0 +1,36 @@
+{
+  "namespace": "me.proffl.model",
+  "name": "EntitySentiment",
+  "type": "record",
+  "fields": [
+    {
+      "name": "created_at",
+      "type": "long"
+    },
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "entity",
+      "type": "string"
+    },
+    {
+      "name": "text",
+      "type": "string"
+    },
+    {
+      "name": "sentiment_score",
+      "type": "double"
+    },
+    {
+      "name": "sentiment_magnitude",
+      "type": "double"
+    },
+    {
+      "name": "salience",
+      "type": "double"
+    }
+  ]
+}
+
