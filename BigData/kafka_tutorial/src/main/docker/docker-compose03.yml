@@ -42,3 +42,14 @@ services:
     working_dir: /scripts
     volumes:
     - ./scripts:/scripts
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:6.0.0
+    depends_on:
+      - zookeeper
+      - kafka
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:32181
+    ports:
+      - "8081:8081"
