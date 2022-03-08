@@ -43,3 +43,7 @@ val streams = KafkaStreams(topology, KafkaUtil.getDefaultConfig())
 streams.start()
 Runtime.getRuntime().addShutdownHook(Thread(streams::close))
 ```
+
+## Failed to rebalance error in Kafka Streams with more than one topic partition
+
+add data to kafka source would fix the problem.
