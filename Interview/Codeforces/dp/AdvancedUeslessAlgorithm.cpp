@@ -1,116 +1,56 @@
-#include <bits/stdc++.h>
-
+#include<cstdio>
+#include<cstring>
+#include<vector>
+#include<iostream>
+#include<algorithm>
+#define MEM(obj) (int)sizeof(obj)
+#define REP(i,l,r) for(int i=l;i<r;i++)
 using namespace std;
+template<typename T>void sa(T&s){for(auto e:s)cout<<e<<" ";}
 
-//gcc optimization
-#pragma GCC optimize("Ofast")
-#pragma GCC optimize "trapv"
-#define fast(); ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-typedef long long ll;
-typedef unsigned long long ull;
-typedef long double lld;
-
-struct Classroom {
-    ll id;
-    ll time;
-    ll progress;
-};
-
-struct PathNode {
-    ll cur;
-    ll pre;
-};
-vector<ll> lessonPaths;
-vector<ll> timeElapsed;
-
-ll dpSearch(const vector<Classroom> &classroom) {
-    ll answer = LLONG_MAX;
-
-    ll dp[201];
-    dp[0] = 0;
-    for (int i = 1; i < 200; ++i) {
-        dp[i] = LLONG_MAX;
-    }
-
-    PathNode learningPath[201];
-    learningPath[0] = PathNode{0, -1};
-
-    for (ll i = 0; i < classroom.size(); ++i) {
-        for (ll j = 100; j >= 0; --j) {
-            if (dp[j] != LLONG_MAX) {
-                dp[j + classroom[i].progress] = min(dp[j + classroom[i].progress], dp[j] + classroom[i].time);
-                learningPath[j + classroom[i].progress] = PathNode{i, learningPath[j].cur};
-            }
-        }
-    }
-
-    ll learningIdx = -1;
-    for (ll j = 100; j < 200; ++j) {
-        if (answer > dp[j]) {
-            learningIdx = j;
-            answer = dp[j];
-        }
-    }
-    if (learningIdx > 0) {
-        while (learningPath[learningIdx].pre != -1) {
-            lessonPaths.push_back(classroom[learningPath[learningIdx].cur].id);
-            learningIdx -= classroom[learningPath[learningIdx].cur].progress;
-        }
-    }
-
-    return answer;
-}
-
-void solve() {
-    ll lessonCount, classCount;
-    cin >> lessonCount >> classCount;
-    vector<ll> lessonTimes(lessonCount);
-    for (ll i = 0; i < lessonCount; ++i) {
-        cin >> lessonTimes[i];
-    }
-    vector<vector<Classroom>> classes(lessonCount);
-    for (ll i = 0; i < classCount; ++i) {
-        Classroom classroom{};
-        ll id;
-        cin >> id;
-        classroom.id = i + 1;
-        cin >> classroom.time >> classroom.progress;
-        classes[id-1].push_back(classroom);
-    }
-
-    ll totalTime = 0;
-    for (ll i = 0; i < lessonCount; ++i) {
-        totalTime += dpSearch(classes[i]);
-        if (totalTime > lessonTimes[i]) {
-            cout << "-1" << endl;
-            return;
-        }
-    }
-    cout << lessonPaths.size() << endl;
-    for (auto v: lessonPaths) {
-        cout << v << " ";
-    }
-    cout << endl;
-}
-
+const int INF = 0x3f3f3f3f;
 int main() {
-#ifndef ONLINE_JUDGE
-    freopen("../data/input_AUA.txt", "r", stdin);
-    freopen("../data/output_AUA.txt", "w", stdout);
-    freopen("../data/error_AUA.txt", "w", stderr);
-#endif
-    fast()
-
-    int testCase = 1;
-    cin >> testCase;
-    while (testCase > 0) {
-        solve();
-        testCase--;
+    ios::sync_with_stdio(0); //cin.tie(nullptr);
+    int tt; cin >> tt;
+    while (tt--) {
+        int n, m; cin >> n >> m;
+        vector<int> ddl(n+1);
+        vector<vector<int>> opts(n+1);
+        vector<int> t(m), p(m);
+        REP(i,1,n+1) cin >> ddl[i];
+        REP(i,0,m) {
+            int e;
+            cin >> e >> t[i] >> p[i];
+            opts[e].push_back(i);
+        }
+        //solve
+        vector<int> a;
+        int cur = 0; bool ok = true;
+        REP(i,1,n+1) {
+            auto opt = opts[i]; int sz = opt.size();
+            if (sz == 0) { ok = false; break; }
+            vector<vector<int>> dp(sz, vector<int>(105, INF));
+            REP(i,1,p[opt[0]]+1) dp[0][i] = t[opt[0]];
+            REP(i,0,sz) dp[i][0] = 0;
+            REP(i,1,sz) {
+                int op = opt[i];
+                REP(j,0,101) dp[i][j] = min(dp[i-1][j], dp[i-1][max(0, j-p[op])]+t[op]);
+            }
+            if (dp[sz-1][100] > 1e9 || cur+dp[sz-1][100] > ddl[i]) { ok = false; break; }
+            else cur += dp[sz-1][100];
+            for (int i = sz-1, j = 100, op = opt[i]; i >= 0 && j >= 0; op = opt[--i])
+                if (i == 0 && j) {
+                    a.push_back(opt[0]+1);
+                } else
+                if (i && dp[i][j] == dp[i-1][max(0,j-p[op])]+t[op]) {
+                    a.push_back(op+1); j -= p[op];
+                }
+        }
+        if (ok) {
+            cout << a.size() << endl;
+            REP(i,0,a.size()) cout << a[i] << " ";
+        } else cout << -1;
+        cout <<"\n";
     }
-
-#ifndef ONLINE_JUDGE
-    cout << "\nTime Elapsed : " << 1000 * (lld) clock() / (lld) CLOCKS_PER_SEC
-         << " ms\n";
-#endif
     return 0;
 }
