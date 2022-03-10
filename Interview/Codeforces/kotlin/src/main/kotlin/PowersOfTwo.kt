@@ -37,12 +37,12 @@ fun main() {
 
         val bitset = ArrayList<Int>()
         var i = 0
-        var cur = n
-        while (cur  > 0L) {
-            if (cur % 2L == 1L) {
+        var progress = n
+        while (progress  > 0L) {
+            if (progress % 2L == 1L) {
                 bitset.add(i)
             }
-            cur /= 2L
+            progress /= 2L
             i++
         }
 

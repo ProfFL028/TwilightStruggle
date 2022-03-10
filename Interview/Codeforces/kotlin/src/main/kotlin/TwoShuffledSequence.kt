@@ -8,17 +8,17 @@ fun main(args: Array<String>) {
         var increaseCount = 0
         var decreaseCount = 0
         for (i in 0 until numCounts) {
-            val cur = input.nextInt()
+            val progress = input.nextInt()
 
-            if (increaseVector[cur] == 1) {
-                if (decreaseVector[cur] == 1) {
+            if (increaseVector[progress] == 1) {
+                if (decreaseVector[progress] == 1) {
                     println("NO")
                     return
                 }
-                decreaseVector[cur] = 1
+                decreaseVector[progress] = 1
                 decreaseCount++
             } else {
-                increaseVector[cur] = 1
+                increaseVector[progress] = 1
                 increaseCount++
             }
 
