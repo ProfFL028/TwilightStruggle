@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import java.nio.channels.SelectionKey
 import java.nio.channels.Selector
+import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
 
 /**
@@ -38,14 +39,18 @@ class ChannelFactory {
             }
         }
 
-        fun registerSocketChannel(selector: Selector, host: String, port: Int):SelectionKey {
-            selector.select()
+        fun registerServerSocketChannel(selector: Selector, host: String, port: Int): SelectionKey {
+            val serverSocketChannel = ServerSocketChannel.open()
+            serverSocketChannel.configureBlocking(false)
+            serverSocketChannel.bind(InetSocketAddress(host, port))
+            return serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT)
+        }
+
+        fun registerSocketChannel(selector: Selector, host: String, port: Int): SelectionKey {
             val socketAddress = InetSocketAddress(host, port)
             val socketChannel = SocketChannel.open(socketAddress)
             socketChannel.configureBlocking(false)
-            val selectionKey = socketChannel.register(selector, SelectionKey.OP_CONNECT)
-            selector.wakeup()
-            return selectionKey
+            return socketChannel.register(selector, SelectionKey.OP_CONNECT)
         }
     }
 }
