@@ -43,7 +43,7 @@ class ServerSocket(
         }
     }
 
-    fun accept(key: SelectionKey) {
+    private fun accept(key: SelectionKey) {
         val serverSocketChannel = key.channel() as ServerSocketChannel
         val socketChannel = serverSocketChannel.accept()
         // socketChannel.socket()
@@ -52,12 +52,12 @@ class ServerSocket(
         socketChannel.register(this.selector, SelectionKey.OP_READ)
     }
 
-    fun read(key: SelectionKey) {
+    private fun read(key: SelectionKey) {
         val socketChannel = key.channel() as SocketChannel
         this.readWorker.read(socketChannel)
     }
 
-    fun write(key: SelectionKey) {
+    private fun write(key: SelectionKey) {
         val socketChannel = key.channel() as SocketChannel
         this.writeWorker.write(socketChannel)
     }
