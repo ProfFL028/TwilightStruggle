@@ -6,6 +6,7 @@ import java.nio.channels.SelectionKey
 import java.nio.channels.Selector
 import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
+import java.nio.channels.spi.SelectorProvider
 
 /**
  * Factory class for creating Selector, ServerSocketChannel and SocketChannel.
@@ -22,7 +23,7 @@ class ChannelFactory {
             var tried = 0
             while (true) {
                 try {
-                    return Selector.open()
+                    return SelectorProvider.provider().openSelector()
                 } catch (e: Exception) {
                     logger.error(e.message)
                 }
@@ -33,16 +34,16 @@ class ChannelFactory {
                         logger.error(e.message)
                     }
                     tried++
-                    logger.warn("Open Selector tried $tried times");
+                    logger.warn("Open Selector tried $tried times")
                 }
 
             }
         }
 
-        fun registerServerSocketChannel(selector: Selector, host: String, port: Int): SelectionKey {
+        fun registerServerSocketChannel(selector: Selector, port: Int): SelectionKey {
             val serverSocketChannel = ServerSocketChannel.open()
             serverSocketChannel.configureBlocking(false)
-            serverSocketChannel.bind(InetSocketAddress(host, port))
+            serverSocketChannel.bind(InetSocketAddress(port))
             return serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT)
         }
 

@@ -1,11 +1,13 @@
 package me.proffl.worker
 
 import java.nio.ByteBuffer
+import java.nio.channels.SelectionKey
 import java.nio.channels.SocketChannel
 
 abstract class ChannelReader {
 
-    fun read(channel: SocketChannel) {
+    fun read(key: SelectionKey) {
+        val channel = key.channel() as SocketChannel
         val byteBuffer = ByteBuffer.allocate(1024 * 1024 * 1)
         var bufferSize = -1
         do {
