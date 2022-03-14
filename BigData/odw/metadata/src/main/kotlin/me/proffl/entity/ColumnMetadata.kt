@@ -1,7 +1,7 @@
-package com.proffl.entity
+package me.proffl.entity
 
-import com.proffl.entity.poi.XlsxField
-import com.proffl.entity.poi.XlsxSheet
+import me.proffl.entity.poi.XlsxField
+import me.proffl.entity.poi.XlsxSheet
 import javax.persistence.Column
 
 class ColumnType {

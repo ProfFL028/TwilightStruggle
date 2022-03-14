@@ -1,4 +1,4 @@
-package com.proffl.entity
+package me.proffl.entity
 
 
 class TableMetadata(

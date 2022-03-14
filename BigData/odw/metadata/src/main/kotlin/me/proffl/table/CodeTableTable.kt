@@ -1,7 +1,7 @@
-package com.proffl.table
+package me.proffl.table
 
-import com.proffl.entity.CodeTable
-import com.proffl.entity.CodeTable.Companion.CODE_TABLE_UNKOWN
+import me.proffl.entity.CodeTable
+import me.proffl.entity.CodeTable.Companion.CODE_TABLE_UNKOWN
 
 class CodeTableTable {
     private var codeTables: MutableMap<String, CodeTable> = HashMap()

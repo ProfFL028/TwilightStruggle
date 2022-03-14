@@ -2,3 +2,4 @@ rootProject.name = 'odw'
 
 include 'workflow'
 include 'metadata'
+include 'report'
