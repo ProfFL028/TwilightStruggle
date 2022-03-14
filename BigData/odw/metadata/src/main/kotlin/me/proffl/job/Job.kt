@@ -1,4 +1,4 @@
-package com.proffl.job
+package me.proffl.job
 
 import java.util.Properties
 

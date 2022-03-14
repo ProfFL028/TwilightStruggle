@@ -1,6 +1,6 @@
-package com.proffl.app
+package me.proffl.app
 
-import com.proffl.job.RarExtractJob
+import me.proffl.job.RarExtractJob
 
 
 fun main() {

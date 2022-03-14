@@ -1,4 +1,4 @@
-package com.proffl.entity.poi
+package me.proffl.entity.poi
 
 import java.lang.annotation.Documented
 

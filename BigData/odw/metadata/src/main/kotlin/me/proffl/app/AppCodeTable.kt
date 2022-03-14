@@ -1,6 +1,6 @@
-package com.proffl.app
+package me.proffl.app
 
-import com.proffl.job.CodeTableJob
+import me.proffl.job.CodeTableJob
 
 fun main(args: Array<String>) {
     var codeTablePath = "/Users/proffl/TwilightStruggle/BigData/odw/metadata/src/main/resources/数据标准化－码表.xls"

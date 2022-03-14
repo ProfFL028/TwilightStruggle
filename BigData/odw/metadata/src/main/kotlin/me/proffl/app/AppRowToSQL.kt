@@ -1,9 +1,9 @@
-package com.proffl.app
+package me.proffl.app
 
-import com.proffl.entity.TableMetadata
-import com.proffl.entity.TableRow
-import com.proffl.entity.TableRow.Companion.TABLE_BEGIN_FLAG
-import com.proffl.entity.poi.PoiRowToEntity
+import me.proffl.entity.TableMetadata
+import me.proffl.entity.TableRow
+import me.proffl.entity.TableRow.Companion.TABLE_BEGIN_FLAG
+import me.proffl.entity.poi.PoiRowToEntity
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import java.io.File
 import java.io.FileInputStream
@@ -15,7 +15,7 @@ fun main() {
     val tablesSheet = tablesWorkbook.getSheet("标准化字段")
 
     var rowIdx = 1
-    var curTableMetadata:TableMetadata? = null
+    var curTableMetadata: TableMetadata? = null
     while (rowIdx < tablesSheet.lastRowNum) {
         val tableRow = PoiRowToEntity.rowToEntity(tablesSheet.getRow(rowIdx)!!, TableRow::class.java)
         if (tableRow.columnMetadata.code.trim() == TABLE_BEGIN_FLAG) {
