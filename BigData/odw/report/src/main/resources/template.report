@@ -1,0 +1,16 @@
+var 模板=*.xls|*.xlsx|*.doc|*.docx
+var 报送频率=month/week/quad/year
+var xxx=yesterday - 3
+var yyy = yesterday - 5
+var id = 1
+
+sql data1 = """
+select * from frm_user where param_id=$id
+"""
+use sheet1
+set A5=data1[x][y]
+use sheet2
+set A5>=data1[x]
+set A5!=data1[y]
+set A5>!=data1
+
