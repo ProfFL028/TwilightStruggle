@@ -1,5 +1,7 @@
 package me.proffl.entity
 
+import me.proffl.core.parser.expr.Expression
+
 enum class ReportFrequency {
     Day, Week, Month, Quad, Year
 }
@@ -10,16 +12,12 @@ data class Report(
     var templateFileName: String = "",
     var frequency: ReportFrequency = ReportFrequency.Day
 ) {
-    fun addVar(keyValue: KeyValue<String, String>) {
-        if (keyValue.key != null) {
-            vars[keyValue.key!!] = keyValue.value!!
-        }
+    private fun addVar(key: String, value: String) {
+        vars[key] = value
     }
 
-    fun addSql(keyValue: KeyValue<String, String>) {
-        if (keyValue.key != null) {
-            sql[keyValue.key!!] = keyValue.value!!
-        }
+    private fun addSql(key: String, value: String) {
+        sql[key]= value
     }
 
     fun addCell(cell: ReportCell) {
@@ -30,8 +28,16 @@ data class Report(
         }
         cells.add(cell)
     }
+
     fun setSheet(sheetName: String) {
         currentSheet = sheetName
+    }
+
+    fun handle(expr: Expression) {
+        if (expr.type == "var")
+            addVar(expr.key, expr.value)
+        if (expr.type == "sql")
+            addVar(expr.key, expr.value)
     }
 
     private var currentSheet: String = ""
