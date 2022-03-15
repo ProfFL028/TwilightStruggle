@@ -8,7 +8,7 @@ class TemplateReader() {
         fun read(filename: String): Report {
             val fileReader = FileReader(filename)
 
-            val report = TemplateParser.parse(fileReader.readLines())
+            val report = TemplateParser(fileReader.readLines()).parse()
             fileReader.close()
             return report
         }

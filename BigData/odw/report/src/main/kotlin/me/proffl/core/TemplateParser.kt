@@ -1,5 +1,6 @@
 package me.proffl.core
 
+import me.proffl.entity.Dataset
 import me.proffl.entity.KeyValue
 import me.proffl.entity.Report
 import me.proffl.entity.ReportCell
@@ -107,7 +108,7 @@ class TemplateParser(var lines: List<String>) {
                         ++idx
                     }
                     if (line[idx] == '!' || line[idx] == '>') continue
-                    while (line[idx] == ' ' && idx < line.length) ++idx
+                    while (idx < line.length && line[idx] == ' ') ++idx
                     if (line[idx] == '=') {
                         parseSetStatus = ParseSetStatus.Data
                     } else {
@@ -117,8 +118,21 @@ class TemplateParser(var lines: List<String>) {
                 ParseSetStatus.Data -> {
                     idx++
                     while (idx < line.length && line[idx] == ' ') ++idx
-                    val dataset = StringBuilder()
-                    
+                    val dataset = Dataset()
+                    val tmp = StringBuilder()
+                    while (idx < line.length && line[idx] != '[') tmp.append(line[idx++])
+                    dataset.name = tmp.toString()
+                    ++idx
+                    tmp.clear()
+                    while (idx < line.length && line[idx] != ']') tmp.append(line[idx++])
+                    dataset.rowName = tmp.toString()
+                    ++idx
+                    ++idx
+                    tmp.clear()
+                    while (idx < line.length && line[++idx] != '[');
+                    while (idx < line.length && line[idx] != ']') tmp.append(line[idx++])
+                    dataset.colName = tmp.toString()
+                    reportCell.dataset = dataset
                 }
             }
         }
@@ -128,7 +142,22 @@ class TemplateParser(var lines: List<String>) {
     }
 
     private fun parseSql(): KeyValue<String, String> {
+        val sql = StringBuilder()
+        var line = lines[idx]
+        val key = line.substring(line.indexOf("="))
+        val token = line.substring( line.indexOf("=") + 1, line.indexOf("\"\"\"") + 3)
+        sql.append(token)
+        line = lines[++idx]
+        while (!line.contains("\"\"\"")) {
+            sql.append(line)
+            line = lines[++idx]
+        }
+        sql.append(line.substring(0, line.indexOf("\"\"\"")))
+        return KeyValue(key, sql.toString())
+    }
 
+    private fun parseUse(): String {
+        return lines[idx].substring(4).trim()
     }
 
     private fun parseVar(): KeyValue<String, String> {
