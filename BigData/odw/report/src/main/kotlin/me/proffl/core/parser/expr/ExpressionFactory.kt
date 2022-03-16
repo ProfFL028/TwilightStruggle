@@ -12,7 +12,7 @@ class ExpressionFactory {
                 val keyValueTokens = tokens[1].split("=")
                 if (keyValueTokens.size == 2) {
                     result.key = keyValueTokens[0]
-                    result.value= keyValueTokens[0]
+                    result.value= keyValueTokens[1]
                 }
             }
             return result

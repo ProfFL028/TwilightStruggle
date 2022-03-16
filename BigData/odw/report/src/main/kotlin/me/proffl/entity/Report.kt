@@ -12,11 +12,11 @@ data class Report(
     var templateFileName: String = "",
     var frequency: ReportFrequency = ReportFrequency.Day
 ) {
-    private fun addVar(key: String, value: String) {
+    fun addVar(key: String, value: String) {
         vars[key] = value
     }
 
-    private fun addSql(key: String, value: String) {
+    fun addSql(key: String, value: String) {
         sql[key]= value
     }
 
@@ -31,13 +31,6 @@ data class Report(
 
     fun setSheet(sheetName: String) {
         currentSheet = sheetName
-    }
-
-    fun handle(expr: Expression) {
-        if (expr.type == "var")
-            addVar(expr.key, expr.value)
-        if (expr.type == "sql")
-            addVar(expr.key, expr.value)
     }
 
     private var currentSheet: String = ""

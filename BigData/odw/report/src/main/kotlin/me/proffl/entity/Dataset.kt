@@ -5,4 +5,11 @@ data class Dataset(
     var rowName: String = "",
     var colName: String = ""
 ) {
+    companion object {
+        fun from(expr: String):Dataset {
+            val dataset = Dataset()
+
+            return dataset
+        }
+    }
 }
