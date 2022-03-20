@@ -1,5 +1,7 @@
 package me.proffl.microservice.model
 
+import org.springframework.hateoas.RepresentationModel
+
 data class License(
     var id: Int = 0,
     var licenseId: String = "",
@@ -7,5 +9,5 @@ data class License(
     var description: String = "",
     var productName: String = "",
     var licenseType: String = ""
-) {
+) : RepresentationModel<License>() {
 }

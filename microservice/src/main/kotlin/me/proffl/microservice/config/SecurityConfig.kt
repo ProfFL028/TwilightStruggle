@@ -11,7 +11,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         // super.configure(http)
-
+        // inorder to making permitAll work, we need to comment super.configure(http) for it already configured anyRequest before.
         http.cors().and().csrf().disable().authorizeRequests()
             .anyRequest().permitAll()
     }

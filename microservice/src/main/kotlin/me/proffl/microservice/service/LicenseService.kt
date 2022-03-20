@@ -1,11 +1,15 @@
 package me.proffl.microservice.service
 
 import me.proffl.microservice.model.License
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.MessageSource
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class LicenseService {
+class LicenseService(
+    @Autowired val messageSource: MessageSource
+) {
     fun getLicense(licenseId: String, organizationId: String): License {
         val license = License()
         license.id = Random().nextInt(1000)
@@ -18,20 +22,24 @@ class LicenseService {
         return license
     }
 
-    fun createLicense(license: License?, organizationId: String):String {
+    fun createLicense(license: License?, organizationId: String, locale: Locale): String {
         var responseMessage = ""
         if (license != null) {
             license.organizationId = organizationId
-            responseMessage = "This is the post and the object is $license"
+            responseMessage =
+                String.format(messageSource.getMessage("license.creat.message", null, locale), license.toString())
         }
         return responseMessage
     }
-    
+
     fun updateLicense(license: License?, organizationId: String): String {
         var responseMessage = ""
         if (license != null) {
             license.organizationId = organizationId
-            responseMessage = "This is the put and the object is $license"
+            responseMessage = String.format(
+                messageSource.getMessage("license.update.message", null, Locale.CHINA),
+                license.toString()
+            )
         }
         return responseMessage
     }
