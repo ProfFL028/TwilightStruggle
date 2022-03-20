@@ -19,7 +19,7 @@ bool check (int n)
     return true;
 }
 void solve() {
-    int x, d, cnt = 0;
+    ll x, d, cnt = 0;
     cin >> x >> d;
     while (x % d == 0)
         x /= d, ++cnt;

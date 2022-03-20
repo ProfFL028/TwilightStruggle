@@ -47,11 +47,3 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
-tasks.create("createDockerfile", Dockerfile::class) {
-    from("openjdk:jre-alpine")
-    copyFile("app.jar", "/app/app.jar")
-    entryPoint("java")
-    defaultCommand("-jar", "/app/app.jar")
-    exposePort(8080)
-}
