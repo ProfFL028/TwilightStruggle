@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.6.4"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("com.bmuschko.docker-spring-boot-application") version "7.3.0"
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
     kotlin("plugin.jpa") version "1.6.10"
@@ -45,4 +46,12 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.create("createDockerfile", Dockerfile::class) {
+    from("openjdk:jre-alpine")
+    copyFile("app.jar", "/app/app.jar")
+    entryPoint("java")
+    defaultCommand("-jar", "/app/app.jar")
+    exposePort(8080)
 }
