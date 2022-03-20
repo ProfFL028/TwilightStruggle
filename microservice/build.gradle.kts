@@ -47,3 +47,13 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+// https://bmuschko.github.io/gradle-docker-plugin/current/user-guide/#spring_boot_application_plugin
+docker {
+    springBootApplication {
+        baseImage.set("openjdk:8-alpine")
+        ports.set(listOf(9080, 8080))
+        images.set(setOf("awesome-spring-boot:1.115", "awesome-spring-boot:latest"))
+        jvmArgs.set(listOf("-Dspring.profiles.active=production", "-Xmx2048m"))
+    }
+}
