@@ -6,10 +6,42 @@ data class Dataset(
     var colName: String = ""
 ) {
     companion object {
-        fun from(expr: String):Dataset {
+        /**
+         * parse dataset like data1[x][y]
+         */
+        fun from(expr: String): Dataset {
             val dataset = Dataset()
+            var tokenBuilder = StringBuilder()
+            var i = 0
+            while (i < expr.length && expr[i] != '[') {
+                tokenBuilder.append(expr[i])
+                ++i
+            }
+            dataset.name = tokenBuilder.toString()
+            tokenBuilder = StringBuilder()
+            ++i // skip [
+            while (i < expr.length && expr[i] != ']') {
+                tokenBuilder.append(expr[i])
+                ++i
+            }
+            dataset.rowName = tokenBuilder.toString()
+            ++i // skip ]
+            ++i // skip [
 
+            tokenBuilder.toString()
+            while (i < expr.length && expr[i] != ']') {
+                tokenBuilder.append(expr[i])
+                ++i
+            }
+            dataset.colName = tokenBuilder.toString()
             return dataset
         }
+    }
+
+    override fun toString(): String {
+        if (name.isEmpty()) {
+            return ""
+        }
+        return "$name[${rowName}][$colName]"
     }
 }

@@ -1,12 +1,8 @@
 package me.proffl.app.example
 
-import java.io.File
-import java.io.FileReader
-
-class ReadExcelExample {
-}
+import me.proffl.core.ReportFileReader
 
 fun main() {
-    val report = FileReader(File("template.report"))
-    val data = report.readLines()
+    val report = ReportFileReader().read("report/src/main/resources/template.report")
+    println(report)
 }
