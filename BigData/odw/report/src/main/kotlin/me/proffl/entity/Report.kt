@@ -16,7 +16,7 @@ data class Report(
     }
 
     fun addSql(key: String, value: String) {
-        sql[key]= value
+        sql[key]= value.replace("\"\"\"", "")
     }
 
     fun addCell(cell: ReportCell) {
