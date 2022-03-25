@@ -1,7 +1,5 @@
 package me.proffl.entity
 
-import me.proffl.core.parser.expr.Expression
-
 enum class ReportFrequency {
     Day, Week, Month, Quad, Year
 }
