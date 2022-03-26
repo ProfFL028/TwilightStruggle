@@ -2,7 +2,6 @@ package me.proffl.entity
 
 import me.proffl.core.parser.expr.Expression
 
-
 data class ReportCell(
     var sheetIdx: Int = -1,
     var sheetName: String = "",

@@ -5,7 +5,7 @@ data class ParserContext(
     var idx: Int
 ) {
     fun isEnd(): Boolean {
-        return idx < lines.size
+        return idx >= lines.size
     }
     fun next(): String {
         return lines[idx++]

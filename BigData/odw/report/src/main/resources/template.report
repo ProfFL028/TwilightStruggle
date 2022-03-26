@@ -7,9 +7,9 @@ var id = 1
 sql data1 = """
 select * from frm_user where param_id=$id
 """
-use sheet1
+use 0
 set A5=data1[x][y]
-use sheet2
+use sheetName1
 set A5>=data1[x]
 set A5!=data1[y]
 set A5>!=data1

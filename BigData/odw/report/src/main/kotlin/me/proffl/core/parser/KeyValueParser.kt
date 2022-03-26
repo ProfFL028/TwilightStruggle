@@ -9,7 +9,7 @@ class KeyValueParser {
 
     companion object {
         fun parse(expr: String): KeyValue<String, String> {
-            val token = expr.split("=", limit=2)
+            val token = expr.split("=")
             val keyValue = KeyValue<String, String>()
             if (token.size == 2) {
                 keyValue.key = token[0].trim()

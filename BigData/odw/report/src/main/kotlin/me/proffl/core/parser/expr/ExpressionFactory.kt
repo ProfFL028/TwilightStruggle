@@ -4,16 +4,44 @@ import me.proffl.core.parser.ParserContext
 
 class ExpressionFactory {
     companion object {
-        fun from(expr: String): Expression {
+        /**
+         * parsing expression like `type key=value`
+         */
+        fun from(expr: String): Expression? {
             val result = Expression()
-            val tokens = expr.trim().split(" ", limit = 2)
-            if (tokens.size == 2) {
-                result.key = tokens[0].trim()
-                val keyValueTokens = tokens[1].split("=")
-                if (keyValueTokens.size == 2) {
-                    result.key = keyValueTokens[0]
-                    result.value= keyValueTokens[1]
-                }
+            val exprCleaned = expr.trim()
+            if (exprCleaned.isEmpty()) {
+                return null
+            }
+            var tokenBuilder = StringBuilder()
+            // find type first
+            var i = 0
+            while (i < exprCleaned.length && exprCleaned[i] != ' ') {
+                tokenBuilder.append(exprCleaned[i])
+                i++
+            }
+            if (i == exprCleaned.length) {
+                throw IllegalArgumentException("$expr cannot be parsed!!")
+            }
+            result.type = tokenBuilder.toString()
+            // remove blank spaces
+            while (i < exprCleaned.length && exprCleaned[i] == ' ') {
+                ++i
+            }
+            // find key
+            tokenBuilder = StringBuilder()
+            while (i < exprCleaned.length && exprCleaned[i] != '=') {
+                if (exprCleaned[i] != ' ')
+                    tokenBuilder.append(exprCleaned[i])
+                ++i
+            }
+            result.key = tokenBuilder.toString()
+            i++ // skip '='
+            while (i < exprCleaned.length && exprCleaned[i] == ' ') {
+                ++i
+            }
+            if (i < exprCleaned.length) {
+                result.value = exprCleaned.substring(i)
             }
             return result
         }

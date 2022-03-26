@@ -87,3 +87,14 @@ foreach (file ${files})
     )
     message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
 endforeach ()
+
+file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/ints/*.cpp")
+foreach (file ${files})
+    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
+    list(APPEND LA_SRC_FILES "src/ints_${exe}.cpp")
+    add_executable(
+            ints_${exe}
+            "ints/${exe}.cpp"
+    )
+    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
+endforeach ()
