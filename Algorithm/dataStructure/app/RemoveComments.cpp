@@ -36,7 +36,7 @@ int main() {
                         }
                     }
                     if (!isMultiLine) {
-                        if (buffer[i] == '"') {
+                        if (buffer[i] == '"' && buffer[i-1] !='\\') {
                             isInString = !isInString;
                         }
                         newLine[newLineIndex++] = buffer[i];
