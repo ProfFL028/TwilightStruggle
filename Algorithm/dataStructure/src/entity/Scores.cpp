@@ -2,7 +2,7 @@
 // Created by Administrator on 2021/9/9.
 //
 
-#include "Scores.h"
+#include "entity/Scores.h"
 
 Scores::Scores(int maxEnt) {
     maxEntries = maxEnt;

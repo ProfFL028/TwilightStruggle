@@ -2,7 +2,7 @@
 // Created by Administrator on 2021/9/9.
 //
 
-#include "Board.h"
+#include "entity/Board.h"
 
 Board::Board(): currentPlayer(1){}
 
