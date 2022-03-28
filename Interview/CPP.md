@@ -19,8 +19,20 @@ If you wanna to create a object without knowing exactly it's type, you can imple
 
 
 ## different between array and list.
+An array is contiguous chuck of memory with a fixed size whereas  a list is typically implemented as individual elements linked to each other by pointers and does not have fixed size.
+Once after an array is initialized, it uses a fixed size of memory space regardless of how much you accury use. Compared with list, you need to allocate memory dynamically and when you want put something in it, you require the os to allocate new spaces for the stuff and link to it.
 
-## difference between reference and point.
+Baically, we need only O(1) time to retrieve or modify an array element. But we need O(n) time when it comes to list. The advantage of using list instead of array is that list can save memory.
+
+## difference between reference and pointer.
+References are used to refer to an existing virable in another name whereas pointers are used to store the address of a virable.
+
+References are not allowed to have null value but pointer can. And references must be initialized when declared, but pointer needn't.
+
+A reference can be referenced by pass by value while a pointer can be referenced by pass by reference.
+
+A reference shares the same memory address with the original variable but takes up some space on the stack. While a pointer has its own memory address and size on the stack.
+
 
 ## How to design a compiler, and how to arrange follow memory?
 ```cpp
