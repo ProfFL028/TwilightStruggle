@@ -1,6 +1,4 @@
 #include "Hash.h"
-#include <iostream>
-#include <stdlib.h>
 
 inline uint32_t rotl32(uint32_t x, int8_t r) {
     return (x << r) | (x >> (32 - r));
@@ -31,7 +29,7 @@ inline uint64_t fmix64(uint64_t k) {
 }
 
 void murmurHash_32(const void *key, int len, uint32_t seed, void *out) {
-    const uint8_t *data = (const uint8_t *) key;
+    const auto *data = (const uint8_t *) key;
     const int nblocks = len / 4;
 
     uint32_t h1 = seed;
@@ -39,7 +37,7 @@ void murmurHash_32(const void *key, int len, uint32_t seed, void *out) {
     const uint32_t c1 = 0xcc9e2d51;
     const uint32_t c2 = 0x1b873593;
 
-    const uint32_t *blocks = (const uint32_t *) (data + nblocks * 4);
+    const auto *blocks = (const uint32_t *) (data + nblocks * 4);
 
     for (int i = -nblocks; i; i++) {
         uint32_t k1 = blocks[i];
@@ -52,7 +50,7 @@ void murmurHash_32(const void *key, int len, uint32_t seed, void *out) {
         h1 = rotl32(h1, 13);
         h1 = h1 * 5 + 0xe6546b64;
     }
-    const uint8_t *tail = (const uint8_t *) (data + nblocks * 4);
+    const auto *tail = (const uint8_t *) (data + nblocks * 4);
 
     uint32_t k1 = 0;
 
@@ -77,7 +75,7 @@ void murmurHash_32(const void *key, int len, uint32_t seed, void *out) {
 }
 
 void murmurHash_x86_128(const void *key, int len, uint32_t seed, void *out) {
-    const uint8_t *data = (const uint8_t *) key;
+    const auto *data = (const uint8_t *) key;
     const int nblocks = len / 16;
 
     uint32_t h1 = seed;
@@ -90,7 +88,7 @@ void murmurHash_x86_128(const void *key, int len, uint32_t seed, void *out) {
     const uint32_t c3 = 0x38b34ae5;
     const uint32_t c4 = 0xa1e38b93;
 
-    const uint32_t *blocks = (const uint32_t *) (data + nblocks * 16);
+    const auto *blocks = (const uint32_t *) (data + nblocks * 16);
 
     for (int i = -nblocks; i; i++) {
         uint32_t k1 = blocks[i * 4 + 0]; //getblock32(,i*4+0);
@@ -135,7 +133,7 @@ void murmurHash_x86_128(const void *key, int len, uint32_t seed, void *out) {
         h4 = h4 * 5 + 0x32ac3b17;
     }
 
-    const uint8_t *tail = (const uint8_t *) (data + nblocks * 16);
+    const auto *tail = (const uint8_t *) (data + nblocks * 16);
 
     uint32_t k1 = 0;
     uint32_t k2 = 0;
@@ -225,7 +223,7 @@ void murmurHash_x86_128(const void *key, int len, uint32_t seed, void *out) {
 }
 
 void murmurHash_x64_128(const void *key, int len, uint32_t seed, void *out) {
-    const uint8_t *data = (const uint8_t *) key;
+    const auto *data = (const uint8_t *) key;
     const int nblocks = len / 16;
 
     uint64_t h1 = seed;
@@ -237,7 +235,7 @@ void murmurHash_x64_128(const void *key, int len, uint32_t seed, void *out) {
     //----------
     // body
 
-    const uint64_t *blocks = (const uint64_t *) (data);
+    const auto *blocks = (const uint64_t *) (data);
 
     for (int i = 0; i < nblocks; i++) {
         uint64_t k1 = blocks[i * 2 + 0];
@@ -265,7 +263,7 @@ void murmurHash_x64_128(const void *key, int len, uint32_t seed, void *out) {
     //----------
     // tail
 
-    const uint8_t *tail = (const uint8_t *) (data + nblocks * 16);
+    const auto *tail = (const uint8_t *) (data + nblocks * 16);
 
     uint64_t k1 = 0;
     uint64_t k2 = 0;
@@ -310,10 +308,7 @@ void murmurHash_x64_128(const void *key, int len, uint32_t seed, void *out) {
             k1 = rotl64(k1, 31);
             k1 *= c2;
             h1 ^= k1;
-    };
-
-    //----------
-    // finalization
+    }
 
     h1 ^= len;
     h2 ^= len;
@@ -329,4 +324,58 @@ void murmurHash_x64_128(const void *key, int len, uint32_t seed, void *out) {
 
     ((uint64_t *) out)[0] = h1;
     ((uint64_t *) out)[1] = h2;
+}
+
+const std::uint32_t FNV_PRIME_32 = 16777619u;
+const std::uint32_t FNV_OFFSET_BASIS_32 = 2166136261u;
+
+const std::uint64_t FNV_PRIME_64 = 1099511628211u;
+const std::uint64_t FNV_OFFSET_BASIS_64 = 14695981039346656037u;
+
+void fnv1_32(const void* key, int len, void* out) {
+    const auto *data = (const uint8_t *) key;
+    uint32_t result = FNV_OFFSET_BASIS_32;
+
+    for (int i = 0; i < len; i++) {
+        result *= FNV_PRIME_32;
+        result ^= data[i];
+    }
+
+    *(uint32_t*)out = result;
+}
+
+void fnv1a_32(const void* key, int len, void* out) {
+    const auto *data = (const uint8_t *) key;
+    uint32_t result = FNV_OFFSET_BASIS_32;
+
+    for (int i = 0; i < len; i++) {
+        result ^= data[i];
+        result *= FNV_PRIME_32;
+    }
+
+    *(uint32_t*)out = result;
+}
+
+void fnv1_64(const void* key, int len, void* out) {
+    const auto *data = (const uint8_t *) key;
+    uint64_t result = FNV_OFFSET_BASIS_64;
+
+    for (int i = 0; i < len; i++) {
+        result *= FNV_PRIME_64;
+        result ^= data[i];
+    }
+
+    *(uint64_t*)out = result;
+}
+
+void fnv1a_64(const void* key, int len, void* out) {
+    const auto *data = (const uint8_t *) key;
+    uint64_t result = FNV_OFFSET_BASIS_64;
+
+    for (int i = 0; i < len; i++) {
+        result ^= data[i];
+        result *= FNV_PRIME_64;
+    }
+
+    *(uint64_t*)out = result;
 }
