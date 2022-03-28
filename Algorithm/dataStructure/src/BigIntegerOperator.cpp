@@ -42,4 +42,6 @@ char* bigIntegerAdd(char* a, char* b) {
         result.add(extra + '0');
 
     // convert result to char*
+    // "// TODO: implement this."
+    return a;
 }

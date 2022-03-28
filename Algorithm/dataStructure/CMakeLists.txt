@@ -8,24 +8,28 @@ include_directories(include)
 
 set (DS_SRC_FILES "")
 
-file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/src/entity/*.cpp")
+file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/src/*.cpp")
 foreach (file ${files})
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    list(APPEND DS_SRC_FILES "src/entity/${exe}.cpp")
-    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${DS_SRC_FILES})
+    string(REGEX REPLACE ".+/src/(.+)\\..*" "\\1" exe ${file})
+    list(APPEND DS_SRC_FILES "src/${exe}.cpp")
 endforeach ()
+message(${DS_SRC_FILES})
 
 add_library(DS_LIB ${DS_SRC_FILES})
 
 file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/app/*.cpp")
 foreach (file ${files})
     string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    list(APPEND DS_SRC_FILES "src/app_${exe}.cpp")
+    list(APPEND DS_SRC_FILES "src/${exe}.cpp")
     add_executable(
             app_${exe}
             "app/${exe}.cpp"
     )
-    message(\ \ \ \ --\ app_${exe}.cpp\ will\ be\ added\ to\ ${DS_SRC_FILES})
+    target_link_libraries(
+            app_${exe}
+            DS_LIB
+    )
+    message(\ \ \ \ --\ app_${exe}.cpp\ will\ be\ added\ )
 endforeach ()
 
 
