@@ -98,3 +98,14 @@ foreach (file ${files})
     )
     message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
 endforeach ()
+
+file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/graph/*.cpp")
+foreach (file ${files})
+    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
+    list(APPEND LA_SRC_FILES "src/graph_${exe}.cpp")
+    add_executable(
+            graph_${exe}
+            "graph/${exe}.cpp"
+    )
+    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
+endforeach ()
