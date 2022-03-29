@@ -2,7 +2,8 @@
 // Created by Administrator on 2021/6/20.
 //
 #include "Vector.cpp"
-
+#include <cstring>
+using namespace std;
 /**
  * Add two big integer which are represented in char*.
  * algorithm explain: Add char represented integer value at each index plus carry(extra) from last to first.

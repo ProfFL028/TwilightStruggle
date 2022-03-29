@@ -10,14 +10,18 @@ public:
     PQUnsortedArray(int maxSize=100);
     ~PQUnsortedArray();
 public:
-    T top();
-    T peek();
-    void insert(T element, int priority);
-    void remove(T element);
-    void update(T element, int newPriority);
+    T* top();
+    T* peek();
+    int insert(T* element, int priority);
+    int remove(T* element);
+    int update(T* element, int newPriority);
 
 private:
-    std::tuple<T, int>* unsortedArray;
+    void forward(int beginIdx);
+    void updateIdx();
+
+private:
+    std::tuple<T*, int>* unsortedArray;
     int arrSize;
     int maxArrSize;
 
