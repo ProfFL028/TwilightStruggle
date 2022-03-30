@@ -8,104 +8,13 @@ add_executable(
         "inputGenerator.cpp"
 )
 
-
-file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/heap/*.cpp")
+file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/*.cpp")
 foreach (file ${files})
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    list(APPEND LA_SRC_FILES "src/heap_${exe}.cpp")
+    string(REGEX REPLACE ".+/Codeforces/(.+)\\..*" "\\1" exeFile ${file})
+    string(REPLACE "/" "_" exeName ${exeFile})
     add_executable(
-            heap_${exe}
-            "heap/${exe}.cpp"
+            ${exeName}
+            "${exeFile}.cpp"
     )
-    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
 endforeach ()
 
-
-file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/strings/*.cpp")
-foreach (file ${files})
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    list(APPEND LA_SRC_FILES "src/${exe}.cpp")
-    add_executable(
-            ${exe}
-            "strings/${exe}.cpp"
-    )
-    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
-endforeach ()
-
-
-file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/bitwise/*.cpp")
-foreach (file ${files})
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    list(APPEND LA_SRC_FILES "src/${exe}.cpp")
-    add_executable(
-            ${exe}
-            "bitwise/${exe}.cpp"
-    )
-    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
-endforeach ()
-
-file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/stateMachine/*.cpp")
-foreach (file ${files})
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    list(APPEND LA_SRC_FILES "src/${exe}.cpp")
-    add_executable(
-            ${exe}
-            "stateMachine/${exe}.cpp"
-    )
-    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
-endforeach ()
-
-file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/sorting/*.cpp")
-foreach (file ${files})
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    list(APPEND LA_SRC_FILES "src/${exe}.cpp")
-    add_executable(
-            ${exe}
-            "sorting/${exe}.cpp"
-    )
-    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
-endforeach ()
-
-file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/array/*.cpp")
-foreach (file ${files})
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    list(APPEND LA_SRC_FILES "src/${exe}.cpp")
-    add_executable(
-            ${exe}
-            "array/${exe}.cpp"
-    )
-    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
-endforeach ()
-
-file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/dp/*.cpp")
-foreach (file ${files})
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    list(APPEND LA_SRC_FILES "src/${exe}.cpp")
-    add_executable(
-            ${exe}
-            "dp/${exe}.cpp"
-    )
-    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
-endforeach ()
-
-file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/ints/*.cpp")
-foreach (file ${files})
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    list(APPEND LA_SRC_FILES "src/ints_${exe}.cpp")
-    add_executable(
-            ints_${exe}
-            "ints/${exe}.cpp"
-    )
-    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
-endforeach ()
-
-file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/graph/*.cpp")
-foreach (file ${files})
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    list(APPEND LA_SRC_FILES "src/graph_${exe}.cpp")
-    add_executable(
-            graph_${exe}
-            "graph/${exe}.cpp"
-    )
-    message(\ \ \ \ --\ ${exe}.cpp\ will\ be\ added\ to\ ${LA_SRC_FILES})
-endforeach ()
