@@ -27,7 +27,7 @@ char* bigIntegerAdd(char* a, char* b) {
         // convert char to integer 0 and plus each element.
         int value = a[lengthA - i - 1] - '0' + b[lengthB - i - 1] - '0' + extra;
         // store result to char format
-        result.add((value % 10) + '0');
+        result.insert((value % 10) + '0');
         // carry
         extra = value / 10;
     }
@@ -35,12 +35,12 @@ char* bigIntegerAdd(char* a, char* b) {
     // add left element.
     for (int i = 0; i < lengthDiff; i++) {
         int value = a[lengthDiff - i - 1] - '0' + extra;
-        result.add((value % 10) + '0');
+        result.insert((value % 10) + '0');
         extra = value / 10;
     }
     // if carry is greater than 0, then add extra to result.
     if (extra > 0)
-        result.add(extra + '0');
+        result.insert(extra + '0');
 
     // convert result to char*
     // "// TODO: implement this."

@@ -26,27 +26,42 @@ namespace ds {
     public:
         VectorNode *head;
         VectorNode *tail; // keep track of last element.
-        int length;
+        int length{};
     public:
         Vector() : head(nullptr), tail(nullptr), length(0) {};
-
+        // notice we need to rewrite `=` function together when we rewrite copy constructor.
+        Vector(const Vector& vec) {
+            this->copyData(vec);
+        };
         /**
          * Delete all VectorNode pointers.
          */
         virtual ~Vector() {
+            clear();
+        };
+
+        /**
+         * clear all elements.
+         */
+        void clear() {
             VectorNode *cur = head;
             while (cur != nullptr) {
                 head = head->next;
                 delete cur;
                 cur = head;
             }
-        };
+            this->length = 0;
+        }
 
     public:
         inline bool isEmpty() const {
             return this->length <= 0;
         };
 
+        /**
+         * Get first element.
+         * @return
+         */
         T top() const {
             if (this->length <= 0) {
                 throw std::runtime_error("vector is empty");
@@ -54,7 +69,11 @@ namespace ds {
             return head->element;
         };
 
-        T peek() {
+        /**
+         * Get and remove last element.
+         * @return
+         */
+        T pop() {
             if (this->length <= 0) {
                 throw std::runtime_error("vector is empty");
             }
@@ -70,7 +89,7 @@ namespace ds {
          * Set tail to the new element. Set head to the new element if it is the first element.
          * @param t
          */
-        void add(const T &t) {
+        void insert(const T &t) {
             auto *newNode = new VectorNode(t);
             if (this->isEmpty()) {
                 this->head = newNode;
@@ -93,8 +112,26 @@ namespace ds {
                 out << cur->element << ", ";
                 cur = cur->next;
             }
-            out << "\b\b]" << std::endl;
+            // remove last `, `.
+            out << "\b\b]";
             return out;
+        }
+
+        // for we've rewritten copy function.
+        Vector &operator=(const Vector& other) {
+            this->clear();
+            this->copyData(other);
+            return *this;
+        }
+
+    private:
+        // helper functions:
+        void copyData(const Vector& other) {
+            VectorNode *cur = other.head;
+            while (cur != nullptr) {
+                this->insert(cur->element);
+                cur = cur->next;
+            }
         }
     };
 
