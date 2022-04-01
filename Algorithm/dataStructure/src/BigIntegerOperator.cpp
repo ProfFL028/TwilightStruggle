@@ -1,7 +1,7 @@
 //
 // Created by Administrator on 2021/6/20.
 //
-#include "Vector.cpp"
+#include "Vector.h"
 #include <cstring>
 using namespace std;
 /**
@@ -19,7 +19,7 @@ char* bigIntegerAdd(char* a, char* b) {
     if (lengthB > lengthA) {
         return bigIntegerAdd(b, a);
     }
-    Vector<char> result;
+    ds::Vector<char> result;
 
     int extra = 0; // carry
     // add from last element to shorter array's first element.

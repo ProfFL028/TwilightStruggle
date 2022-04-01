@@ -1,52 +1,103 @@
-//
-// Created by Administrator on 2021/6/20.
-//
 
 #ifndef ALGORITHM_VECTOR_H
 #define ALGORITHM_VECTOR_H
 
 #include <iostream>
+#include <stdexcept>
 
-template<typename T>
-class Vector;
+namespace ds {
+    template<typename T>
+    class Vector {
+    private:
+        class VectorNode {
+        public:
+            explicit VectorNode(const T &t, VectorNode *node = nullptr) {
+                this->element = t;
+                this->next = node;
+            }
 
-template<typename T>
-class VectorNode {
-private:
-    T element;
-    VectorNode<T> *next;
+        private:
+            T element;
+            VectorNode *next;
 
-    friend class Vector<T>;
-};
+            friend class Vector<T>;
+        };
 
+    public:
+        VectorNode *head;
+        VectorNode *tail; // keep track of last element.
+        int length;
+    public:
+        Vector() : head(nullptr), tail(nullptr), length(0) {};
 
-template<typename T>
-class Vector {
-private:
-    VectorNode<T> *head;
-public:
-    Vector();
+        /**
+         * Delete all VectorNode pointers.
+         */
+        virtual ~Vector() {
+            VectorNode *cur = head;
+            while (cur != nullptr) {
+                head = head->next;
+                delete cur;
+                cur = head;
+            }
+        };
 
-    ~Vector();
+    public:
+        inline bool isEmpty() const {
+            return this->length <= 0;
+        };
 
-public:
-    class Iterator {
+        T top() const {
+            if (this->length <= 0) {
+                throw std::runtime_error("vector is empty");
+            }
+            return head->element;
+        };
 
+        T peek() {
+            if (this->length <= 0) {
+                throw std::runtime_error("vector is empty");
+            }
+            VectorNode *cur = head;
+            head = head->next;
+            T result = cur->element;
+            delete cur;
+            return result;
+        };
+
+        /**
+         * Add a new element to Vector.
+         * Set tail to the new element. Set head to the new element if it is the first element.
+         * @param t
+         */
+        void add(const T &t) {
+            auto *newNode = new VectorNode(t);
+            if (this->isEmpty()) {
+                this->head = newNode;
+                this->tail = newNode;
+            } else {
+                this->tail->next = newNode;
+                this->tail = newNode;
+            }
+            this->length++;
+        };
+
+        void reserve() {
+            // TODO: implement this.
+        };
+
+        friend std::ostream &operator<<(std::ostream &out, Vector &vector) {
+            VectorNode *cur = vector.head;
+            out << "[";
+            while (cur != nullptr) {
+                out << cur->element << ", ";
+                cur = cur->next;
+            }
+            out << "\b\b]" << std::endl;
+            return out;
+        }
     };
 
-public:
-    bool isEmpty() const;
-
-    const T &front() const;
-
-    void add(const T &t);
-
-    void remove();
-
-    void reserve();
-
-    void print();
-};
-
+}
 
 #endif //ALGORITHM_VECTOR_H
