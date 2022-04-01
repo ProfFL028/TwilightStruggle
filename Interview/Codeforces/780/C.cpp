@@ -21,31 +21,21 @@ void solve() {
     int ans = 0;
     int i = 0;
     while (arr[i] != '\0') {
-        char next = arr[i + 1];
-        if (next == '\0') {
-            ans++;
-            break;
+        bool found = false;
+        for (auto v : notFound) {
+            if (arr[i] == v) {
+                found = true;
+                break;
+            }
         }
-        if (arr[i] == next) {
-            i += 2;
+        if (found) {
             notFound.clear();
+            ans--;
         } else {
-            bool found = false;
-            for (auto c : notFound) {
-                if (c == arr[i]) {
-                    found=true;
-                    break;
-                }
-            }
-            if (found) {
-                notFound.clear();
-                i++;
-            } else {
-                notFound.push_back(arr[i]);
-                ans++;
-            }
-            i++;
+            notFound.push_back(arr[i]);
+            ans++;
         }
+        i++;
     }
 
     cout << ans << endl;

@@ -16,7 +16,7 @@ const int LEN = 2 * 10e5 + 5;
 int arr[LEN];
 
 tuple<int, int, int> maxSub(int start, int end) {
-    int twoCount =0;
+    int twoCount = 0;
     int negCount = 0;
     for (int i = start; i <= end; i++) {
         if (abs(arr[i]) == 2) {
@@ -36,19 +36,19 @@ tuple<int, int, int> maxSub(int start, int end) {
                 left2Count++;
             }
             if (arr[i] < 0) {
-                leftIdx = i+1;
+                leftIdx = i + 1;
                 break;
             }
         }
 
         int right2Count = 0;
         int rightIdx = 0;
-        for (int i = end; i>=start; i--) {
+        for (int i = end; i >= start; i--) {
             if (abs(arr[i]) == 2) {
                 right2Count++;
             }
             if (arr[i] < 0) {
-                rightIdx = i-1;
+                rightIdx = i - 1;
                 break;
             }
         }
@@ -81,10 +81,14 @@ void solve() {
         }
         zeroPos.push_back(k - 1);
     }
+    if (zeroPos.size() <= 1) {
+        cout << n << " " << 0 << endl;
+        return;
+    }
     int ans = 0;
     int x = 0;
     int y = 0;
-    for (int i = 0; i < zeroPos.size() - 1; i++) {
+    for (int i = 0; i < zeroPos.size() - 1; i += 2) {
         auto tt = maxSub(zeroPos[i], zeroPos[i + 1]);
         if (ans < get<0>(tt)) {
             ans = get<0>(tt);
