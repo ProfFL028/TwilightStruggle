@@ -7,25 +7,26 @@
 
 namespace ds {
     template<typename T>
+    class VectorNode {
+    public:
+        VectorNode() {
+            this->next = nullptr;
+        }
+        explicit VectorNode(const T &t, VectorNode *node = nullptr) {
+            this->element = t;
+            this->next = node;
+        }
+
+    public:
+        T element;
+        VectorNode *next;
+    };
+
+    template<typename T>
     class Vector {
     public:
-        class VectorNode {
-        public:
-            explicit VectorNode(const T &t, VectorNode *node = nullptr) {
-                this->element = t;
-                this->next = node;
-            }
-
-        public:
-            T element;
-            VectorNode *next;
-
-            friend class Vector<T>;
-        };
-
-    public:
-        VectorNode *head;
-        VectorNode *tail; // keep track of last element.
+        VectorNode<T> *head;
+        VectorNode<T> *tail; // keep track of last element.
         int length{};
     public:
         Vector() : head(nullptr), tail(nullptr), length(0) {};
@@ -44,7 +45,7 @@ namespace ds {
          * clear all elements.
          */
         void clear() {
-            VectorNode *cur = head;
+            VectorNode<T> *cur = head;
             while (cur != nullptr) {
                 head = head->next;
                 delete cur;
@@ -77,7 +78,7 @@ namespace ds {
             if (this->length <= 0) {
                 throw std::runtime_error("vector is empty");
             }
-            VectorNode *cur = head;
+            VectorNode<T> *cur = head;
             head = head->next;
             T result = cur->element;
             delete cur;
@@ -90,7 +91,7 @@ namespace ds {
          * @param t
          */
         void insert(const T &t) {
-            auto *newNode = new VectorNode(t);
+            auto *newNode = new VectorNode<T>(t);
             if (this->isEmpty()) {
                 this->head = newNode;
                 this->tail = newNode;
@@ -118,7 +119,7 @@ namespace ds {
         };
 
         friend std::ostream &operator<<(std::ostream &out, Vector &vector) {
-            VectorNode *cur = vector.head;
+            VectorNode<T> *cur = vector.head;
             out << "[";
             while (cur != nullptr) {
                 out << cur->element << ", ";
@@ -139,7 +140,7 @@ namespace ds {
     private:
         // helper functions:
         void copyData(const Vector& other) {
-            VectorNode *cur = other.head;
+            VectorNode<T> *cur = other.head;
             while (cur != nullptr) {
                 this->insert(cur->element);
                 cur = cur->next;

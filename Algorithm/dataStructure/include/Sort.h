@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <Vector.h>
+#include <tuple>
 
 namespace sort {
 #define SWAP(a, b, size)  \
@@ -53,8 +54,71 @@ namespace sort {
     }
 
     template<class T>
-    void sort_quick_vector(ds::Vector<T>& vector) {
+    void sort_quick_vector(ds::Vector<T> &vector) {
+        if (vector.isEmpty()) {
+            return;
+        }
+        if (vector.length == 2) {
+            if (vector.head->element > vector.head->next->element) {
+                std::swap(vector.head->element, vector.head->next->element);
+            }
+            return;
+        }
+        ds::Vector<std::tuple<ds::VectorNode<T>, ds::VectorNode<T>>> stack;
+        stack.insert(std::make_tuple(*vector.head, *vector.tail));
 
+        while (!stack.isEmpty()) {
+            auto s = stack.pop();
+            auto pivot = &std::get<0>(s);
+            auto end = &std::get<1>(s)->next;
+            if (pivot->next == end) {
+                if (end != nullptr) {
+                    if (pivot->element > end->element) {
+                        std::swap(pivot->element, end->element);
+                    }
+                }
+                break;
+            }
+
+            auto cur = pivot->next;
+            auto pre = pivot;
+            auto top = pivot;
+
+            while (cur != end->next) {
+                if (cur->element < pivot->element) {
+                    pre->next = cur->next;
+                    cur->next = top;
+                    top = cur;
+                    cur = pre->next;
+                } else if (cur->element == pivot->element) {
+                    pre->next = cur->next;
+                    cur->next = pivot->next;
+                    pivot->next = cur;
+                    cur = pre->next;
+                } else {
+                    pre = cur;
+                    cur = cur->next;
+                }
+            }
+            if (top->element != pivot->element) {
+                auto leftEnd = top;
+                while (leftEnd->next != end) {
+                    if (leftEnd->next->element != pivot->element) {
+                        break;
+                    }
+                    leftEnd = leftEnd->next;
+                }
+                if (leftEnd != top) {
+                    stack.insert(std::make_tuple(*top, *leftEnd));
+                }
+            }
+            while (pivot->next != end && pivot->next->element == pivot->element) {
+                pivot = pivot->next;
+            }
+            if (pivot->next != end) {
+                stack.insert(std::make_tuple(*pivot, *end));
+            }
+        }
     }
 
     template<class T>
@@ -65,7 +129,7 @@ namespace sort {
             if (vector.head->element > vector.head->next->element) {
                 std::swap(vector.head->element, vector.head->next->element);
             }
-            return ;
+            return;
         }
         ds::Vector<T> left, right;
         T pivot = vector.head->element;
