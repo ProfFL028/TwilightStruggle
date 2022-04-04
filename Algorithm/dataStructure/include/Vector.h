@@ -8,7 +8,7 @@
 namespace ds {
     template<typename T>
     class Vector {
-    private:
+    public:
         class VectorNode {
         public:
             explicit VectorNode(const T &t, VectorNode *node = nullptr) {
@@ -16,7 +16,7 @@ namespace ds {
                 this->next = node;
             }
 
-        private:
+        public:
             T element;
             VectorNode *next;
 
@@ -100,6 +100,18 @@ namespace ds {
             }
             this->length++;
         };
+
+        /**
+         * Deep copy another vector to it.
+         * @param vec
+         */
+        void append(const Vector<T>& vec) {
+            auto cur = vec.head;
+            while (cur != nullptr) {
+                this->insert(cur->element);
+                cur = cur->next;
+            }
+        }
 
         void reserve() {
             // TODO: implement this.
