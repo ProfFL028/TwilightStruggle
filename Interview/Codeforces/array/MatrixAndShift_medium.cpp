@@ -1,4 +1,4 @@
-// codeforces: 
+// codeforces:  https://codeforces.com/contest/1660/problem/E
 
 #include <bits/stdc++.h>
 
@@ -12,15 +12,30 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef long double lld;
 
-const int maxLen = 10e6 + 5;
-ll arr[maxLen];
-
 void solve() {
     int n;
     cin >> n;
-    bool isOk = false;
-    if (isOk) cout << "YES" << endl;
-    else cout << "NO" << endl;
+
+    char matrix[2005][2005];
+    int oneCount = 0;
+    for (int i = 0; i < n; i++) {
+        cin >> matrix[i];
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            oneCount += matrix[i][j] == '1';
+        }
+    }
+    int maxCount = 0;
+    for (int i = 0; i < n; i++) {
+        int cur = 0;
+        for (int j = 0; j < n; j++) {
+            cur += matrix[(i + j) % n][j] - '0';
+        }
+        maxCount = max(maxCount, cur);
+    }
+    int ans = n - maxCount + (oneCount - maxCount);
+    cout << ans << endl;
 }
 
 int main() {
