@@ -57,7 +57,7 @@ public class BinarySearch {
         braces.put(')', '(');
         braces.put('}', '{');
         for (String value : values) {
-            Stack s = new Stack();
+            Stack<Character> s = new Stack();
             boolean ans = true;
             for (char c : value.toCharArray()) {
                 if (!braces.containsKey(c)) {
