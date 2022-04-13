@@ -33,10 +33,10 @@ public:
         T res = out;
         l += n, r += n;
         while (l <= r) {
-            if (l & 1) {
+            if (l & 1) { // odd
                 res = func(res, tree[l++]);
             }
-            if (r & 1 ^ 1) {
+            if (r & 1 ^ 1) { // even
                 res = func(res, tree[r--]);
             }
             l >>= 1, r >>= 1;
@@ -67,6 +67,7 @@ int main() {
             cin >> l >> r;
             --l, --r;
             vector<int> v;
+            // 取31个最小值。
             for (int i = 0; i <= 30; i++) {
                 pair<int, int> x = s.query(l, r);
                 if (x.first == INF) {
