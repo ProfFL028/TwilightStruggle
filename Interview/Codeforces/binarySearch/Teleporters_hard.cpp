@@ -9,7 +9,12 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef long double lld;
 
-
+/**
+ * Minimal energy would be used if we can build n stations in distances.
+ * @param distance
+ * @param stations
+ * @return
+ */
 ll minEnergy(int distance, int stations) {
     if (stations < 0) {
         return LLONG_MAX;
@@ -36,13 +41,18 @@ void solve() {
     cin >> m;
 
     ll stations = 0, energy = 0;
-    function<void(long long)> noMoreThan = [&](ll diff) {
+    /**
+     * At least how many stations need to build to satisfy maxEnergy.
+     */
+    function<void(long long)> noMoreThan = [&](ll maxEnergy) {
         stations = 0, energy = 0;
         for (auto &val: arr) {
             int left = 0, right = val;
             while (right - left > 1) {
                 int mid = (left + right) >> 1;
-                if (minEnergy(val, mid - 1) - minEnergy(val, mid) > diff)
+                // core code.
+                // same as max energy can be.
+                if (minEnergy(val, mid - 1) - minEnergy(val, mid) > maxEnergy)
                     left = mid;
                 else
                     right = mid;
@@ -52,6 +62,9 @@ void solve() {
         }
     };
 
+    /**
+     * Binary search maxEnergy.
+     */
     ll left = 0, right = 1e18;
     while (right - left > 1) {
         ll mid = (left + right) >> 1;
@@ -65,6 +78,9 @@ void solve() {
     noMoreThan(right);
     ll ans = stations;
     ll diff = energy - m;
+    /**
+     * add extra stations that missing.
+     */
     ans += (diff + right - 1) / right;
     cout << ans << endl;
 }
