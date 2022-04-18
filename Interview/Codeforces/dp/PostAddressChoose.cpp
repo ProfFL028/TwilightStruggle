@@ -1,5 +1,5 @@
 /**
- * given an array of increase different points, and num posts, find the min distance.
+ * given an array of increase different parent, and num posts, find the min distance.
  * [1, 2, 3, 4, 5, 10000], Num:2
  * choose 3 and 10000-> min: 6
  */

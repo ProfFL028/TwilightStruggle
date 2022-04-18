@@ -1,4 +1,4 @@
-// codeforces: 
+// codeforces:
 
 #include <bits/stdc++.h>
 
@@ -21,9 +21,24 @@ void solve() {
         cin >> arr[i];
     }
 
-    int ans = 0;
+    vector<int> ans(n + 1, 1);
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == 0) {
+            ans[i] = 0;
+        } else {
+            if (ans[i] == 1) {
+                ans[arr[i]] = 0;
+            } else {
+                if (arr[i] + i < n)
+                    ans[arr[i] + i] = 0;
+            }
+        }
+    }
 
-    cout << ans << endl;
+    for (int i = 0; i < n; i++) {
+        cout << ans[i] << " ";
+    }
+    cout << endl;
 }
 
 int main() {
