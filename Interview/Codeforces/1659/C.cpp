@@ -1,4 +1,4 @@
-// codeforces: 
+// codeforces: https://codeforces.com/contest/1659/problem/C
 
 #include <bits/stdc++.h>
 
@@ -14,14 +14,22 @@ typedef long double lld;
 
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    for (int i = 0; i < n; i++) {
+    ll n, a, b;
+    cin >> n >> a >> b;
+    vector<ll> arr(n + 1);
+    for (int i = 1; i < n + 1; i++) {
         cin >> arr[i];
     }
 
-    int ans = 0;
+    ll ans = arr[1] * b;
+    int capital = 0;
+    for (int i = 2; i <= n; i++) {
+        if (a < (n - i + 1) * b) { // it may cause int overflow problem!!!
+            ans += a * (arr[i - 1] - arr[capital]);
+            capital = i - 1;
+        }
+        ans += (arr[i] - arr[capital]) * b;
+    }
 
     cout << ans << endl;
 }

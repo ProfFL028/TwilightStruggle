@@ -1,4 +1,4 @@
-// codeforces:  https://codeforces.com/contest/1659/problems
+// codeforces:   https://codeforces.com/contest/1659/problem/B
 
 #include <bits/stdc++.h>
 
@@ -18,36 +18,37 @@ void solve() {
     cin >> n >> k;
     string arr;
     cin >> arr;
-    vector<ll> ans(n, 0);
-    string res = arr;
-    ll flipCount = 0;
-    if (k == 0) {
-        cout << arr << endl;
+
+    if (k & 1) {
         for (int i = 0; i < n; i++) {
-            cout << ans[i] << " ";
-        }
-        cout << endl;
-        return;
-    }
-    int count0 = 0;
-    if (arr[0] == '1' && (k & 1)) {
-        k--;
-        ans[0]++;
-        for (int i = 1; i < n; i++) {
-            if (arr[i] == '1')
-                arr[i] = '0';
-            else
+            if (arr[i] == '0')
                 arr[i] = '1';
+            else
+                arr[i] = '0';
         }
     }
-    if (k == 0) {
-        cout << arr << endl;
-        for (int i = 0; i < n; i++) {
-            cout << ans[i] << " ";
+    vector<ll> flipCounts(n, 0);
+    /**
+     * --k; arr[n-1]++; // move to back.
+     */
+    for (int i = 0; i < n; i++) {
+        if (k == 0) break;
+        if (arr[i] == '0' && (arr[i] & 1 ^ 1)) {
+            flipCounts[i]++;
+            --k;
+            arr[i] = '1';
         }
-        cout << endl;
-        return;
     }
+    if (k > 0) {
+        flipCounts[n - 1] += k;
+        if (k & 1)
+            arr[n - 1] = '0';
+    }
+    cout << arr << endl;
+    for (auto & v: flipCounts) {
+        cout << v << " ";
+    }
+    cout << endl;
 }
 
 int main() {
