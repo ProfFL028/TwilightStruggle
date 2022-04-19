@@ -16,7 +16,7 @@ typedef long double lld;
 void solve() {
     int n, k;
     cin >> n >> k;
-    vector<vector<int>> postmen(3, vector<int>());
+    vector<set<int>> postmen(3, set<int>());
     set<set<int>> black;
     for (int i = 0; i < n; i++) {
         int tp, m;
@@ -26,7 +26,7 @@ void solve() {
             int x;
             cin >> x;
             if (tp == 0) {
-                postmen[0].push_back(x);
+                postmen[0].insert(x);
             } else {
                 unknown.insert(x);
             }
@@ -41,7 +41,7 @@ void solve() {
             }
         }
         if (t.size() == 1) {
-            postmen[1].push_back(t[0]);
+            postmen[1].insert(t[0]);
         }
     }
 
