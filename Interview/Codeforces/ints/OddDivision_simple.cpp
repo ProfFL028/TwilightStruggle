@@ -16,11 +16,11 @@ typedef long double lld;
 void solve() {
     string arr;
     cin >> arr;
-    if (arr[0] == '0') {
+    int len = strlen(arr.c_str());
+    if (arr[0] == '0' || ((arr[len-1] - '0') & 1^1)) {
         cout << "-1" << endl;
         return;
     }
-    int len = strlen(arr.c_str());
     ll ans = 0;
     bool odd = (arr[0] - '0') & 1;
     int i = 1;
