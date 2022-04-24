@@ -40,27 +40,55 @@ int C(int x, int y) {
     return ans;
 }
 
+int simple(int a, int b, int k) {
+    if (k == 0 || b == 0 || a == 0) {
+        return 1;
+    }
+    if (a <= k) {
+        return C(a + b, a);
+    }
+    if (a >= (k * b)) {
+        return myPower(b, k + 1);
+    }
+    return -1;
+}
+
 void solve() {
     int a, b, k;
     cin >> a >> b >> k;
-    if (k == 0 || b == 0) {
-        cout << 1 << endl;
-        return;
-    }
-    if (a <= k) {
-        cout << C(a + b, a) << endl;
-        return;
-    }
-    if (a >= (k * b)) {
-        cout << myPower(b, k + 1) << endl;
-    }
+
 
     ll ans = 0;
-    vector<vector<vector<int>>> dp(a, vector<vector<int>>(b, vector<int>(k, 1)));
-    int ak = a / k;
-    for (int i = 0; i< ak; i++) {
-        ans +=
+    stack<tuple<int, int, int, int>> s;
+    map<tuple<int, int, int>, int> dp;
+
+    s.emplace(a, b, k, 1);
+    while (!s.empty()) {
+        auto x = s.top();
+        s.pop();
+        tuple<int, int, int> abk = tuple<int, int, int>(get<0>(x), get<1>(x), get<2>(x));
+        if (dp.find(abk) != dp.end()) {
+            ans += dp[abk] * get<3>(x) % M;
+        } else {
+            s.push(x);
+            int ak = get<0>(x) / get<2>(x);
+            for (int i = 0; i <= ak; i++) {
+                int ai = a - i * k;
+                int bi = b - i;
+                int ki = k - 1;      
+                tuple<int, int, int> abki(ai, bi, ki);
+                int tmp = simple(ai, bi, ki);
+                if (tmp != -1) {
+                    dp[abki] = tmp;
+                } else {
+                    if (i <= b) {
+                        s.emplace(ai, bi, ki, C(b, i));
+                    }
+                }
+            }
+        }
     }
+
     cout << ans << endl;
 }
 
