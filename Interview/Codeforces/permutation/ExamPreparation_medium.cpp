@@ -12,25 +12,32 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef long double lld;
 
-const ll md = 998244353l;
-map<pair<int, int>, ll> cmn;
+const int M = 998244353;
+const int MM = 2 * 10e5 + 2;
+vector<int> inv(MM, 0);
 
-ll per(int m, int n) {
-    if (n >= m) {
-        return 1;
-    }
-    pair<int, int> mn(m, n);
-    if (cmn.find(mn) != cmn.end()) {
-        return cmn[mn];
-    } else {
-        ll v = 1l;
-        for (int i = n + 1; i <= m; i++) {
-            v *= i;
-            v %= md;
+int myPower(int x, int y) {
+    int result = 1;
+    while (y) {
+        if (y & 1) {
+            result = ll(result) * x % M;
         }
-        cmn[mn] = v;
+        x = ll(x) * x % M;
+        y >>= 1;
     }
-    return cmn[mn];
+
+    return result;
+}
+
+int C(int x, int y) {
+    int ans = 1;
+    for (int i = x, j = 1; j <= y; i--, j++) {
+        if (inv[j] == 0) {
+            inv[j] = myPower(j, M - 2);
+        }
+        ans = (ll) ans * i % M * inv[j] % M;
+    }
+    return ans;
 }
 
 void solve() {
@@ -40,15 +47,20 @@ void solve() {
         cout << 1 << endl;
         return;
     }
-
-    ll ans = 1;
-    while (k--) {
-        for (int i = 1; i <= (a-k); i++) {
-            ans += per(b, i);
-            ans %= md;
-        }
+    if (a <= k) {
+        cout << C(a + b, a) << endl;
+        return;
+    }
+    if (a >= (k * b)) {
+        cout << myPower(b, k + 1) << endl;
     }
 
+    ll ans = 0;
+    vector<vector<vector<int>>> dp(a, vector<vector<int>>(b, vector<int>(k, 1)));
+    int ak = a / k;
+    for (int i = 0; i< ak; i++) {
+        ans +=
+    }
     cout << ans << endl;
 }
 
