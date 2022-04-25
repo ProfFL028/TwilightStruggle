@@ -6,8 +6,8 @@ import org.jsoup.Jsoup
 fun main() {
     val problemLinkPattern = Regex("<a href=\"/contest/(\\d+)/problem/(\\w+)\"> (\\w+) - ([^<]+)</a>")
 
-    val contestId = 1659
-    val questionId = 'E'
+    val contestId = 1671
+    val questionId = 'F'
     val client = HttpClients.createDefault()
     var pageId = 1
     var foundCount = 0
