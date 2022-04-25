@@ -50,6 +50,9 @@ int simple(int a, int b, int k) {
     if (a >= (k * b)) {
         return myPower(b, k + 1);
     }
+    if (k == 1) {
+        return
+    }
     return -1;
 }
 
@@ -58,7 +61,6 @@ void solve() {
     cin >> a >> b >> k;
 
 
-    ll ans = 0;
     stack<tuple<int, int, int, int>> s;
     map<tuple<int, int, int>, int> dp;
 
@@ -67,29 +69,37 @@ void solve() {
         auto x = s.top();
         s.pop();
         tuple<int, int, int> abk = tuple<int, int, int>(get<0>(x), get<1>(x), get<2>(x));
-        if (dp.find(abk) != dp.end()) {
-            ans += dp[abk] * get<3>(x) % M;
-        } else {
+        if (dp.find(abk) == dp.end()) {
             s.push(x);
+            ll result = 0;
+            bool solved = true;
             int ak = get<0>(x) / get<2>(x);
             for (int i = 0; i <= ak; i++) {
-                int ai = a - i * k;
-                int bi = b - i;
-                int ki = k - 1;      
+                int ai = get<0>(x) - i * get<2>(x);
+                int bi = get<1>(x) - i;
+                int ki = get<2>(x) - 1;
                 tuple<int, int, int> abki(ai, bi, ki);
-                int tmp = simple(ai, bi, ki);
-                if (tmp != -1) {
-                    dp[abki] = tmp;
-                } else {
-                    if (i <= b) {
-                        s.emplace(ai, bi, ki, C(b, i));
+                if (dp.find(abki) == dp.end()) {
+                    int tmp = simple(ai, bi, ki);
+                    if (tmp != -1) {
+                        dp[abki] = tmp;
+                        result = (result + dp[abki] * C(bi, i)) % M;
+                    } else {
+                        solved = false;
+                        if (i <= get<1>(x)) {
+                            s.emplace(ai, bi, ki, C(get<1>(x), i));
+                        }
                     }
                 }
+            }
+            if (solved) {
+                dp[abk] = result;
+                s.pop();
             }
         }
     }
 
-    cout << ans << endl;
+    cout << dp[tuple<int, int, int>(a, b, k)] << endl;
 }
 
 int main() {
