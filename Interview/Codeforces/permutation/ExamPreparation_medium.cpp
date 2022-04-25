@@ -39,11 +39,6 @@ int C(int x, int y) {
     }
     return ans;
 }
-
-int simple(int a, int b, int k) {
-
-}
-
 void solve() {
     int a, b, k;
     cin >> a >> b >> k;
