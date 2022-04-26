@@ -57,46 +57,29 @@ void solve() {
     int a, b, k;
     cin >> a >> b >> k;
 
+    vector<vector<int>> dp(b + 1, vector<int>(a + 1, 0));
+    for (int i = 0; i <= a; i++) {
+        dp[0][i] = i <= k;
+    }
 
-    stack<tuple<int, int, int, int>> s;
-    map<tuple<int, int, int>, int> dp;
-
-    s.emplace(a, b, k, 1);
-    while (!s.empty()) {
-        auto x = s.top();
-        s.pop();
-        tuple<int, int, int> abk = tuple<int, int, int>(get<0>(x), get<1>(x), get<2>(x));
-        if (dp.find(abk) == dp.end()) {
-            s.push(x);
-            ll result = 0;
-            bool solved = true;
-            int ak = get<0>(x) / get<2>(x);
-            for (int i = 0; i <= ak; i++) {
-                int ai = get<0>(x) - i * get<2>(x);
-                int bi = get<1>(x) - i;
-                int ki = get<2>(x) - 1;
-                tuple<int, int, int> abki(ai, bi, ki);
-                if (dp.find(abki) == dp.end()) {
-                    int tmp = simple(ai, bi, ki);
-                    if (tmp != -1) {
-                        dp[abki] = tmp;
-                        result = (result + dp[abki] * C(bi, i)) % M;
-                    } else {
-                        solved = false;
-                        if (i <= get<1>(x)) {
-                            s.emplace(ai, bi, ki, C(get<1>(x), i));
-                        }
-                    }
+    for (int i = 1; i < b; i++) {
+        dp[i][0] = 1;
+        for (int j = 1; j <= a; j++) {
+            dp[i][j] = 0;
+            for (int m = 0; m <= j; m++) {
+                if ((j - m) <= k) {
+                    dp[i][j] = ((ll) dp[i][j] + dp[i - 1][m]) % M;
                 }
-            }
-            if (solved) {
-                dp[abk] = result;
-                s.pop();
             }
         }
     }
 
-    cout << dp[tuple<int, int, int>(a, b, k)] << endl;
+    ll ans = 0;
+    for (int i = 0; i <= a; i++) {
+        // if (i <= k)
+        ans = (ans + dp[b - 1][i]) % M;
+    }
+    cout << ans << endl;
 }
 
 int main() {
