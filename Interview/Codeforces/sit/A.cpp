@@ -13,16 +13,15 @@ typedef unsigned long long ull;
 typedef long double lld;
 
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    vector<int> arr(n, 0);
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i];
-    }
-
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
     int ans = 0;
-
-    cout << ans << endl;
+    if (d <= a) {
+        cout << b << endl;
+    } else {
+        ans = b  + (d - a) * c;
+        cout << ans << endl;
+    }
 }
 
 int main() {

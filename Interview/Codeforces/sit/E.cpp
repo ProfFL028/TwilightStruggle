@@ -15,12 +15,23 @@ typedef long double lld;
 void solve() {
     int n, k;
     cin >> n >> k;
-    vector<int> arr(n, 0);
+    vector<string> arr(n);
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
-
+    map<int, map<int, set<int>>> m;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            char x = arr[i][j];
+            if (m.count(x) == 1) {
+                m[x][i].insert(j);
+            }
+        }
+    }
     int ans = 0;
+    for (auto& kv : m) {
+        auto& v = kv.second;
+    }
 
     cout << ans << endl;
 }
