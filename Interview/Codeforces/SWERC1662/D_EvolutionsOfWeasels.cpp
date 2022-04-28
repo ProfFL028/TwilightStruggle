@@ -37,6 +37,10 @@ string findRoot(string x) {
         }
     }
 
+    if (bCount % 2 == 0) {
+        root.push_back('B');
+    }
+
     return root;
 }
 
