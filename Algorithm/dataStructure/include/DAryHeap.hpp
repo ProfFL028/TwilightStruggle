@@ -15,13 +15,14 @@ public:
         delete[]  elements;
     }
 
-    void heapify(std::tuple<T, int>* arr, int sz) {
+    void heapify(std::tuple<T, int> *arr, int sz) {
         this->elements = arr;
         this->len = sz;
-        for (int i = sz - 1; i>=0; i--) {
+        for (int i = sz - 1; i >= 0; i--) {
             bubbleDown(i);
         }
     }
+
 public:
     T top() {
         if (len == 0) return T();
@@ -43,12 +44,23 @@ public:
     void insert(const T &element, const int &priority) {
         std::tuple<T, int> newEle(element, priority);
         elements[len++] = newEle;
-        bubbleUp();
+        bubbleUp(len - 1);
+    }
+
+    void update(T t, int newPriority) {
+        int idx = find(t);
+        if (idx >= 0) {
+            int oldPriority = elements[t].get(1);
+            if (newPriority > oldPriority) {
+                bubbleUp(idx);
+            } else {
+                bubbleDown(idx);
+            }
+        }
     }
 
 private: // some helper functions.
-    void bubbleUp() {
-        int idx = len - 1;
+    void bubbleUp(int idx) {
         auto cur = elements[idx];
         while (idx > 0) {
             int parentIdx = getParentIndex(idx);
@@ -101,6 +113,16 @@ private: // some helper functions.
         }
 
         return highest;
+    }
+
+    int find(T t) {
+        // TODO: store t in a hash.
+        for (int i = 0; i < len; i++) {
+            if (elements[i].get(1) == t) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 private:
