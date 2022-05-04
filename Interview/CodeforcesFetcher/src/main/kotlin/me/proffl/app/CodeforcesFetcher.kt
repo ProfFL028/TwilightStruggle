@@ -6,10 +6,10 @@ import org.jsoup.Jsoup
 fun main() {
     val problemLinkPattern = Regex("<a href=\"/contest/(\\d+)/problem/(\\w+)\"> (\\w+) - ([^<]+)</a>")
 
-    val contestId = 1671
+    val contestId = 1662
     val questionId = 'F'
     val client = HttpClients.createDefault()
-    var pageId = 1
+    var pageId = 20
     var foundCount = 0
     while (true) {
         val url = "https://codeforces.com/contest/$contestId/status/page/$pageId?order=BY_JUDGED_DESC"
