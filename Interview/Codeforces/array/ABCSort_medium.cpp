@@ -1,4 +1,4 @@
-// codeforces: 
+// codeforces: https://codeforces.com/contest/1674/problem/D
 
 #include <bits/stdc++.h>
 
@@ -21,10 +21,35 @@ void solve() {
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
+    if (n <= 2) {
+        cout << "YES" << endl;
+    } else {
+        int cur1 = arr[n - 1], cur2 = arr[n - 2];
+        int i = n - 3;
+        bool isNotOk = false;
+        while (i >= 0) {
+            if (cur1 < arr[i] || cur2 < arr[i]) {
+                isNotOk = true;
+                break;
+            }
+            i--;
+            if (i >= 0) {
+                if (cur1 < arr[i] || cur2 < arr[i]) {
+                    isNotOk = true;
+                    break;
+                }
+                cur1 = arr[i + 1];
+                cur2 = arr[i];
+            }
+            i--;
+        }
+        if (isNotOk) {
+            cout << "NO" << endl;
+        } else {
+            cout << "YES" << endl;
+        }
+    }
 
-    int ans = 0;
-
-    cout << ans << endl;
 }
 
 int main() {
