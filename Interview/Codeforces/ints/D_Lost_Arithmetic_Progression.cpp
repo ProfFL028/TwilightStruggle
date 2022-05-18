@@ -14,7 +14,7 @@ typedef long double lld;
 
 #define print(v) cout << v.size(); for (auto& x: v) cout << x << " "; cout << endl;
 
-const ll MOD = 10e9 + 7;
+const ll MOD = 1e9 + 7;
 
 int gcd(int a, int b) {
     if (b == 0) return a;
@@ -59,7 +59,7 @@ void solve() {
 
 int main() {
 #ifndef ONLINE_JUDGE
-    freopen("../data/input.txt", "r", stdin);
+    freopen("../input.txt", "r", stdin);
 #endif
     fast()
 

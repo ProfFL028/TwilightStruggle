@@ -14,36 +14,42 @@ typedef long double lld;
 
 #define print(v) cout << v.size(); for (auto& x: v) cout << x << " "; cout << endl;
 
-const ll MOD = 10e9 + 7;
-const int MAX_SIZE = 4 * 10e4 + 10;
+const ll MOD = 1e9 + 7;
+const int MAX_SIZE = 40004;
 
-vector<int> dp(MAX_SIZE,0);
+
+vector<int> palindromes;
+vector<ll> dp(MAX_SIZE, 0);
 
 void solve() {
     int n;
     cin >> n;
 
-    int ans = dp[n];
-    cout << ans << endl;
+
+    cout << dp[n] << endl;
 }
 
 void init() {
-    int  i, j;
-    vector <int> d;
-    for (i = 1; i <= MAX_SIZE; i++)
-    {
+    for (int i = 1; i < MAX_SIZE; i++) {
         string s = to_string(i);
-        string t = s;
-        reverse(t.begin(), t.end());
-        if (s == t)
-            d.push_back(i);
+        bool ok = true;
+        for (int j = 0; j < s.size() / 2; j++) {
+            if (s[j] != s[s.size() - 1 - j]) {
+                ok = false;
+                break;
+            }
+        }
+        if (ok)
+            palindromes.push_back(i);
     }
+
+    int m = palindromes.size();
+
     dp[0] = 1;
-    for (auto i : d)
-    {
-        for (j = i; j <= 4e4; j++)
-        {
-            dp[j] += dp[j - i];
+    for (int i = 0; i < m; ++i) {
+        for (int j = 1; j < MAX_SIZE; j++) {
+            if (j < palindromes[i]) continue;
+            dp[j] += dp[j - palindromes[i]];
             dp[j] %= MOD;
         }
     }
@@ -51,7 +57,7 @@ void init() {
 
 int main() {
 #ifndef ONLINE_JUDGE
-    freopen("../data/input.txt", "r", stdin);
+    freopen("../input.txt", "r", stdin);
 #endif
     fast()
     init();
