@@ -25,14 +25,14 @@ void solve() {
 
     vector<char> ans((1 << 20), '0');
     for (int l = 0; l < n; l++) {
+        ll p = 1;
         for (int r = l; r < n; r++) {
-            ll p = 1;
             if (r == l) p *= arr[l];
             else {
                 if (arr[r] >= 20)
                     break;
                 else
-                    p *= (1ll << arr[l]);
+                    p *= (1ll << arr[r]);
             }
 
             if (p >= (1 << 20)) break;
@@ -55,11 +55,14 @@ void solve() {
     for (int i = (1 << 20) - 1; i >= 0; --i) {
         if (start) cout << ans[i];
         else {
-            if (ans[i] == 1) {
+            if (ans[i] == '1') {
                 cout << ans[i];
                 start = true;
             }
         }
+    }
+    if (!start) {
+        cout << 0 << endl;
     }
     cout << endl;
 }
@@ -71,7 +74,7 @@ int main() {
     fast()
 
     int testCase = 1;
-    cin >> testCase;
+    // cin >> testCase;
     while (testCase > 0) {
         solve();
         testCase--;
