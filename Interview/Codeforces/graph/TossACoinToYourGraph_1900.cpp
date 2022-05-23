@@ -20,44 +20,86 @@ void solve() {
     ll k;
     cin >> n >> m >> k;
     vector<int> vertex(n + 1);
-    map<int, set<int>> mp;
-    vector<vector<int>> g(n + 1, vector<int>());
-    set<int, less<>> v;
+    vector<vector<int>> graph(n + 1, vector<int>());
+    vector<int> degree(n + 1, 0);
     for (int i = 1; i <= n; i++) {
-        int x;
-        cin >> x;
-        vertex[i] = x;
-        v.insert(x);
-        mp[x].insert(i);
+        cin >> vertex[i];
     }
-    vector<int> du(n + 1, 0);
     for (int i = 0; i < m; i++) {
         int a, b;
         cin >> a >> b;
-        g[a].push_back(b);
-        du[b]++;
-    }
-    vector<int> values;
-    for (auto x: v) {
-        values.push_back(x);
+        graph[a].push_back(b);
+        degree[b]++;
     }
 
-    auto check = [&](int p, int pp, int d, int mx) {
-        for (auto cur: g[p]) {
-            if (vertex[cur] == pp) continue;
-            if (vertex[cur] > mx) return false;
+    if (k == 1) {
+        cout << *min_element(vertex.begin()+1, vertex.end()) << endl;
+        return;
+    }
+
+    auto check = [&](int value) {
+        vector<int> d(n + 1);
+        vector<bool> visited(n + 1, false);
+        vector<int> len(n + 1, 0);
+
+        copy(degree.begin(), degree.end(), d.begin());
+
+        for (int i = 1; i <= n; i++) {
+            if (vertex[i] > value) {
+                for (auto v: graph[i]) {
+                    d[v]--;
+                }
+            }
         }
-        return false;
+
+        queue<int> q;
+        for (int i = 1; i <= n; i++) {
+            if (!d[i] && vertex[i] <= value) {
+                q.push(i);
+                len[i] = 1;
+            }
+        }
+
+        int maxL = 0;
+        while (q.size() > 0) {
+            auto u = q.front();
+            q.pop();
+            visited[u] = 1;
+            for (auto x: graph[u]) {
+                if (vertex[x] <= value) {
+                    d[x]--;
+                    len[x] = max(len[x], len[u] + 1);
+                    maxL = max(maxL, len[x]);
+
+                    if (!d[x]) {
+                        q.push(x);
+                    }
+                }
+            }
+        }
+
+        for (int i = 1; i <= n; i++) {
+            if (vertex[i] <= value && !visited[i]) {
+                return true;
+            }
+        }
+
+        return maxL >= k;
     };
 
-    int l = 0, r = values.size();
-    int ans = -1;
-    while (l <= r) {
+    int l = 1, r = INT_MAX;
+    while (l < r) {
         int mid = (r - l) / 2 + l;
-        ans = values[mid];
-        for (auto p: mp[ans]) {
-
+        if (check(mid)) {
+            r = mid;
+        } else {
+            l = mid + 1;
         }
+    }
+    if (l == INT_MAX) {
+        cout << "-1" << endl;
+    } else {
+        cout << l << endl;
     }
 }
 
