@@ -1,2 +1,11 @@
-1 0 1
-1000000000
+7
+ab??aba
+8
+a
+b
+ab
+abc
+abcd
+abcde
+abcdef
+abcdefg
