@@ -63,7 +63,16 @@ void solve() {
         }
     }
     if (c > 0) {
+        // get AB from ABABA... where substring's length is odd and substring begins with A.
+        for (auto &sub: splits) {
+            if (sub.first & 1 && sub.second[0] == 'A') {
+                int satisfy = sub.first / 2;
+                if (c > satisfy) {
+                    c -= satisfy;
 
+                }
+            }
+        }
     }
 }
 
