@@ -14,10 +14,6 @@ typedef long double lld;
 const int MOD = 1e9 + 7;
 #define print(v) cout << v.size() << endl; for (auto& v: result) cout << v << " "; cout << endl;
 
-int sortByLength(pair<int, string> a, pair<int, string> b) {
-    return a.first - b.first != 0 ? a.first - b.first : a.second[0] - b.second[0];
-}
-
 void solve() {
     int a, b, c, d;
     cin >> a >> b >> c >> d;
@@ -34,17 +30,20 @@ void solve() {
     }
     if (aCount != a + c + d) {
         cout << "NO" << endl;
+        return;
     }
 
     int begin = 0;
     for (int i = 1; i < sz; i++) {
         if (s[i] == s[i - 1]) {
-            string sub = s.substr(begin, i);
-            splits.emplace_back(sub.size(), sub);
+            string sub = s.substr(begin, i - begin);
+            if (sub.size() > 1)
+                splits.emplace_back(sub.size(), sub);
             begin = i;
         }
     }
-    sort(splits.begin(), splits.end(), sortByLength);
+    splits.emplace_back(sz - begin, s.substr(begin, sz));
+    sort(splits.begin(), splits.end());
 
     // Satisfy AB string even size and begin with A.
     for (auto &sub: splits) {
@@ -56,6 +55,7 @@ void solve() {
                     sub = make_pair(0, "");
                 } else {
                     int remain = (satisfy - c) << 1;
+                    c = 0;
                     sub = make_pair(remain, sub.second.substr(0, remain));
                     break;
                 }
@@ -69,11 +69,73 @@ void solve() {
                 int satisfy = sub.first / 2;
                 if (c > satisfy) {
                     c -= satisfy;
-
+                    sub = make_pair(1, "A");
+                } else {
+                    int start = c * 2;
+                    c = 0;
+                    sub = make_pair(sub.first - start, sub.second.substr(start));
+                    break;
                 }
             }
         }
     }
+
+    if (c > 0) {
+        // get AB from BABAB... where substring's length is odd and substring begins with A.
+        for (auto &sub: splits) {
+            if (sub.first & 1 && sub.second[0] == 'B' && sub.first >= 3) {
+                int satisfy = sub.first / 2;
+                if (c > satisfy) {
+                    c -= satisfy;
+                    sub = make_pair(1, "B");
+                } else {
+                    int remain = sub.first - c * 2;
+                    c = 0;
+                    sub = make_pair(remain, sub.second.substr(0, remain));
+                    break;
+                }
+            }
+        }
+    }
+
+    if (c > 0) {
+        for (int i = splits.size() - 1; i >=0; --i) {
+            auto& sub = splits[i];
+            if ((sub.first & 1) ^ 1 && sub.second[0] == 'B' && sub.first > 2) {
+                int satisfy = sub.first / 2 - 1;
+                if (c > satisfy) {
+                    c -= satisfy;
+                    sub = make_pair(0, "");
+                } else {
+                    int remain = sub.first - 2 * c - 2;
+                    c = 0;
+                    sub = make_pair(remain, sub.second.substr(0, remain));
+                    break;
+                }
+            }
+        }
+    }
+    if (c > 0) {
+        cout << "NO" << endl;
+    } else {
+        for (auto sub: splits) {
+            int satisfy = sub.first;
+            if (sub.second[0] == 'A') {
+                satisfy -= 1;
+            }
+            satisfy >>= 1;
+            d -= satisfy;
+            if (d <= 0) {
+                break;
+            }
+        }
+        if (d > 0) {
+            cout << "NO" << endl;
+        } else {
+            cout << "YES" << endl;
+        }
+    }
+
 }
 
 int main() {
