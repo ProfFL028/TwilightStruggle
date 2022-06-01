@@ -1,4 +1,4 @@
-// codeforces: 
+// codeforces: https://codeforces.com/contest/1691/problem/B
 
 #include <bits/stdc++.h>
 
@@ -21,25 +21,33 @@ void solve() {
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
-
-    ll sum = 0;
-    for (int i = 0; i < n; i++) {
-        if (sum > 0) {
-            if (arr[i] > 0) {
-                cout << "NO" << endl;
-                return;
-            } else {
-                sum += arr[i];
-            }
-        } else {
-            if (arr[i] <= 0) {
-                sum+= arr[i];
-            } else {
-                sum = arr[i];
+    if (n == 1) {
+        cout << "-1" << endl;
+        return;
+    }
+    bool ok = arr[0] == arr[1] && arr[n - 1] == arr[n - 2];
+    if (ok) {
+        for (int i = 0; i < n; i++) {
+            if (arr[i - 1] < arr[i] && arr[i] < arr[i + 1]) {
+                ok = false;
+                break;
             }
         }
     }
-    cout << "YES" << endl;
+    if (ok) {
+        int begin = 0;
+        for (int i = 0; i < n - 1; i++) {
+            if (arr[i] == arr[i + 1]) {
+                cout << (i + 2) << " ";
+            } else {
+                cout << (begin + 1) << " ";
+                begin = i + 1;
+            }
+        }
+        cout << begin + 1 << " " << endl;
+    } else {
+        cout << "-1" << endl;
+    }
 }
 
 int main() {
