@@ -17,7 +17,7 @@ const int MOD = 1e9 + 7;
 void solve() {
     int n;
     cin >> n;
-    vector<int> arr;
+    vector<int> arr(32, 0);
     for (int i = 0; i < n; i++) {
         int x;
         cin >> x;
@@ -26,14 +26,18 @@ void solve() {
             k++;
             x >>= 1;
         }
-        if (k > 0) {
-            arr.push_back(k);
-        }
+        arr[k]++;
     }
-    sort(arr.begin(), arr.end());
 
     int ans = 0;
-
+    int m = 0;
+    for (int i = 1; i <= 31; i++) {
+        ans += arr[i];
+        if (arr[i] > m) {
+            ans += (arr[i] - m) * (i - 1);
+            m = arr[i];
+        }
+    }
 
     cout << ans << endl;
 }
