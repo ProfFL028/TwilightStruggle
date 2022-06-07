@@ -18,6 +18,7 @@ void solve() {
     int n;
     cin >> n;
     vector<int> arr(32, 0);
+    int oddCount = 0;
     for (int i = 0; i < n; i++) {
         int x;
         cin >> x;
@@ -33,12 +34,11 @@ void solve() {
     int m = 0;
     for (int i = 1; i <= 31; i++) {
         ans += arr[i];
-        if (arr[i] > m) {
-            ans += (arr[i] - m) * (i - 1);
+        if (arr[0] == 0 && m == 0 && arr[i] > 0) {
             m = arr[i];
+            ans += (i - 1);
         }
     }
-
     cout << ans << endl;
 }
 
