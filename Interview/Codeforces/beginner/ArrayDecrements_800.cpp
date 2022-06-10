@@ -21,29 +21,26 @@ void solve() {
     for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
-    for (int i = 0; i < n; i++) {
-        cin >> b[i];
-    }
-
     bool isOK = true;
     int diff = INT_MAX;
     for (int i = 0; i < n; i++) {
-        if (a[i] < b[i]) {
-            isOK = false;
-            break;
+        cin >> b[i];
+        if (b[i] != 0) {
+            diff = a[i] - b[i];
         }
+    }
+    for (int i = 0; i < n; i++) {
         if (b[i] == 0) {
             isOK = a[i] <= diff;
         } else {
-            if (diff == INT_MAX) {
-                diff = a[i] - b[i];
-            } else {
-                isOK = diff == (a[i] - b[i]);
-            }
+            isOK = diff == (a[i] - b[i]);
         }
+        if (a[i] < b[i])
+            isOK = false;
         if (!isOK)
             break;
     }
+
     cout << (isOK ? "YES" : "NO") << endl;
 }
 
