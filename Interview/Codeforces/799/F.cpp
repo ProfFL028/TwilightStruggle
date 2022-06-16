@@ -1,4 +1,4 @@
-// codeforces: 
+// codeforces:  https://codeforces.com/contest/1692/problem/F
 
 #include <bits/stdc++.h>
 
@@ -17,14 +17,34 @@ const ll MOD = 1000000007;
 void solve() {
     int n;
     cin >> n;
-    vector<int> arr(n);
+    vector<int> arr(10, 0);
+    vector<int> checkArr;
     for (int i = 0; i < n; i++) {
-        cin >> arr[i];
+        int x;
+        cin >> x;
+        arr[x % 10]++;
+        if (arr[x % 10] <= 2) {
+            checkArr.push_back(x % 10);
+        }
     }
 
-    int ans = 0;
-
-    cout << ans << endl;
+    string ok = "NO";
+    if (arr[1] >= 3) {
+        ok = "YES";
+    } else {
+        for (int i = 0; i < checkArr.size(); i++) {
+            for (int j = i + 1; j < checkArr.size(); j++) {
+                for (int k = j + 1; k < checkArr.size(); k++) {
+                    if ((checkArr[i] + checkArr[j] + checkArr[k]) % 10 == 3) {
+                        ok = "YES";
+                        cout << ok << endl;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    cout << ok << endl;
 }
 
 int main() {

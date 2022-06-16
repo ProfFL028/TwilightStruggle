@@ -1,4 +1,4 @@
-// codeforces: 
+// codeforces:  https://codeforces.com/contest/1692/problem/G
 
 #include <bits/stdc++.h>
 
@@ -15,14 +15,27 @@ const ll MOD = 1000000007;
 #define print(v) cout << v.size(); for (auto& x: v) cout << x << " "; cout << endl;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
+    k++;
     vector<int> arr(n);
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
 
     int ans = 0;
+    int cur = 1;
+    for (int i = 1; i < n; i++) {
+        if ((arr[i] * 2) > arr[i - 1]) {
+            cur++;
+        } else {
+            ans += (cur >= k) ? (cur - k + 1) : 0;
+            cur = 1;
+        }
+    }
+    if (cur >= k) {
+        ans += cur - k + 1;
+    }
 
     cout << ans << endl;
 }
