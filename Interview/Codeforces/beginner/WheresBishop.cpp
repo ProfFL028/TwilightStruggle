@@ -1,4 +1,4 @@
-// codeforces: 
+// codeforces: https://codeforces.com/contest/1692/problem/C
 
 #include <bits/stdc++.h>
 
@@ -15,16 +15,27 @@ const ll MOD = 1000000007;
 #define print(v) cout << v.size(); for (auto& x: v) cout << x << " "; cout << endl;
 
 void solve() {
-    int a, b, c, d;
-    cin >> a >> b >> c >> d;
-    int ans = 0;
-    if (b > a)
-        ans++;
-    if (c > a)
-        ans++;
-    if (d > a)
-        ans++;
-    cout << ans << endl;
+    int k = 8;
+    bool found = false;
+    int x, y;
+    for (int i = 1; i <= k; i++) {
+        int c = 0;
+        int p[2];
+        for (int j = 1; j <= k; j++) {
+            char x;
+            cin >> x;
+            if (x == '#') {
+                p[c++] = j;
+            }
+        }
+        if (!found && c >= 2) {
+            found=true;
+            y = (p[0] + p[1])/2;
+            x = i + (y - p[0]);
+        }
+    }
+
+    cout << x <<" " << y << endl;
 }
 
 int main() {
