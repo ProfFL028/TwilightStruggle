@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 project(discoveringModernCPP)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 
 file(GLOB_RECURSE files "${PROJECT_SOURCE_DIR}/*.cpp")
 foreach (file ${files})
