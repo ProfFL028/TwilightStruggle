@@ -15,15 +15,24 @@ const int MOD = 1e9 + 7;
 #define print(v) cout << v.size() << endl; for (auto& v: result) cout << v << " "; cout << endl;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
     vector<int> arr(n, 0);
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
 
-    int ans = 0;
-
+    ll ans = 0;
+    ll sum = 0;
+    for (int i = 0; i < n; i++) {
+        ll cur = sum;
+        for (int j = i; j < min(31+i, n); j++) {
+            cur += (arr[j] >> (j - i + 1));
+        }
+        ans = max(ans, cur);
+        sum += (arr[i] - k);
+    }
+    ans = max(ans, sum);
     cout << ans << endl;
 }
 

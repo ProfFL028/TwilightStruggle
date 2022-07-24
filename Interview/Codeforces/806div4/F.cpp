@@ -17,12 +17,19 @@ const int MOD = 1e9 + 7;
 void solve() {
     int n;
     cin >> n;
-    vector<int> arr(n, 0);
-    for (int i = 0; i < n; i++) {
+    vector<int> arr(n+1, 0);
+    for (int i = 1; i <= n; i++) {
         cin >> arr[i];
     }
 
-    int ans = 0;
+    ll ans = 0;
+    vector<int> goods;
+    for (int i = 1; i <= n; i++){
+        if (arr[i] < i) {
+            ans += (ll)(lower_bound(goods.begin(), goods.end(), arr[i]) - goods.begin());
+            goods.push_back(i);
+        }
+    }
 
     cout << ans << endl;
 }
