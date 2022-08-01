@@ -18,6 +18,7 @@ const int MM = 1e9+2;
 void solve() {
     int n;
     cin >> n;
+<<<<<<< HEAD
     vector<int> arr;
     vector<int> left(MM, 0);
     for (int i = 1; i <= n; i++) {
@@ -34,6 +35,21 @@ void solve() {
 
     ll ans = 0;
     for (auto x : arr) {
+=======
+    vector<int> arr(n+1, 0);
+    for (int i = 1; i <= n; i++) {
+        cin >> arr[i];
+    }
+
+    ll ans = 0;
+    vector<int> goods;
+    for (int i = 1; i <= n; i++){
+        if (arr[i] < i) {
+            ans += (ll)(lower_bound(goods.begin(), goods.end(), arr[i]) - goods.begin());
+            goods.push_back(i);
+        }
+    }
+>>>>>>> 44ae2715f24765c39dd70e7492ff73a597790ec0
 
     }
     cout << ans << endl;
