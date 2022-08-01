@@ -15,35 +15,20 @@ const ll MOD = 1000000007;
 #define print(v) cout << v.size(); for (auto& x: v) cout << x << " "; cout << endl;
 
 void solve() {
-    int n, x;
-    cin >> n >> x;
+    int n;
+    cin >> n;
     vector<int> arr(n);
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
-    if (x >= 5e8) {
-        cout << 0 << endl;
-        return ;
-    }
-
+    set<int> numbers;
     int ans = 0;
-    int mina = arr[0];
-    int maxa = arr[0];
-    for (int i = 1; i < n; i++) {
-        if (arr[i] > maxa) {
-            if (arr[i]-mina > 2*x) {
-                ans++;
-                mina = maxa = arr[i];
-            } else {
-                maxa = arr[i];
-            }
-        } else if (arr[i] < mina) {
-            if (maxa - arr[i] > 2 * x) {
-                ans++;
-                mina = maxa = arr[i];
-            } else {
-                mina = arr[i];
-            }
+    for (int i = n - 1; i>=0; i--) {
+        if (numbers.contains(arr[i])) {
+            ans = i+1;
+            break;
+        } else {
+            numbers.insert(arr[i]);
         }
     }
     cout << ans << endl;

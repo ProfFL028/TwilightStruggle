@@ -15,28 +15,28 @@ const ll MOD = 1000000007;
 #define print(v) cout << v.size(); for (auto& x: v) cout << x << " "; cout << endl;
 
 void solve() {
-    int n, m;
-    cin >> n >> m;
-    string s1, s2;
-    cin >> s1 >> s2;
-    int i = n - 1;
-    int j = m - 1;
-    for (; j >= 0; j--, i--) {
-        if (s1[i] != s2[j]) break;
-    }
-    if (j > 0) {
-        cout << "NO" << endl;
-    } else if (j==-1) {
-        cout << "YES" << endl;
-    } else {
-        for (i--; i >= 0; i--) {
-            if (s1[i] == s2[0]) {
-                cout << "YES" << endl;
-                return;
-            }
+    int n;
+    cin >> n;
+    int h, m;
+    cin >> h >> m;
+    int diff = INT_MAX;
+    for (int i = 0; i < n; i++) {
+        int a, b;
+        cin >> a >> b;
+        int hDiff = a - h;
+        if (hDiff < 0)
+            hDiff += 24;
+        int mDiff = b - m;
+        if (mDiff < 0) {
+            hDiff--;
+            mDiff += 60;
+            if (hDiff < 0)
+                hDiff = 23;
         }
-        cout << "NO" << endl;
+        diff = min(diff, hDiff * 60 + mDiff);
     }
+    cout << diff / 60 << " " << diff % 60 << endl;
+
 }
 
 int main() {
