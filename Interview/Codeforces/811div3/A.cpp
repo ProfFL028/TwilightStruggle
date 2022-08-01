@@ -17,27 +17,26 @@ const ll MOD = 1000000007;
 void solve() {
     int n, m;
     cin >> n >> m;
-    vector<int> infected(m + 1), segment(m + 1, 0);
-    for (int i = 1; i <= m; i++) {
-        cin >> infected[i];
+    string s1, s2;
+    cin >> s1 >> s2;
+    int i = n - 1;
+    int j = m - 1;
+    for (; j >= 0; j--, i--) {
+        if (s1[i] != s2[j]) break;
     }
-    sort(infected.begin() + 1, infected.end());
-    for (int i = 2; i <= m; i++) {
-        segment[i] = infected[i] - infected[i - 1] - 1;
-    }
-    segment[1] = n + infected[1] - infected[m] - 1;
-    sort(segment.begin(), segment.end(), greater<>());
-    int ans = m;
-    for (int i = 0; i < m; i++) {
-        int remains = segment[i] - i * 4;
-        if (remains > 0) {
-            ans += i * 4;
-            ans += (remains == 1) ? 0 : 1;
-        } else {
-            ans += segment[i];
+    if (j > 0) {
+        cout << "NO" << endl;
+    } else if (j==-1) {
+        cout << "YES" << endl;
+    } else {
+        for (i--; i >= 0; i--) {
+            if (s1[i] == s2[0]) {
+                cout << "YES" << endl;
+                return;
+            }
         }
+        cout << "NO" << endl;
     }
-    cout << ans << endl;
 }
 
 int main() {
