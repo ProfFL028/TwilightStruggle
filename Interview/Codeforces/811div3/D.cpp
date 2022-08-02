@@ -14,17 +14,6 @@ typedef long double lld;
 const ll MOD = 1000000007;
 #define print(v) cout << v.size(); for (auto& x: v) cout << x << " "; cout << endl;
 
-bool isSame(string s1, int start, string s2) {
-    if (start + s2.size() > s1.size()) {
-        return false;
-    }
-    for (int i = 0; i < s2.size(); i++) {
-        if (s1[i + start] != s2[i]) {
-            return false;
-        }
-    }
-    return true;
-}
 
 void solve() {
     string s;
@@ -35,11 +24,16 @@ void solve() {
     vector<pair<int, int>> dest(s.size(), pair<int, int>(0, 0));
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
-        for (int j = 0; j < s.length() - arr[i].length() + 1; j++) {
-            if (isSame(s, j, arr[i])) {
-                for (int k = j; k < j + arr[i].size(); k++) {
-                    if (j + arr[i].size() > dest[k].first) {
-                        dest[k] = make_pair(j + arr[i].size(), i + 1);
+        if (s.length() >= arr[i].length()) {
+            for (int j = 0; j < s.length() - arr[i].length() + 1; j++) {
+                if (s.length() >= j + arr[i].size()) {
+                    string s2 = s.substr(j, arr[i].size());
+                    if (s2 == arr[i]) {
+                        for (int k = j; k < j + arr[i].size(); k++) {
+                            if (j + arr[i].size() > dest[k].first) {
+                                dest[k] = make_pair(j + arr[i].size(), i + 1);
+                            }
+                        }
                     }
                 }
             }
