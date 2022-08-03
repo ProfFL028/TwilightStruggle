@@ -14,17 +14,71 @@ typedef long double lld;
 const ll MOD = 1000000007;
 #define print(v) cout << v.size(); for (auto& x: v) cout << x << " "; cout << endl;
 
+struct node {
+    int x, y;
+    int depth;
+};
+
+
 void solve() {
     int n;
     cin >> n;
-    vector<int> arr(n);
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i];
+    vector<node> arr(n + 1, {0, 0, 0});
+    vector<vector<int>> children(n + 1);
+    vector<int> parent(n + 1, 0);
+    vector<vector<int>> parentPath(n + 1);
+    parent[1] = 0;
+    for (int i = 2; i <= n; i++) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        children[a].push_back(i);
+        parent[i] = a;
+        arr[i] = {b, c, 0};
     }
 
-    int ans = 0;
+    queue<int> q;
+    q.push(1);
+    while (!q.empty()) {
+        int p = q.front();
+        q.pop();
+        for (auto cur: children[p]) {
+            arr[cur].x += arr[p].x;
+            arr[cur].y += arr[p].y;
+            arr[cur].depth = arr[p].depth + 1;
+            parentPath[cur] = parentPath[p];
+            parentPath[cur].push_back(p);
 
-    cout << ans << endl;
+            q.push(cur);
+        }
+    }
+
+    vector<int> path;
+    vector<int> ans(n + 1);
+    function<void(int)> dfs = [&](int x) {
+        path.push_back(x);
+        int l = 0;
+        int r = path.size() - 1;
+        int mid = (l + r) / 2;
+        while (l < r) {
+            if (arr[x].x >= arr[path[mid]].y) {
+                l = mid;
+                mid = (l + r + 1) / 2;
+            } else {
+                r = mid - 1;
+                mid = (l + r) / 2;
+            }
+        }
+        ans[x] = arr[path[l]].depth;
+        for (auto k: children[x]) {
+            dfs(k);
+        }
+        path.pop_back();
+    };
+    dfs(1);
+    for (int i = 2; i <= n;i++) {
+        cout << ans[i] << " ";
+    }
+    cout << endl;
 }
 
 int main() {
