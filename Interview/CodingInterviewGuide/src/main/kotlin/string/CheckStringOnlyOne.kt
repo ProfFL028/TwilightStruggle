@@ -13,12 +13,6 @@ fun isUnique(s: String): Boolean {
     return true
 }
 
-fun isUnique2(s: String): Boolean {
-    var checker = 0
-    for (c in s.toCharArray()) {
-        val x = c.code - 'a'.code
-    }
-}
 
 fun main() {
     val s1 = "aaaa"
