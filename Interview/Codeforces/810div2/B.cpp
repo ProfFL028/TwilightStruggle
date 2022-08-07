@@ -7,30 +7,29 @@ using namespace std;
 //gcc optimization
 // #pragma GCC optimize("Ofast")
 // #pragma GCC optimize "trapv"
-#define fast(); ios_base::sync_with_stdio(false); cin.tie(NULL);
+#define fast(); ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 typedef long long ll;
 typedef unsigned long long ull;
 typedef long double lld;
 const int MOD = 1e9 + 7;
 #define print(v) cout << v.size() << endl; for (auto& v: result) cout << v << " "; cout << endl;
 
-const int MM = 1e9+2;
 void solve() {
-    int n;
-    cin >> n;
+    int n, m;
+    cin >> n >> m;
     vector<int> arr(n+1, 0);
+    vector<vector<int>> g(n+1);
     for (int i = 1; i <= n; i++) {
         cin >> arr[i];
     }
-
-    ll ans = 0;
-    vector<int> goods;
-    for (int i = 1; i <= n; i++){
-        if (arr[i] < i) {
-            ans += (ll)(lower_bound(goods.begin(), goods.end(), arr[i]) - goods.begin());
-            goods.push_back(i);
-        }
+    int a, b;
+    for (int i = 0; i < m; i++) {
+        cin >> a >> b;
+        g[a].push_back(b);
+        g[b].push_back(a);
     }
+
+    int ans = 0;
 
     cout << ans << endl;
 }
