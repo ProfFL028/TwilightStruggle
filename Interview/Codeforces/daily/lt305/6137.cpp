@@ -21,4 +21,8 @@ int main() {
     vector<int> vec = {783377,783378,783379,783380,783381,783382,783383,783384,783385,783386,783387,783388,14925,14925,14925,190887,190887,190887,444668,444668,444668,444668,444669,444670,444671,444672,444673,444674};
     Solution solution;
     cout << solution.validPartition(vec)<< endl;
+    string s("51:start:512");
+    cout << atoi(s.substr(0, s.find(':')).c_str()) << endl;
+    cout << atoi(s.substr(s.find(':', s.find(':')+1)+1).c_str()) << endl;
+    stack<int> stk;
 }
