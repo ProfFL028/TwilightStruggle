@@ -27,6 +27,7 @@ int main() {
 #endif
     cin.tie(nullptr) -> sync_with_stdio(false);
 
+    map<int, int> s;
     int tc; cin >> tc;
     while (tc--) {
         cin >> n;
