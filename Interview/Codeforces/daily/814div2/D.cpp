@@ -22,7 +22,19 @@ void solve() {
         cin >> arr[i];
     }
 
-    int ans = 0;
+    int ans = n;
+    set<int> s;
+    int remain = 0;
+    for (int i = 0; i < n; i++) {
+        remain ^= arr[i];
+        if (remain == 0 || s.contains(remain)) {
+            ans--;
+            s.clear();
+            remain = 0;
+        } else {
+            s.insert(remain);
+        }
+    }
 
     cout << ans << endl;
 }
