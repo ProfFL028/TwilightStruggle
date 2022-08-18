@@ -17,36 +17,29 @@ const ll MOD = 1000000007;
 void solve() {
     int n, q;
     cin >> n >> q;
-    vector<int> arr(n + 1), mx(n + 1, 0), tail(n + 1, 0);
+    vector<int> arr(n + 1), win(n + 1, 0), lose(n + 1, 0);
+    int mx = 0, lst = 0;
     for (int i = 1; i <= n; i++) {
         cin >> arr[i];
-        mx[i] = max(mx[i - 1], arr[i]);
-    }
-    for (int i = 1; i <= n; i++) {
-        if (arr[i] >= mx[i]) {
-            for (int j = i + 1; j <= n; j++) {
-                if (arr[j] > arr[i]) {
-                    tail[i] = j;
-                    break;
-                }
-            }
+        if (arr[i] > mx) {
+            win[i] = i - 1;
+            lose[lst] = i - 1;
+            lst = i;
+            mx = arr[i];
         }
     }
-
+    if (arr[1] > arr[2]) {
+        win[1] = 1;
+    }
     while (q--) {
-        ll ans = 0;
-        ll a, b;
+        int ans = 0;
+        int a, b;
         cin >> a >> b;
-
-        if (arr[a] >= mx[a] && b >= a - 1) {
-            if (tail[a] == 0) {
-                ans = b - a + 1;
-            } else {
-                ans = min(tail[a]-1ll, b) - a;
-            }
-            if (a > 1) {
-                ans++;
-            }
+        if (arr[a] == mx) {
+            lose[a] = b+1;
+        }
+        if (win[a] > 0 && win[a] <= b) {
+            ans = min(b+1, lose[a]) - win[a];
         }
         cout << ans << endl;
     }
