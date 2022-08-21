@@ -14,6 +14,24 @@ typedef long double lld;
 const ll MOD = 1000000007;
 #define print(v) cout << v.size(); for (auto& x: v) cout << x << " "; cout << endl;
 
+
+vector<int> primaries;
+
+void init() {
+    primaries.push_back(2);
+    for (int i = 3; i < 2e5+5; i++) {
+        bool pr = true;
+        for (auto& p : primaries) {
+            if (i % p == 0) {
+                pr = false;
+                break;
+            }
+        }
+        if (pr) {
+            primaries.push_back(i);
+        }
+    }
+}
 void solve() {
     int n;
     cin >> n;
@@ -32,6 +50,8 @@ int main() {
     freopen("../input.txt", "r", stdin);
 #endif
     fast()
+
+    init();
 
     int testCase = 1;
     cin >> testCase;
