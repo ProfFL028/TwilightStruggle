@@ -8,7 +8,14 @@ public:
     bool searchMatrix(vector<vector<int>> &matrix, int target) {
         int m = matrix.size();
         int n = matrix[0].size();
-
+        int i = 0;
+        int j = n - 1;
+        while (i < m && j >= 0) {
+            if (matrix[i][j] == target) return true;
+            if (matrix[i][j] > target) {j--; continue;}
+            if (matrix[i][j] < target) i++;
+        }
+        return false;
         // return search(matrix, target, 0, n - 1, 0, m - 1);
     }
 
@@ -76,9 +83,8 @@ public:
 
 int main() {
     Solution solution;
-    vector<vector<int>> nums{{4,6,9,10,15},{9,12,13,15,16}};
-    int target = 14;
-
+    vector<vector<int>> nums{{1,4,7,11,15},{2,5,8,12,19},{3,6,9,16,22}, {10,13,14,17,24}, {18,21,23,26,30}};
+    int target = 5;
     cout << solution.searchMatrix(nums, target) << endl;
     return 0;
 }
