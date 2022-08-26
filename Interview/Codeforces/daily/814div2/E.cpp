@@ -76,7 +76,6 @@ int main() {
     fast()
 
     init();
-
     int testCase = 1;
     cin >> testCase;
     while (testCase--) {
