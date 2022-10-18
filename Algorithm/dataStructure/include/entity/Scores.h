@@ -16,7 +16,7 @@ public:
     Scores(int maxEnt = 10);
     ~Scores();
     void add(const GameEntry& e);
-    GameEntry remove(int i) throw (IndexOutOfBounds);
+    GameEntry remove(int i);
 
     bool isFull() const;
 

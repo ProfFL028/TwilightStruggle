@@ -31,9 +31,8 @@ void Scores::add(const GameEntry &e) {
     entries[i+1] = e;
 }
 
-GameEntry Scores::remove(int i) throw(IndexOutOfBounds) {
-    if (i < 0 || i >= numEntries)
-        throw IndexOutOfBounds();
+GameEntry Scores::remove(int i) {
+
     GameEntry entry = entries[i];
     for (int j = i; j < numEntries - 1; j++) {
         entries[j] = entries[j+1];
