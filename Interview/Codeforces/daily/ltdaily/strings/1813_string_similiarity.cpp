@@ -1,5 +1,5 @@
 // https://leetcode.cn/problems/sentence-similarity-iii/
-
+// two points, string
 #include <bits/stdc++.h>
 using namespace std;
 
