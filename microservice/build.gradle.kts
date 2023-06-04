@@ -30,6 +30,8 @@ dependencies {
 
     implementation("mysql:mysql-connector-java:8.0.28")
 
+    implementation("com.alibaba:easyexcel:3.2.1")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
