@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Graph {
 
@@ -11,13 +9,14 @@ public class Graph {
         buildFromFile(fileName);
     }
 
-    public List<List<String>> findCircle() {
-        result = new ArrayList<>();
-        preNode = new HashMap<>();
-        for (String node : graph.keySet()) {
-            if (color.get(node) == 0) {
-                dfs(node);
-            }
+    List<List<String>> result = new ArrayList<>();
+    Set<String> visited = new HashSet<>();
+    List<String> path = new ArrayList<>();
+
+    public List<List<String>> findCircles() {
+
+        for (String key : graph.keySet()) {
+            dfs(key);
         }
 
         return result;
@@ -25,19 +24,15 @@ public class Graph {
 
     private HashMap<String, List<String>> graph;
 
-    private List<List<String>> result;
-    private HashMap<String, Integer> color;
-    private HashMap<String, String> preNode;
-
     public static void main(String[] args) {
         String fileName = "D:\\TwilightStruggle\\CCPP\\2DDrawing\\cmake-build-debug\\danbao.csv";
         Graph graph = new Graph(fileName);
-        List<List<String>> circles = graph.findCircle();
+        List<List<String>> circles = graph.findCircles();
 
-        for (List<String> circle : circles) {
+        for (int i = 0; i < circles.size(); i++) {
             StringBuilder sb = new StringBuilder();
-            for (String s : circle) {
-                sb.append(s).append("->");
+            for (int j = 0; j < circles.get(i).size(); j++) {
+                sb.append(circles.get(i).get(j)).append("->");
             }
             sb.delete(sb.length() - 2, sb.length());
             System.out.println(sb);
@@ -46,7 +41,6 @@ public class Graph {
 
     private void buildFromFile(String fileName) {
         graph = new HashMap<>();
-        color = new HashMap<>();
         BufferedReader fileReader = null;
         try {
             fileReader = new BufferedReader(new FileReader(fileName));
@@ -70,7 +64,6 @@ public class Graph {
         }
         guarantor = line.substring(idx, i);
         graph.put(guarantor, new ArrayList<>());
-        color.put(guarantor, 0);
         while (i < lineSize && line.charAt(i) == ' ' || line.charAt(i) == ',') {
             i++;
         }
@@ -88,37 +81,35 @@ public class Graph {
         }
     }
 
-    private void dfs(String curNode) {
-        color.put(curNode, 1);
-        if (graph.containsKey(curNode)) {
-            for (String nxt : graph.get(curNode)) {
-                if (color.containsKey(nxt)) {
-                    if (color.get(nxt) == 0) {
-                        preNode.put(nxt, curNode);
-                        dfs(nxt);
-                    } else if (color.get(nxt) == 1) {
-                        buildCircle(nxt);
+    private void dfs(String node) {
+        visited.add(node);
+        path.add(node);
+
+        if (graph.containsKey(node)) {
+            for (String neighbor : graph.get(node)) {
+                if (path.contains(neighbor)) {
+                    int begin = path.indexOf(neighbor);
+                    int end = path.size();
+                    if (end - begin >= 2) {
+                        List<String> circle = new ArrayList<>();
+                        for (int i = begin; i < end; i++) {
+                            circle.add(path.get(i));
+                        }
+                        result.add(circle);
                     }
+                } else if (!visited.contains(neighbor)) {
+                    dfs(neighbor);
                 }
             }
         }
-        color.put(curNode, 2);
+
+        path.remove(path.size() - 1);
+        visited.remove(node);
     }
 
-    private void buildCircle(String node) {
-        if (!preNode.containsKey(node))
-            return ;
-        List<String> circle = new ArrayList<>();
-        circle.add(node);
-        while (preNode.containsKey(node)) {
-            node = preNode.get(node);
-            circle.add(node);
-        }
-        List<String> reverse = new ArrayList<>();
-        for (int i = circle.size() - 1; i >= 0; i--) {
-            reverse.add(circle.get(i));
-        }
-
-        result.add(reverse);
+    private void buildCircle(String neighbor) {
+        int begin = path.indexOf(neighbor);
+        int end = path.size();
+        result.add(path.subList(begin, end));
     }
 }
